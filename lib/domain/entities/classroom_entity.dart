@@ -1,16 +1,16 @@
-class ClassEntity {
+class ClassroomEntity {
   String _id = "";
   String _name = "";
 
-  ClassEntity(String id, String name) {
+  ClassroomEntity(String id, String name) {
     _id = id;
     _name = name;
   }
 
-  static ClassEntity create(String id, String name) {    
-    return ClassEntity(id, name);
+  static ClassroomEntity create(String id, String name) {
+    return ClassroomEntity(id, name);
   }
-  
+
   String getId() {
     return _id;
   }
@@ -23,7 +23,7 @@ class ClassEntity {
     return _name;
   }
 
-  void updateName(String name){
+  void updateName(String name) {
     _name = name;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fonovoo/pages/classes/classes_list_page.dart';
+import 'package:fonovoo/pages/schools/schools_list_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -13,14 +13,14 @@ class MainPage extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: Color.fromRGBO(0, 90, 152, 1),
           foregroundColor: Colors.white,
-          centerTitle: true
+          centerTitle: true,
         ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Color.fromRGBO(0, 90, 152, 1),
         ),
       ),
       initialRoute: "/",
-      routes: {'/': (context) => const ClassesListPage(title: 'Minhas escolas')},
+      routes: {'/': (context) => SchoolsListPage(title: 'Minhas escolas')},
     );
   }
 }

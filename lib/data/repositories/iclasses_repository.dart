@@ -1,5 +1,5 @@
-import 'package:fonovoo/domain/entities/class_entity.dart';
+import 'package:fonovoo/domain/entities/classroom_entity.dart';
 
 abstract class IClassesRepository {
-  bool addClass(ClassEntity classe);
+  bool addClass(ClassroomEntity classe);
 }
