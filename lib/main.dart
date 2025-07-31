@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fonovoo/pages/home_page.dart';
+import 'package:fonovoo/core/system_initialize_service.dart';
+import 'package:fonovoo/pages/main_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemInitializeService.initilizeSqlDb();
+
+  runApp(const MainPage());
 }
