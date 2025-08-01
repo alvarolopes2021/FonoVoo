@@ -5,7 +5,7 @@ import 'package:fonovoo/domain/entities/school_entity.dart';
 
 class AddSchoolUsecase implements UseCase {
   @override
-  Object? execute(Object? param) {
+  Future<Object?> execute(Object? param) async {
     try {
       SchoolEntity schoolEntity = SchoolEntity.create("id", "name");
 

@@ -1,38 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:fonovoo/application/usacases/classes/factories/make_classrooms_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/pages/base_page.dart';
-import 'package:fonovoo/pages/components/classrooms_component.dart';
+import 'package:fonovoo/pages/components/schools_component.dart';
 
 class ClassesListPage extends BasePage {
-  ClassesListPage({super.key, super.title});
-
-  @override
-  State<ClassesListPage> createState() => _ClassesListPageState();
-}
-
-class _ClassesListPageState extends State<ClassesListPage> {
   UseCase? listClassroomsUsecase;
 
-  @override
-  void initState() {
-    listClassroomsUsecase = makeListClassroomsUsecaseFactory;
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  ClassesListPage({required super.presenter});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: Text(widget.title!),
+        title: Text(title!),
       ),
       body: Center(
         child: Container(
@@ -50,8 +31,8 @@ class _ClassesListPageState extends State<ClassesListPage> {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: [
-              ClassroomsComponent(schoolName: "CIEM De Fátima"),
-              ClassroomsComponent(schoolName: "CIEM De Fátima"),
+              SchoolsComponent(schoolName: "CIEM De Fátima"),
+              SchoolsComponent(schoolName: "CIEM De Fátima"),
             ],
           ),
         ),

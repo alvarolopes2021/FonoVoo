@@ -1,3 +1,3 @@
 abstract class UseCase {
-  Object? execute(Object? param);
+  Future<Object?>? execute(Object? param);
 }

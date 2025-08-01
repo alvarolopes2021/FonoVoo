@@ -1,39 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:fonovoo/application/usacases/schools/factories/make_schools_usecase_factory.dart';
-import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/pages/base_page.dart';
-import 'package:fonovoo/pages/components/classrooms_component.dart';
+import 'package:fonovoo/pages/components/schools_component.dart';
+import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 
 class SchoolsListPage extends BasePage {
-  SchoolsListPage({super.key, super.title});
-
-  @override
-  State<SchoolsListPage> createState() => _SchoolsListPageState();
-}
-
-class _SchoolsListPageState extends State<SchoolsListPage> {
-  UseCase? addSchoolsUsecase;
-
-  @override
-  void initState() {
-    addSchoolsUsecase = makeAddSchoolsUsecaseFactory;
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  SchoolsListPage({super.key, required super.presenter, super.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: Text(widget.title!),
+        title: Text(title!),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
       body: Center(
@@ -50,11 +29,24 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
             ),
           ),
           width: MediaQuery.of(context).size.width,
-          child: ListView(
-            children: [
-              ClassroomsComponent(schoolName: "CIEM De Fátima"),
-              ClassroomsComponent(schoolName: "Colégio São José"),
-            ],
+          child: ListenableBuilder(
+            listenable: (presenter as SchoolsListPresenter).load,
+            builder: (context, snapshot) {
+              if ((presenter as SchoolsListPresenter).load.running) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: (presenter as SchoolsListPresenter).schools.length,
+                itemBuilder: (listContext, index) {
+                  return SchoolsComponent(
+                    schoolName: (presenter as SchoolsListPresenter)
+                        .schools[index]
+                        .getName(),
+                  );
+                },
+              );
+            },
           ),
         ),
       ),
