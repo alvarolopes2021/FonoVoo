@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class SchoolsComponent extends StatelessWidget {
   String schoolName = "";
+  VoidCallback goToEditPage;
 
-  SchoolsComponent({super.key, required this.schoolName});
+  SchoolsComponent({
+    super.key,
+    required this.schoolName,
+    required this.goToEditPage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,7 @@ class SchoolsComponent extends StatelessWidget {
       child: ListTile(
         leading: Icon(Icons.school),
         title: Text(schoolName),
-        trailing: IconButton(onPressed: () => {}, icon: Icon(Icons.edit)),
+        trailing: IconButton(onPressed: goToEditPage, icon: Icon(Icons.edit)),
       ),
     );
   }

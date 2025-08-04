@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/schools_component.dart';
+import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 
 class SchoolsListPage extends BasePage {
@@ -33,7 +34,9 @@ class SchoolsListPage extends BasePage {
             listenable: (presenter as SchoolsListPresenter).load,
             builder: (context, snapshot) {
               if ((presenter as SchoolsListPresenter).load.running) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                );
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
@@ -43,6 +46,13 @@ class SchoolsListPage extends BasePage {
                     schoolName: (presenter as SchoolsListPresenter)
                         .schools[index]
                         .getName(),
+                    goToEditPage: () {
+                      (presenter as SchoolsListPresenter).navigate(
+                        SchoolsDetailPresenter.pageName,
+                        (presenter as SchoolsListPresenter).schools[index],
+                        context,
+                      );
+                    },
                   );
                 },
               );
@@ -51,7 +61,13 @@ class SchoolsListPage extends BasePage {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () {
+          (presenter as SchoolsListPresenter).navigate(
+            SchoolsDetailPresenter.pageName,
+            null,
+            context,
+          );
+        },
         tooltip: 'Adicionar nova escola',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -31,8 +31,14 @@ class ClassesListPage extends BasePage {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: [
-              SchoolsComponent(schoolName: "CIEM De Fátima"),
-              SchoolsComponent(schoolName: "CIEM De Fátima"),
+              SchoolsComponent(
+                schoolName: "CIEM De Fátima",
+                goToEditPage: () {},
+              ),
+              SchoolsComponent(
+                schoolName: "CIEM De Fátima",
+                goToEditPage: () {},
+              ),
             ],
           ),
         ),

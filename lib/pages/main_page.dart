@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
+import 'package:fonovoo/pages/schools/schools_detail_page.dart';
 import 'package:fonovoo/pages/schools/schools_list_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -20,12 +22,14 @@ class MainPage extends StatelessWidget {
           seedColor: Color.fromRGBO(0, 90, 152, 1),
         ),
       ),
-      initialRoute: "/",
+      initialRoute: SchoolsListPresenter.pageName,
       routes: {
-        '/': (context) => SchoolsListPage(
+        SchoolsListPresenter.pageName: (context) => SchoolsListPage(
           title: 'Minhas escolas',
           presenter: SchoolsListPresenter(),
         ),
+        SchoolsDetailPresenter.pageName: (context) =>
+            SchoolsDetailPage(presenter: SchoolsDetailPresenter()),
       },
     );
   }

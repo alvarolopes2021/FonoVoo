@@ -10,6 +10,7 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
 
   @override
   Future<List<SchoolEntity>?>? loadSchools() async {
+    await Future.delayed(Duration(seconds: 5));
     List<SchoolEntity> schools = [
       SchoolEntity("id", "CIEM de Fátima"),
       SchoolEntity("id", "Colégio São José"),
