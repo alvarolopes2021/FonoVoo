@@ -6,7 +6,7 @@ import 'package:fonovoo/pages/components/schools_component.dart';
 class ClassesListPage extends BasePage {
   UseCase? listClassroomsUsecase;
 
-  ClassesListPage({required super.presenter});
+  ClassesListPage({super.key, required super.presenter});
 
   @override
   Widget build(BuildContext context) {
