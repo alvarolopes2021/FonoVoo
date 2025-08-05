@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fonovoo/domain/entities/school_entity.dart';
+
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/my_text_form_field.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
@@ -11,8 +11,9 @@ class SchoolsDetailPage extends BasePage {
 
   @override
   Widget build(BuildContext context) {
-    (super.presenter as SchoolsDetailPresenter).schoolEntity =
-        ModalRoute.of(context)!.settings.arguments as SchoolEntity?;
+    (super.presenter as SchoolsDetailPresenter).updateDto(
+      ModalRoute.of(context)!.settings.arguments,
+    );
 
     return Scaffold(
       appBar: AppBar(

@@ -24,6 +24,23 @@ class SchoolsListPresenter extends BasePresenter with NavigationMixin {
     load = Command0(_load)..execute();
   }
 
+  Future<void> editSchool(int index) async {
+    SchoolEntity? editedSchool =
+        (await navigate(
+              SchoolsDetailPresenter.pageName,
+              schools[index],
+              pageContext,
+            ))
+            as SchoolEntity?;
+
+    if (editedSchool == null) {
+      return;
+    }
+
+    schools[index] = editedSchool;
+    notifyListeners();
+  }
+
   Future<void> addSchool() async {
     SchoolEntity? newSchool =
         (await navigate(SchoolsDetailPresenter.pageName, null, pageContext))

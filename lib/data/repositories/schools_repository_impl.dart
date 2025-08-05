@@ -3,9 +3,9 @@ import 'package:fonovoo/domain/entities/school_entity.dart';
 
 class SchoolsRepositoryImpl implements IschoolsRepository {
   List<SchoolEntity> schools = [
-    SchoolEntity("id", "CIEM de Fátima"),
-    SchoolEntity("id", "Colégio São José"),
-    SchoolEntity("id", "Objetivo"),
+    SchoolEntity("1", "CIEM de Fátima"),
+    SchoolEntity("2", "Colégio São José"),
+    SchoolEntity("3", "Objetivo"),
   ];
 
   @override
@@ -22,5 +22,17 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
   Future<List<SchoolEntity>?>? loadSchools() async {
     await Future.delayed(Duration(seconds: 2));
     return schools;
+  }
+
+  @override
+  Future<bool> editSchool(SchoolEntity school) async {
+    SchoolEntity schoolToEdit = schools.firstWhere(
+      (e) => e.getId() == school.getId(),
+    );
+    int index = schools.indexOf(schoolToEdit);
+
+    schools[index] = school;
+
+    return true;
   }
 }

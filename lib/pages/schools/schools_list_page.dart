@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fonovoo/domain/entities/school_entity.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/schools_component.dart';
-import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 
 class SchoolsListPage extends BasePage {
@@ -48,11 +46,7 @@ class SchoolsListPage extends BasePage {
                         .schools[index]
                         .getName(),
                     goToEditPage: () {
-                      (presenter as SchoolsListPresenter).navigate(
-                        SchoolsDetailPresenter.pageName,
-                        (presenter as SchoolsListPresenter).schools[index],
-                        context,
-                      );
+                      (presenter as SchoolsListPresenter).editSchool(index);
                     },
                   );
                 },
