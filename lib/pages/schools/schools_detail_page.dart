@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fonovoo/domain/entities/school_entity.dart';
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/my_text_form_field.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 
 class SchoolsDetailPage extends BasePage {
@@ -33,8 +34,17 @@ class SchoolsDetailPage extends BasePage {
             ),
           ),
           width: MediaQuery.of(context).size.width,
-          child: Text(
-            (presenter as SchoolsDetailPresenter).schoolEntity!.getName(),
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                MyTextFormField(
+                  text: (super.presenter as SchoolsDetailPresenter)
+                      .schoolEntity!
+                      .getName(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
