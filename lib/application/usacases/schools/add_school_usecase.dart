@@ -1,19 +1,24 @@
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/data/repositories/factories/make_school_repository_factory.dart';
+import 'package:fonovoo/domain/dtos/school_dto.dart';
 
 import 'package:fonovoo/domain/entities/school_entity.dart';
 
 class AddSchoolUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
-    try {
-      SchoolEntity schoolEntity = SchoolEntity.create("id", "name");
+    SchoolDto? schoolDto = param as SchoolDto?;
 
-      makeSchoolsRepositoryFactory.addSchool(schoolEntity);
+    if (schoolDto == null) {
+      return null;
+    }
 
-      return null;
-    } catch (e) {
-      return null;
+    SchoolEntity schoolEntity = SchoolEntity.create("", schoolDto.getName());
+
+    bool res = await makeSchoolsRepositoryFactory.addSchool(schoolEntity);
+
+    if (res) {
+      return schoolEntity;
     }
   }
 }

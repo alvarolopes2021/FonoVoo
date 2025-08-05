@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/domain/entities/school_entity.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/schools_component.dart';
@@ -61,12 +62,8 @@ class SchoolsListPage extends BasePage {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          (presenter as SchoolsListPresenter).navigate(
-            SchoolsDetailPresenter.pageName,
-            null,
-            context,
-          );
+        onPressed: () async {
+          (presenter as SchoolsListPresenter).addSchool();
         },
         tooltip: 'Adicionar nova escola',
         child: const Icon(Icons.add),

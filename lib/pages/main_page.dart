@@ -24,12 +24,13 @@ class MainPage extends StatelessWidget {
       ),
       initialRoute: SchoolsListPresenter.pageName,
       routes: {
-        SchoolsListPresenter.pageName: (context) => SchoolsListPage(
+        SchoolsListPresenter.pageName: (pageContext) => SchoolsListPage(
           title: 'Minhas escolas',
-          presenter: SchoolsListPresenter(),
+          presenter: SchoolsListPresenter(pageContext: pageContext),
         ),
-        SchoolsDetailPresenter.pageName: (context) =>
-            SchoolsDetailPage(presenter: SchoolsDetailPresenter()),
+        SchoolsDetailPresenter.pageName: (pageContext) => SchoolsDetailPage(
+          presenter: SchoolsDetailPresenter(pageContext: pageContext),
+        ),
       },
     );
   }
