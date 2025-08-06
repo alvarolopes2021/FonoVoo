@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/pages/classrooms/classroom_detail_page.dart';
+import 'package:fonovoo/pages/classrooms/classrooms_list_page.dart';
+import 'package:fonovoo/pages/classrooms/presenters/classroom_detail_presenter.dart';
+import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 import 'package:fonovoo/pages/schools/schools_detail_page.dart';
@@ -30,6 +34,12 @@ class MainPage extends StatelessWidget {
         ),
         SchoolsDetailPresenter.pageName: (pageContext) => SchoolsDetailPage(
           presenter: SchoolsDetailPresenter(pageContext: pageContext),
+        ),
+        ClassroomsListPresenter.pageName: (pageContext) => ClassroomsListPage(
+          presenter: ClassroomsListPresenter(pageContext: pageContext),
+        ),
+        ClassroomDetailPresenter.pageName: (pageContext) => ClassroomDetailPage(
+          presenter: ClassroomDetailPresenter(pageContext: pageContext),
         ),
       },
     );

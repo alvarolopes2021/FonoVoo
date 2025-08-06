@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
-import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
+import 'package:fonovoo/pages/components/classrooms_component.dart';
 
-class ClassesListPage extends BasePage {
-  UseCase? listClassroomsUsecase;
-
-  ClassesListPage({super.key, required super.presenter});
+class ClassroomsListPage extends BasePage {
+  ClassroomsListPage({super.key, required super.presenter});
 
   @override
   Widget build(BuildContext context) {
+    (super.presenter as ClassroomsListPresenter).updateDto(
+      ModalRoute.of(context)!.settings.arguments,
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: Text(title!),
+        title: Text(
+          (presenter as ClassroomsListPresenter).schoolEntity == null
+              ? "Minhas salas"
+              : (presenter as ClassroomsListPresenter).schoolEntity!.getName(),
+        ),
       ),
       body: Center(
         child: Container(
@@ -22,22 +29,48 @@ class ClassesListPage extends BasePage {
               begin: Alignment.topCenter,
               end: Alignment(0.8, 1),
               colors: <Color>[
-                Color.fromRGBO(0, 90, 152, 1),
-                Color.fromRGBO(0, 100, 162, 1),
-                Color.fromRGBO(0, 110, 172, 1),
+                Color.fromRGBO(250, 138, 10, 1),
+                Color.fromRGBO(250, 158, 30, 1),
+                Color.fromRGBO(250, 178, 50, 1),
               ], // Gradient from,
             ),
           ),
           width: MediaQuery.of(context).size.width,
-          child: ListView(children: [
-              
-            ],
+          child: ListenableBuilder(
+            listenable: (presenter as ClassroomsListPresenter).load,
+            builder: (context, snapshot) {
+              if ((presenter as ClassroomsListPresenter).load.running) {
+                return const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                );
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount:
+                    (presenter as ClassroomsListPresenter).classrooms.length,
+                itemBuilder: (listContext, index) {
+                  return ClassroomsComponent(
+                    classroomName: (presenter as ClassroomsListPresenter)
+                        .classrooms[index]
+                        .getName(),
+                    goToStudentsPage: () {},
+                    goToEditPage: () {
+                      (presenter as ClassroomsListPresenter).editClassroom(
+                        index,
+                      );
+                    },
+                  );
+                },
+              );
+            },
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'Adicionar nova escola',
+        onPressed: () {
+          (presenter as ClassroomsListPresenter).addClassroom();
+        },
+        tooltip: 'Adicionar nova sala de aula',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

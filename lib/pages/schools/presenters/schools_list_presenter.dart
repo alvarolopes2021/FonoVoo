@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:fonovoo/application/usacases/schools/factories/make_load_schools_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/domain/entities/school_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
+import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
@@ -42,7 +41,7 @@ class SchoolsListPresenter extends BasePresenter with NavigationMixin {
   Future<void> goToClassroomsPage(int index) async {
     SchoolEntity? editedSchool =
         (await navigate(
-              SchoolsDetailPresenter.pageName,
+              ClassroomsListPresenter.pageName,
               schools[index],
               pageContext,
             ))
@@ -76,14 +75,5 @@ class SchoolsListPresenter extends BasePresenter with NavigationMixin {
     } catch (e) {
       return load.result;
     }
-  }
-
-  @override
-  Future<Object?> navigate(
-    String route,
-    Object? argument,
-    BuildContext context,
-  ) {
-    return super.navigate(route, argument, context);
   }
 }
