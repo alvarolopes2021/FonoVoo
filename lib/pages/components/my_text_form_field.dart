@@ -20,6 +20,12 @@ class _MyTextFormField extends State<MyTextFormField> {
   late TextEditingController myController;
 
   @override
+  void initState() {
+    super.initState();
+    myController = TextEditingController(text: widget.initialValue);
+  }
+
+  @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     myController.dispose();
@@ -28,7 +34,6 @@ class _MyTextFormField extends State<MyTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    myController = TextEditingController(text: widget.initialValue);
     return TextFormField(
       controller: myController,
       onChanged: (text) {
