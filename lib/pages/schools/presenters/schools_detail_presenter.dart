@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:fonovoo/application/usacases/schools/factories/make_add_school_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/schools/factories/make_edit_school_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
@@ -11,8 +12,6 @@ import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 class SchoolsDetailPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/schools-detail/:data";
 
-  late BuildContext pageContext;
-
   late SchoolEntity? schoolEntity;
 
   SchoolDto schoolDto = SchoolDto();
@@ -20,7 +19,7 @@ class SchoolsDetailPresenter extends BasePresenter with NavigationMixin {
   late UseCase addSchoolUseCase;
   late UseCase editSchoolUseCase;
 
-  SchoolsDetailPresenter({required this.pageContext}) {
+  SchoolsDetailPresenter({required super.pageContext}) {
     addSchoolUseCase = makeAddSchoolUsecaseFactory;
     editSchoolUseCase = makeEditSchoolUsecaseFactory;
   }

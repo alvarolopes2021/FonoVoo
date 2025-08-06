@@ -11,20 +11,35 @@ import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 class SchoolsListPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/schools-list";
 
-  late BuildContext pageContext;
-
   List<SchoolEntity> schools = [];
 
   late Command0 load;
 
   late UseCase loadSchoolsUseCase;
 
-  SchoolsListPresenter({required this.pageContext}) {
+  SchoolsListPresenter({required super.pageContext}) {
     loadSchoolsUseCase = makeLoadSchoolsUsecaseFactory;
     load = Command0(_load)..execute();
   }
 
   Future<void> editSchool(int index) async {
+    SchoolEntity? editedSchool =
+        (await navigate(
+              SchoolsDetailPresenter.pageName,
+              schools[index],
+              pageContext,
+            ))
+            as SchoolEntity?;
+
+    if (editedSchool == null) {
+      return;
+    }
+
+    schools[index] = editedSchool;
+    notifyListeners();
+  }
+
+  Future<void> goToClassroomsPage(int index) async {
     SchoolEntity? editedSchool =
         (await navigate(
               SchoolsDetailPresenter.pageName,

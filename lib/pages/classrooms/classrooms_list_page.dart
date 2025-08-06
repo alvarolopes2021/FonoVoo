@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/pages/base_page.dart';
-import 'package:fonovoo/pages/components/schools_component.dart';
 
 class ClassesListPage extends BasePage {
   UseCase? listClassroomsUsecase;
@@ -29,16 +29,8 @@ class ClassesListPage extends BasePage {
             ),
           ),
           width: MediaQuery.of(context).size.width,
-          child: ListView(
-            children: [
-              SchoolsComponent(
-                schoolName: "CIEM De Fátima",
-                goToEditPage: () {},
-              ),
-              SchoolsComponent(
-                schoolName: "CIEM De Fátima",
-                goToEditPage: () {},
-              ),
+          child: ListView(children: [
+              
             ],
           ),
         ),

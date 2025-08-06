@@ -45,6 +45,11 @@ class SchoolsListPage extends BasePage {
                     schoolName: (presenter as SchoolsListPresenter)
                         .schools[index]
                         .getName(),
+                    goToClassesPage: () {
+                      (presenter as SchoolsListPresenter).goToClassroomsPage(
+                        index,
+                      );
+                    },
                     goToEditPage: () {
                       (presenter as SchoolsListPresenter).editSchool(index);
                     },

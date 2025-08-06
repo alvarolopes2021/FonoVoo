@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class SchoolsComponent extends StatelessWidget {
   String schoolName = "";
   VoidCallback goToEditPage;
+  VoidCallback goToClassesPage;
 
   SchoolsComponent({
     super.key,
     required this.schoolName,
     required this.goToEditPage,
+    required this.goToClassesPage,
   });
 
   @override
@@ -18,6 +20,7 @@ class SchoolsComponent extends StatelessWidget {
       child: ListTile(
         leading: Icon(Icons.school),
         title: Text(schoolName),
+        onTap: goToClassesPage,
         trailing: IconButton(onPressed: goToEditPage, icon: Icon(Icons.edit)),
       ),
     );
