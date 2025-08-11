@@ -20,7 +20,7 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
 
   @override
   Future<List<SchoolEntity>?>? loadSchools() async {
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(Duration(seconds: 2));
     return schools;
   }
 

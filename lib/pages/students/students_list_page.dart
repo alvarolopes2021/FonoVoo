@@ -12,10 +12,19 @@ class StudentsListPage extends BasePage {
     (super.presenter as StudentsListPresenter).updateDto(
       ModalRoute.of(context)!.settings.arguments,
     );
+    (super.presenter as StudentsListPresenter).load();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              (presenter as StudentsListPresenter).changeSelectionMode();
+            },
+            icon: Icon(Icons.group),
+          ),
+        ],
         title: Text(
           (presenter as StudentsListPresenter).classroomEntity == null
               ? "Meus alunos"
@@ -38,9 +47,9 @@ class StudentsListPage extends BasePage {
           ),
           width: MediaQuery.of(context).size.width,
           child: ListenableBuilder(
-            listenable: (presenter as StudentsListPresenter).load,
+            listenable: (presenter as StudentsListPresenter),
             builder: (context, snapshot) {
-              if ((presenter as StudentsListPresenter).load.running) {
+              if ((presenter as StudentsListPresenter).isLoading) {
                 return const Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 );
@@ -50,17 +59,13 @@ class StudentsListPage extends BasePage {
                 itemCount: (presenter as StudentsListPresenter).students.length,
                 itemBuilder: (listContext, index) {
                   return StudentsComponent(
+                    isSelected:
+                        (presenter as StudentsListPresenter).isSelecting,
                     schoolName: (presenter as StudentsListPresenter)
                         .students[index]
                         .getName(),
-                    goToClassesPage: () {
-                      (presenter as StudentsListPresenter).goToGroupsPage(
-                        index,
-                      );
-                    },
-                    goToEditPage: () {
-                      (presenter as StudentsListPresenter).editStudent(index);
-                    },
+                    goToClassesPage: () {},
+                    goToEditPage: () {},
                   );
                 },
               );
@@ -68,13 +73,29 @@ class StudentsListPage extends BasePage {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          (presenter as StudentsListPresenter).addStudent();
-        },
-        tooltip: 'Adicionar nova escola',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: "add",
+            onPressed: () async {
+              (presenter as StudentsListPresenter).addStudent();
+            },
+            tooltip: 'Adicionar nova escola',
+            child: const Icon(Icons.add),
+          ), // This trailing comma makes auto-formatting nicer for build methods.
+
+          SizedBox(height: 10),
+          FloatingActionButton(
+            heroTag: "start",
+            onPressed: () async {
+              (presenter as StudentsListPresenter).addStudent();
+            },
+            tooltip: 'Adicionar nova escola',
+            child: const Icon(Icons.play_arrow),
+          ), // This trailing comma makes auto-formatting nicer for build methods.
+        ],
+      ),
     );
   }
 }

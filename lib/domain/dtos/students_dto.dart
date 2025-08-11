@@ -3,6 +3,7 @@ import 'package:fonovoo/domain/entities/students_entity.dart';
 class StudentsDto {
   String _id = "";
   String _name = "";
+  bool isSelected = false;
 
   StudentsDto();
 
@@ -28,5 +29,9 @@ class StudentsDto {
 
   void updateName(String name) {
     _name = name;
+  }
+
+  void updateIsSelected(bool value) {
+    isSelected = value;
   }
 }

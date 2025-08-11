@@ -1,6 +1,8 @@
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
+import 'package:fonovoo/domain/entities/group_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
@@ -11,17 +13,21 @@ import 'package:fonovoo/pages/students/presenters/students_detail_presenter.dart
 class StudentsListPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/students-list";
 
+  bool isSelecting = false;
+
   List<StudentsEntity> students = [];
+  List<StudentsDto> studentsDto = [];
 
   late ClassroomEntity? classroomEntity;
 
-  late Command0 load;
-
   late UseCase loadSchoolsUseCase;
+
+  Result isLoadingResult = Result.Ok;
+
+  bool get isLoading => isLoadingResult == Result.Running;
 
   StudentsListPresenter({required super.pageContext}) {
     loadSchoolsUseCase = makeLoadStudentUsecaseFactory;
-    load = Command0(_load)..execute();
   }
 
   void updateDto(Object? classroom) {
@@ -66,6 +72,11 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
+  void changeSelectionMode() {
+    isSelecting = !isSelecting;
+    notifyListeners();
+  }
+
   Future<void> addStudent() async {
     StudentsEntity? newStudent =
         (await navigate(StudentsDetailPresenter.pageName, null, pageContext))
@@ -79,12 +90,18 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
-  Future<Result?> _load() async {
+  Future<Result?> load() async {
     try {
+      isLoadingResult = Result.Running;
+      await Future.delayed(Duration(seconds: 3));
       students = await loadSchoolsUseCase.execute(null) as List<StudentsEntity>;
-      return load.result;
+      isLoadingResult = Result.Ok;
+      return isLoadingResult;
     } catch (e) {
-      return load.result;
+      isLoadingResult = Result.Error;
+      return isLoadingResult;
+    } finally {
+      notifyListeners();
     }
   }
 }
