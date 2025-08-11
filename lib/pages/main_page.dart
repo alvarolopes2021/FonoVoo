@@ -7,6 +7,10 @@ import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 import 'package:fonovoo/pages/schools/schools_detail_page.dart';
 import 'package:fonovoo/pages/schools/schools_list_page.dart';
+import 'package:fonovoo/pages/students/presenters/students_detail_presenter.dart';
+import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
+import 'package:fonovoo/pages/students/students_detail_page.dart';
+import 'package:fonovoo/pages/students/students_list_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -40,6 +44,12 @@ class MainPage extends StatelessWidget {
         ),
         ClassroomDetailPresenter.pageName: (pageContext) => ClassroomDetailPage(
           presenter: ClassroomDetailPresenter(pageContext: pageContext),
+        ),
+        StudentsListPresenter.pageName: (pageContext) => StudentsListPage(
+          presenter: StudentsListPresenter(pageContext: pageContext),
+        ),
+        StudentsDetailPresenter.pageName: (pageContext) => StudentsDetailPage(
+          presenter: StudentsDetailPresenter(pageContext: pageContext),
         ),
       },
     );

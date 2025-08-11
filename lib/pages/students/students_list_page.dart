@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
-import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
-import 'package:fonovoo/pages/components/classrooms_component.dart';
+import 'package:fonovoo/pages/components/students_component.dart';
+import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
 
-class ClassroomsListPage extends BasePage {
-  ClassroomsListPage({super.key, required super.presenter});
+class StudentsListPage extends BasePage {
+  StudentsListPage({super.key, required super.presenter, super.title});
 
   @override
   Widget build(BuildContext context) {
-    (super.presenter as ClassroomsListPresenter).updateDto(
+    (super.presenter as StudentsListPresenter).updateDto(
       ModalRoute.of(context)!.settings.arguments,
     );
 
@@ -17,10 +17,11 @@ class ClassroomsListPage extends BasePage {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(
-          (presenter as ClassroomsListPresenter).schoolEntity == null
-              ? "Minhas salas"
-              : (presenter as ClassroomsListPresenter).schoolEntity!.getName(),
+          (presenter as StudentsListPresenter).classroomEntity == null
+              ? "Meus alunos"
+              : (presenter as StudentsListPresenter).classroomEntity!.getName(),
         ),
+        //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
       body: Center(
         child: Container(
@@ -29,39 +30,36 @@ class ClassroomsListPage extends BasePage {
               begin: Alignment.topCenter,
               end: Alignment(0.8, 1),
               colors: <Color>[
-                Color.fromRGBO(250, 138, 10, 1),
-                Color.fromRGBO(250, 158, 30, 1),
-                Color.fromRGBO(250, 178, 50, 1),
+                Color.fromRGBO(78, 157, 30, 1),
+                Color.fromRGBO(88, 167, 40, 1),
+                Color.fromRGBO(118, 197, 70, 1),
               ], // Gradient from,
             ),
           ),
           width: MediaQuery.of(context).size.width,
           child: ListenableBuilder(
-            listenable: (presenter as ClassroomsListPresenter).load,
+            listenable: (presenter as StudentsListPresenter).load,
             builder: (context, snapshot) {
-              if ((presenter as ClassroomsListPresenter).load.running) {
+              if ((presenter as StudentsListPresenter).load.running) {
                 return const Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 );
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount:
-                    (presenter as ClassroomsListPresenter).classrooms.length,
+                itemCount: (presenter as StudentsListPresenter).students.length,
                 itemBuilder: (listContext, index) {
-                  return ClassroomsComponent(
-                    classroomName: (presenter as ClassroomsListPresenter)
-                        .classrooms[index]
+                  return StudentsComponent(
+                    schoolName: (presenter as StudentsListPresenter)
+                        .students[index]
                         .getName(),
-                    goToStudentsPage: () {
-                      (presenter as ClassroomsListPresenter).goToStudentssPage(
+                    goToClassesPage: () {
+                      (presenter as StudentsListPresenter).goToGroupsPage(
                         index,
                       );
                     },
                     goToEditPage: () {
-                      (presenter as ClassroomsListPresenter).editClassroom(
-                        index,
-                      );
+                      (presenter as StudentsListPresenter).editStudent(index);
                     },
                   );
                 },
@@ -71,10 +69,10 @@ class ClassroomsListPage extends BasePage {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          (presenter as ClassroomsListPresenter).addClassroom();
+        onPressed: () async {
+          (presenter as StudentsListPresenter).addStudent();
         },
-        tooltip: 'Adicionar nova sala de aula',
+        tooltip: 'Adicionar nova escola',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

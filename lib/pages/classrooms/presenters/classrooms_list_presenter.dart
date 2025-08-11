@@ -1,11 +1,12 @@
-import 'package:fonovoo/application/usacases/classes/factories/make_load_classrooms_usecase_factory.dart';
-import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
 import 'package:fonovoo/domain/entities/school_entity.dart';
-import 'package:fonovoo/pages/base_presenter.dart';
+import 'package:fonovoo/application/usacases/classes/factories/make_load_classrooms_usecase_factory.dart';
+import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classroom_detail_presenter.dart';
-import 'package:fonovoo/pages/load_data_command.dart';
+import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
+import 'package:fonovoo/pages/load_data_command.dart';
 
 class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/classrooms-list";
@@ -61,7 +62,22 @@ class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
-  Future<void> goToStudentssPage(int index) async {}
+  Future<void> goToStudentssPage(int index) async {
+    ClassroomEntity? editedClassroom =
+        (await navigate(
+              StudentsListPresenter.pageName,
+              classrooms[index],
+              pageContext,
+            ))
+            as ClassroomEntity?;
+
+    if (editedClassroom == null) {
+      return;
+    }
+
+    classrooms[index] = editedClassroom;
+    notifyListeners();
+  }
 
   Future<Result?> _load() async {
     try {
