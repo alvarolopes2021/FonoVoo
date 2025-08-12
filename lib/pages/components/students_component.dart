@@ -26,10 +26,11 @@ class StudentsComponent extends StatelessWidget {
         trailing: IconButton(
           onPressed: goToEditPage,
           icon: isSelected
-              ? Radio(
-                  value: true,
-                  groupValue: isSelected,
-                  onChanged: (value) {},
+              ? Checkbox(
+                  value: true,                                    
+                  onChanged: (value) {
+                    
+                  },
                 )
               : Icon(Icons.edit),
         ),

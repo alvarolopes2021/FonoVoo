@@ -73,28 +73,42 @@ class StudentsListPage extends BasePage {
           ),
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: "add",
-            onPressed: () async {
-              (presenter as StudentsListPresenter).addStudent();
-            },
-            tooltip: 'Adicionar nova escola',
-            child: const Icon(Icons.add),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: ListenableBuilder(
+        listenable: (presenter as StudentsListPresenter),
+        builder: (context, snapshot) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: "add",
+                onPressed: () async {
+                  (presenter as StudentsListPresenter).addStudent();
+                },
+                tooltip: 'Adicionar nova escola',
+                child: const Icon(Icons.person_add),
+              ), // This trailing comma makes auto-formatting nicer for build methods.
 
-          SizedBox(height: 10),
-          FloatingActionButton(
-            heroTag: "start",
-            onPressed: () async {
-              (presenter as StudentsListPresenter).addStudent();
-            },
-            tooltip: 'Adicionar nova escola',
-            child: const Icon(Icons.play_arrow),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ],
+              SizedBox(height: 10),
+              (presenter as StudentsListPresenter).isSelecting
+                  ? FloatingActionButton(
+                      heroTag: "addGroup",
+                      onPressed: () async {
+                        (presenter as StudentsListPresenter).addStudent();
+                      },
+                      tooltip: 'Adicionar a um grupo',
+                      child: const Icon(Icons.group_add_sharp),
+                    )
+                  : FloatingActionButton(
+                      heroTag: "start",
+                      onPressed: () async {
+                        (presenter as StudentsListPresenter).addStudent();
+                      },
+                      tooltip: 'Começar jogo',
+                      child: const Icon(Icons.play_arrow),
+                    ), // This trailing comma makes auto-formatting nicer for build methods.
+            ],
+          );
+        },
       ),
     );
   }
