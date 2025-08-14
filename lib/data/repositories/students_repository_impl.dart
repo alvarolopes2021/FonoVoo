@@ -6,8 +6,8 @@ class StudentsRepositoryImpl implements IstudentsRepository {
     StudentsEntity.create("1", "Dias", ""),
     StudentsEntity.create("2", "Danilo", ""),
     StudentsEntity.create("3", "Benito", ""),
-    StudentsEntity.create("3", "Benito", ""),
-    StudentsEntity.create("3", "Benito", ""),
+    StudentsEntity.create("3", "Lima", ""),
+    StudentsEntity.create("3", "Nerfandinho", ""),
   ];
 
   @override

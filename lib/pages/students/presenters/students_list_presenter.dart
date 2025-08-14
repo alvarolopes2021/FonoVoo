@@ -55,6 +55,8 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
+  Future<void> makeGroup() async {}
+
   Future<void> goToGroupsPage(int index) async {
     StudentsEntity? editedStudent =
         (await navigate(
@@ -93,8 +95,16 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   Future<Result?> load() async {
     try {
       isLoadingResult = Result.Running;
-      await Future.delayed(Duration(seconds: 3));
       students = await loadSchoolsUseCase.execute(null) as List<StudentsEntity>;
+
+      if (students.isNotEmpty) {
+        for (var student in students) {
+          var dto = StudentsDto();
+          dto.studentDtoMapping(student);
+          studentsDto.add(dto);
+        }
+      }
+
       isLoadingResult = Result.Ok;
       return isLoadingResult;
     } catch (e) {

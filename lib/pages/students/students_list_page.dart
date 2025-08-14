@@ -56,14 +56,14 @@ class StudentsListPage extends BasePage {
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: (presenter as StudentsListPresenter).students.length,
+                itemCount:
+                    (presenter as StudentsListPresenter).studentsDto.length,
                 itemBuilder: (listContext, index) {
                   return StudentsComponent(
-                    isSelected:
+                    showCheckbox:
                         (presenter as StudentsListPresenter).isSelecting,
-                    schoolName: (presenter as StudentsListPresenter)
-                        .students[index]
-                        .getName(),
+                    studentsDto:
+                        (presenter as StudentsListPresenter).studentsDto[index],
                     goToClassesPage: () {},
                     goToEditPage: () {},
                   );
@@ -73,28 +73,43 @@ class StudentsListPage extends BasePage {
           ),
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: "add",
-            onPressed: () async {
-              (presenter as StudentsListPresenter).addStudent();
-            },
-            tooltip: 'Adicionar nova escola',
-            child: const Icon(Icons.add),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: ListenableBuilder(
+        listenable: (presenter as StudentsListPresenter),
+        builder: (BuildContext context, Widget? child) {
+          if ((presenter as StudentsListPresenter).isSelecting) {
+            return FloatingActionButton(
+              heroTag: "group",
+              onPressed: () async {
+                (presenter as StudentsListPresenter).makeGroup();
+              },
+              tooltip: 'Criar grupo',
+              child: const Icon(Icons.group_add),
+            );
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: "add",
+                onPressed: () async {
+                  (presenter as StudentsListPresenter).addStudent();
+                },
+                tooltip: 'Adicionar nova escola',
+                child: const Icon(Icons.add),
+              ), // This trailing comma makes auto-formatting nicer for build methods.
 
-          SizedBox(height: 10),
-          FloatingActionButton(
-            heroTag: "start",
-            onPressed: () async {
-              (presenter as StudentsListPresenter).addStudent();
-            },
-            tooltip: 'Adicionar nova escola',
-            child: const Icon(Icons.play_arrow),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ],
+              SizedBox(height: 10),
+              FloatingActionButton(
+                heroTag: "start",
+                onPressed: () async {
+                  (presenter as StudentsListPresenter).addStudent();
+                },
+                tooltip: 'Adicionar nova escola',
+                child: const Icon(Icons.play_arrow),
+              ), // This trailing comma makes auto-formatting nicer for build methods.
+            ],
+          );
+        },
       ),
     );
   }

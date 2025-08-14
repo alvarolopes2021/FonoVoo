@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/domain/dtos/students_dto.dart';
 
-class StudentsComponent extends StatelessWidget {
-  String schoolName = "";
+class StudentsComponent extends StatefulWidget {
+  StudentsDto studentsDto;
   VoidCallback goToEditPage;
   VoidCallback goToClassesPage;
-  bool isSelected = false;
+  bool showCheckbox = false;
 
   StudentsComponent({
     super.key,
-    required this.schoolName,
+    required this.studentsDto,
     required this.goToEditPage,
     required this.goToClassesPage,
-    required this.isSelected,
+    required this.showCheckbox,
   });
+
+  @override
+  State<StatefulWidget> createState() {
+    return _StudentsComponent();
+  }
+}
+
+class _StudentsComponent extends State<StudentsComponent> {
+  void _select() {
+    // realoads only this component
+    setState(() {
+      widget.studentsDto.isSelected = !widget.studentsDto.isSelected;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +36,16 @@ class StudentsComponent extends StatelessWidget {
       shadowColor: Colors.white,
       child: ListTile(
         leading: Icon(Icons.person),
-        title: Text(schoolName),
-        onTap: goToClassesPage,
+        title: Text(widget.studentsDto.getName()),
+        onTap: widget.showCheckbox ? _select : widget.goToClassesPage,
         trailing: IconButton(
-          onPressed: goToEditPage,
-          icon: isSelected
-              ? Radio(
-                  value: true,
-                  groupValue: isSelected,
-                  onChanged: (value) {},
+          onPressed: widget.goToEditPage,
+          icon: widget.showCheckbox
+              ? Checkbox(
+                  value: widget.studentsDto.isSelected,
+                  onChanged: (value) {
+                    _select();
+                  },
                 )
               : Icon(Icons.edit),
         ),
