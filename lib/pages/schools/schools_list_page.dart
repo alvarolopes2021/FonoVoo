@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
 import 'package:fonovoo/pages/components/schools_component.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 
@@ -35,6 +36,11 @@ class SchoolsListPage extends BasePage {
               if ((presenter as SchoolsListPresenter).load.running) {
                 return const Center(
                   child: CircularProgressIndicator(color: Colors.white),
+                );
+              }
+              if ((presenter as SchoolsListPresenter).schools.isEmpty) {
+                return CenterMessageWithSmileComponent(
+                  message: "Adicione uma escola para começar",
                 );
               }
               return ListView.builder(

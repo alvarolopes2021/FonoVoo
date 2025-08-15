@@ -23,7 +23,13 @@ class ClassroomsComponent extends StatelessWidget {
         title: Text(classroomName),
         subtitle: Text("$numberOfStudents alunos"),
         onTap: goToStudentsPage,
-        trailing: IconButton(onPressed: goToEditPage, icon: Icon(Icons.edit)),
+        trailing: IconButton(
+          onPressed: goToEditPage,
+          icon: Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Icon(Icons.edit),
+          ),
+        ),
       ),
     );
   }

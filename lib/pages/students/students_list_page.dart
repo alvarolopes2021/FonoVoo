@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
 import 'package:fonovoo/pages/components/students_component.dart';
 import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
 
@@ -52,6 +53,11 @@ class StudentsListPage extends BasePage {
               if ((presenter as StudentsListPresenter).isLoading) {
                 return const Center(
                   child: CircularProgressIndicator(color: Colors.white),
+                );
+              }
+              if ((presenter as StudentsListPresenter).studentsDto.isEmpty) {
+                return CenterMessageWithSmileComponent(
+                  message: "Adicione alunos e crie grupos",
                 );
               }
               return ListView.builder(

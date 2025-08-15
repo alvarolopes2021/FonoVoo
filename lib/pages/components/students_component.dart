@@ -47,7 +47,10 @@ class _StudentsComponent extends State<StudentsComponent> {
                     _select();
                   },
                 )
-              : Icon(Icons.edit),
+              : Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: Icon(Icons.edit),
+                ),
         ),
       ),
     );

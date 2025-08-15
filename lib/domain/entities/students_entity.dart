@@ -2,15 +2,17 @@ class StudentsEntity {
   String _id = "";
   String _name = "";
   String? _classid = "";
+  String? _groupid = "";
 
-  StudentsEntity(String id, String name, String? classId) {
+  StudentsEntity(String id, String name, String? classId, String? groupId) {
     _id = id;
     _name = name;
     _classid = classId;
+    _groupid = groupId;
   }
 
-  static StudentsEntity create(String id, String name, String? classId) {    
-    return StudentsEntity(id, name, classId);
+  static StudentsEntity create(String id, String name, String? classId, String? groupId) {    
+    return StudentsEntity(id, name, classId, groupId);
   }
   
   String getId() {
@@ -35,5 +37,13 @@ class StudentsEntity {
 
   void updateClassId(String id){
     _classid = id;
+  }
+  
+  String? getGroupId() {
+    return _groupid;
+  }
+
+  void updateGroupId(String id){
+    _groupid = id;
   }
 }

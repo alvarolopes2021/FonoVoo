@@ -1,5 +1,6 @@
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
 import 'package:fonovoo/domain/entities/group_entity.dart';
@@ -17,6 +18,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
 
   List<StudentsEntity> students = [];
   List<StudentsDto> studentsDto = [];
+  List<GroupDto> groupList = [];
 
   late ClassroomEntity? classroomEntity;
 
@@ -38,57 +40,8 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     classroomEntity = classroom as ClassroomEntity?;
   }
 
-  Future<void> editStudent(int index) async {
-    StudentsEntity? editedStudent =
-        (await navigate(
-              StudentsDetailPresenter.pageName,
-              students[index],
-              pageContext,
-            ))
-            as StudentsEntity?;
-
-    if (editedStudent == null) {
-      return;
-    }
-
-    students[index] = editedStudent;
-    notifyListeners();
-  }
-
-  Future<void> makeGroup() async {}
-
-  Future<void> goToGroupsPage(int index) async {
-    StudentsEntity? editedStudent =
-        (await navigate(
-              ClassroomsListPresenter.pageName,
-              students[index],
-              pageContext,
-            ))
-            as StudentsEntity?;
-
-    if (editedStudent == null) {
-      return;
-    }
-
-    students[index] = editedStudent;
-    notifyListeners();
-  }
-
   void changeSelectionMode() {
     isSelecting = !isSelecting;
-    notifyListeners();
-  }
-
-  Future<void> addStudent() async {
-    StudentsEntity? newStudent =
-        (await navigate(StudentsDetailPresenter.pageName, null, pageContext))
-            as StudentsEntity?;
-
-    if (newStudent == null) {
-      return;
-    }
-
-    students.add(newStudent);
     notifyListeners();
   }
 
@@ -113,5 +66,57 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> editStudent(int index) async {
+    StudentsEntity? editedStudent =
+        (await navigate(
+              StudentsDetailPresenter.pageName,
+              students[index],
+              pageContext,
+            ))
+            as StudentsEntity?;
+
+    if (editedStudent == null) {
+      return;
+    }
+
+    students[index] = editedStudent;
+    notifyListeners();
+  }
+
+  Future<void> goToGroupsPage(int index) async {
+    StudentsEntity? editedStudent =
+        (await navigate(
+              ClassroomsListPresenter.pageName,
+              students[index],
+              pageContext,
+            ))
+            as StudentsEntity?;
+
+    if (editedStudent == null) {
+      return;
+    }
+
+    students[index] = editedStudent;
+    notifyListeners();
+  }
+
+  Future<void> addStudent() async {
+    StudentsEntity? newStudent =
+        (await navigate(StudentsDetailPresenter.pageName, null, pageContext))
+            as StudentsEntity?;
+
+    if (newStudent == null) {
+      return;
+    }
+
+    students.add(newStudent);
+    notifyListeners();
+  }
+
+  Future<void> makeGroup() async {
+    groupList.add(GroupDto());
+    notifyListeners();
   }
 }

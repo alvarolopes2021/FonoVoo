@@ -16,6 +16,7 @@ class EditStudentUsecase implements UseCase {
       studentsDto.getId(),
       studentsDto.getName(),
       "",
+      "",
     );
 
     bool res = await makeStudentsRepositoryFactory.editStudent(studentsEntity);
