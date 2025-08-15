@@ -18,7 +18,7 @@ class StudentsRepositoryImpl implements IstudentsRepository {
 
   @override
   Future<List<StudentsEntity>> listStudents() async {
-    return [];
+    return students;
   }
 
   @override

@@ -40,10 +40,11 @@ class _StudentsComponent extends State<StudentsComponent> {
         onTap: widget.showCheckbox ? _select : widget.goToClassesPage,
         trailing: IconButton(
           onPressed: widget.goToEditPage,
-          icon: widget.showCheckbox
+          icon: widget.showCheckbox && !widget.studentsDto.belongsToGroup
               ? Checkbox(
                   value: widget.studentsDto.isSelected,
                   onChanged: (value) {
+                    if (widget.studentsDto.belongsToGroup) return;
                     _select();
                   },
                 )

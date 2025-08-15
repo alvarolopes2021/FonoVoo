@@ -4,6 +4,7 @@ class StudentsDto {
   String _id = "";
   String _name = "";
   bool isSelected = false;
+  bool belongsToGroup = false;
 
   StudentsDto();
 
@@ -33,5 +34,9 @@ class StudentsDto {
 
   void updateIsSelected(bool value) {
     isSelected = value;
+  }
+
+  void updateBelongsToGroup(bool value) {
+    belongsToGroup = value;
   }
 }

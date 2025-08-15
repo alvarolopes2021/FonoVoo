@@ -1,17 +1,20 @@
-import 'package:fonovoo/domain/entities/school_entity.dart';
+import 'package:fonovoo/domain/entities/group_entity.dart';
 
 class GroupDto {
   String _id = "";
   String _name = "";
 
-  GroupDto();
+  GroupDto(String id, String name) {
+    _id = id;
+    _name = id;
+  }
 
-  groupDtoMapping(SchoolEntity? schoolEntity) {
-    if (schoolEntity == null) {
-      return GroupDto();
+  groupDtoMapping(GroupEntity? groupEntity) {
+    if (groupEntity == null) {
+      return GroupDto("", "");
     }
-    _id = schoolEntity.getId();
-    _name = schoolEntity.getName();
+    _id = groupEntity.getId();
+    _name = groupEntity.getName();
   }
 
   String getId() {

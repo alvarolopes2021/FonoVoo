@@ -21,6 +21,12 @@ class StudentsListPage extends BasePage {
         actions: [
           IconButton(
             onPressed: () {
+              (presenter as StudentsListPresenter).orderAz();
+            },
+            icon: Icon(Icons.sort_by_alpha),
+          ),
+          IconButton(
+            onPressed: () {
               (presenter as StudentsListPresenter).changeSelectionMode();
             },
             icon: Icon(Icons.group),

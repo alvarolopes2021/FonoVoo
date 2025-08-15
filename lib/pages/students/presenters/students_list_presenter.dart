@@ -45,6 +45,11 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
+  void orderAz() {
+    studentsDto.sort((a, b) => a.getName().compareTo(b.getName()));
+    notifyListeners();
+  }
+
   Future<Result?> load() async {
     try {
       isLoadingResult = Result.Running;
@@ -116,7 +121,11 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> makeGroup() async {
-    groupList.add(GroupDto());
+    groupList.add(GroupDto("${groupList.length}", "Grupo ${groupList.length}"));
+    for (var student in studentsDto) {
+      student.belongsToGroup = student.isSelected;
+    }
+    studentsDto.sort((a, b) => a.belongsToGroup && b.belongsToGroup ? -1 : 1);
     notifyListeners();
   }
 }
