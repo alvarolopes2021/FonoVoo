@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/domain/dtos/students_dto.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
 import 'package:fonovoo/pages/components/students_component.dart';
 import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class StudentsListPage extends BasePage {
   StudentsListPage({super.key, required super.presenter, super.title});
@@ -25,11 +27,18 @@ class StudentsListPage extends BasePage {
             },
             icon: Icon(Icons.sort_by_alpha),
           ),
-          IconButton(
-            onPressed: () {
-              (presenter as StudentsListPresenter).changeSelectionMode();
+          ListenableBuilder(
+            listenable: (presenter as StudentsListPresenter),
+            builder: (context, snapshot) {
+              return IconButton(
+                onPressed: () {
+                  (presenter as StudentsListPresenter).changeSelectionMode();
+                },
+                icon: (presenter as StudentsListPresenter).isSelecting
+                    ? Icon(Icons.list)
+                    : Icon(Icons.group),
+              );
             },
-            icon: Icon(Icons.group),
           ),
         ],
         title: Text(
@@ -66,6 +75,36 @@ class StudentsListPage extends BasePage {
                   message: "Adicione alunos e crie grupos",
                 );
               }
+              return GroupedListView<StudentsDto, String>(
+                elements: (presenter as StudentsListPresenter).studentsDto,
+                groupBy: (element) => element.getGroupId()!,
+                groupComparator: (value1, value2) => value2.compareTo(value1),
+                itemComparator: (item1, item2) =>
+                    item1.getGroupId()!.compareTo(item2.getGroupId()!),
+                order: GroupedListOrder.DESC,
+                useStickyGroupSeparators: true,
+                groupSeparatorBuilder: (String value) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    value,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                itemBuilder: (c, element) {
+                  return StudentsComponent(
+                    showCheckbox:
+                        (presenter as StudentsListPresenter).isSelecting,
+                    studentsDto: element,
+                    goToClassesPage: () {},
+                    goToEditPage: () {},
+                  );
+                },
+              );
+              /*
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount:
@@ -80,7 +119,7 @@ class StudentsListPage extends BasePage {
                     goToEditPage: () {},
                   );
                 },
-              );
+              );*/
             },
           ),
         ),

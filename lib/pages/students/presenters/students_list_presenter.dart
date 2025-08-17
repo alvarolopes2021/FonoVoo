@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/core/helpers/code_helpers.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
@@ -121,11 +123,18 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> makeGroup() async {
-    groupList.add(GroupDto("${groupList.length}", "Grupo ${groupList.length}"));
+    String groupId = (groupList.length + 1).toString();
+    groupList.add(GroupDto(groupId, "Grupo $groupId"));
+
     for (var student in studentsDto) {
-      student.belongsToGroup = student.isSelected;
+      if (student.isSelected) {
+        student.belongsToGroup = student.isSelected;
+        student.setGroupId(groupId);
+      }
+      student.isSelected = false;
     }
-    studentsDto.sort((a, b) => a.belongsToGroup && b.belongsToGroup ? -1 : 1);
+    studentsDto.sort((a, b) => b.getGroupId()!.compareTo(a.getGroupId()!));
+
     notifyListeners();
   }
 }

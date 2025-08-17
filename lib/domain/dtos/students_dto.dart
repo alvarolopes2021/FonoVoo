@@ -2,6 +2,7 @@ import 'package:fonovoo/domain/entities/students_entity.dart';
 
 class StudentsDto {
   String _id = "";
+  String? _groupId = "";
   String _name = "";
   bool isSelected = false;
   bool belongsToGroup = false;
@@ -14,6 +15,7 @@ class StudentsDto {
     }
     _id = studentEntity.getId();
     _name = studentEntity.getName();
+    _groupId = studentEntity.getGroupId();
   }
 
   String getId() {
@@ -26,6 +28,14 @@ class StudentsDto {
 
   String getName() {
     return _name;
+  }
+
+  String? getGroupId() {
+    return _groupId;
+  }
+
+  void setGroupId(String id) {
+    _groupId = id;
   }
 
   void updateName(String name) {
