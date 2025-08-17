@@ -19,9 +19,9 @@ class StudentsDetailPage extends BasePage {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(
-          (presenter as StudentsDetailPresenter).studentEntity == null
+          (presenter as StudentsDetailPresenter).newStudent
               ? "Adicionar aluno"
-              : (presenter as StudentsDetailPresenter).studentEntity!.getName(),
+              : (presenter as StudentsDetailPresenter).studentsDto!.getName(),
         ),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
@@ -48,26 +48,21 @@ class StudentsDetailPage extends BasePage {
                   child: MyTextFormField(
                     updateValueFunction:
                         (super.presenter as StudentsDetailPresenter)
-                            .studentsDto
+                            .studentsDto!
                             .updateName,
                     hint: "Nome do aluno",
                     initialValue:
-                        (super.presenter as StudentsDetailPresenter)
-                                .studentEntity ==
-                            null
+                        (presenter as StudentsDetailPresenter).newStudent
                         ? ""
                         : (super.presenter as StudentsDetailPresenter)
-                              .studentEntity!
+                              .studentsDto!
                               .getName(),
                   ),
                 ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child:
-                        (super.presenter as StudentsDetailPresenter)
-                                .studentEntity ==
-                            null
+                    child: (presenter as StudentsDetailPresenter).newStudent
                         ? ElevatedButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {

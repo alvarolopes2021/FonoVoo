@@ -1,11 +1,8 @@
-import 'package:collection/collection.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
-import 'package:fonovoo/core/helpers/code_helpers.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
-import 'package:fonovoo/domain/entities/group_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
@@ -18,7 +15,6 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
 
   bool isSelecting = false;
 
-  List<StudentsEntity> students = [];
   List<StudentsDto> studentsDto = [];
   List<GroupDto> groupList = [];
 
@@ -30,8 +26,12 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
 
   bool get isLoading => isLoadingResult == Result.Running;
 
+  late Command0 load;
+
   StudentsListPresenter({required super.pageContext}) {
     loadSchoolsUseCase = makeLoadStudentUsecaseFactory;
+
+    load = Command0(_load)..execute();
   }
 
   void updateDto(Object? classroom) {
@@ -48,14 +48,14 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   void orderAz() {
-    studentsDto.sort((a, b) => a.getName().compareTo(b.getName()));
+    studentsDto.sort((a, b) => b.getName().compareTo(a.getName()));
     notifyListeners();
   }
 
-  Future<Result?> load() async {
+  Future<Result?> _load() async {
     try {
-      isLoadingResult = Result.Running;
-      students = await loadSchoolsUseCase.execute(null) as List<StudentsEntity>;
+      List<StudentsEntity> students =
+          await loadSchoolsUseCase.execute(null) as List<StudentsEntity>;
 
       if (students.isNotEmpty) {
         for (var student in students) {
@@ -64,65 +64,70 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
           studentsDto.add(dto);
         }
       }
-
-      isLoadingResult = Result.Ok;
-      return isLoadingResult;
+      return load.result;
     } catch (e) {
-      isLoadingResult = Result.Error;
-      return isLoadingResult;
+      return load.result;
     } finally {
       notifyListeners();
     }
   }
 
   Future<void> editStudent(int index) async {
-    StudentsEntity? editedStudent =
+    StudentsDto studentToEdit = studentsDto.elementAt(index);
+
+    StudentsDto? editedStudent =
         (await navigate(
               StudentsDetailPresenter.pageName,
-              students[index],
+              studentToEdit,
               pageContext,
             ))
-            as StudentsEntity?;
+            as StudentsDto?;
 
     if (editedStudent == null) {
       return;
     }
 
-    students[index] = editedStudent;
+    studentsDto[index] = editedStudent;
     notifyListeners();
   }
 
   Future<void> goToGroupsPage(int index) async {
-    StudentsEntity? editedStudent =
+    StudentsDto? editedStudent =
         (await navigate(
               ClassroomsListPresenter.pageName,
-              students[index],
+              studentsDto[index],
               pageContext,
             ))
-            as StudentsEntity?;
+            as StudentsDto?;
 
     if (editedStudent == null) {
       return;
     }
 
-    students[index] = editedStudent;
+    studentsDto[index] = editedStudent;
     notifyListeners();
   }
 
   Future<void> addStudent() async {
-    StudentsEntity? newStudent =
+    StudentsDto? newStudent =
         (await navigate(StudentsDetailPresenter.pageName, null, pageContext))
-            as StudentsEntity?;
+            as StudentsDto?;
 
     if (newStudent == null) {
       return;
     }
 
-    students.add(newStudent);
+    studentsDto.add(newStudent);
     notifyListeners();
   }
 
   Future<void> makeGroup() async {
+    bool hasSelected = studentsDto.where((s) => s.isSelected).isNotEmpty;
+
+    if (!hasSelected) {
+      return;
+    }
+
     String groupId = (groupList.length + 1).toString();
     groupList.add(GroupDto(groupId, "Grupo $groupId"));
 

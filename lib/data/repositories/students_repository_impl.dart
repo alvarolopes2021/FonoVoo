@@ -12,8 +12,7 @@ class StudentsRepositoryImpl implements IstudentsRepository {
 
   @override
   Future<bool> addStudent(StudentsEntity student) async {
-    // TODO: implement addStudent
-    throw UnimplementedError();
+    return true;
   }
 
   @override
@@ -22,8 +21,7 @@ class StudentsRepositoryImpl implements IstudentsRepository {
   }
 
   @override
-  Future<bool> editStudent(StudentsEntity student) {
-    // TODO: implement editStudent
-    throw UnimplementedError();
+  Future<bool> editStudent(StudentsEntity student) async {
+    return true;
   }
 }

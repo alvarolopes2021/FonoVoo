@@ -15,14 +15,14 @@ class EditStudentUsecase implements UseCase {
     StudentsEntity studentsEntity = StudentsEntity.create(
       studentsDto.getId(),
       studentsDto.getName(),
-      "",
-      "",
+      studentsDto.getGroupId(),
+      studentsDto.getGroupId(),
     );
 
     bool res = await makeStudentsRepositoryFactory.editStudent(studentsEntity);
 
     if (res) {
-      return studentsEntity;
+      return studentsDto;
     }
   }
 }

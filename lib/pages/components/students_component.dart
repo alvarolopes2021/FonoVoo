@@ -4,14 +4,14 @@ import 'package:fonovoo/domain/dtos/students_dto.dart';
 class StudentsComponent extends StatefulWidget {
   StudentsDto studentsDto;
   VoidCallback goToEditPage;
-  VoidCallback goToClassesPage;
+  VoidCallback goToStudentStatusPage;
   bool showCheckbox = false;
 
   StudentsComponent({
     super.key,
     required this.studentsDto,
     required this.goToEditPage,
-    required this.goToClassesPage,
+    required this.goToStudentStatusPage,
     required this.showCheckbox,
   });
 
@@ -37,7 +37,7 @@ class _StudentsComponent extends State<StudentsComponent> {
       child: ListTile(
         leading: Icon(Icons.person),
         title: Text(widget.studentsDto.getName()),
-        onTap: widget.showCheckbox ? _select : widget.goToClassesPage,
+        onTap: widget.showCheckbox ? _select : widget.goToStudentStatusPage,
         trailing: IconButton(
           onPressed: widget.goToEditPage,
           icon: widget.showCheckbox && !widget.studentsDto.belongsToGroup
@@ -49,7 +49,7 @@ class _StudentsComponent extends State<StudentsComponent> {
                   },
                 )
               : Container(
-                  margin: EdgeInsets.only(right: 20),
+                  margin: EdgeInsets.only(right: 20, left: 20),
                   child: Icon(Icons.edit),
                 ),
         ),

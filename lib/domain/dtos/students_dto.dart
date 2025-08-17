@@ -30,16 +30,16 @@ class StudentsDto {
     return _name;
   }
 
+  void updateName(String name) {
+    _name = name;
+  }
+
   String? getGroupId() {
     return _groupId;
   }
 
-  void setGroupId(String id) {
+  void setGroupId(String? id) {
     _groupId = id;
-  }
-
-  void updateName(String name) {
-    _name = name;
   }
 
   void updateIsSelected(bool value) {

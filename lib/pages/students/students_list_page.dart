@@ -15,7 +15,6 @@ class StudentsListPage extends BasePage {
     (super.presenter as StudentsListPresenter).updateDto(
       ModalRoute.of(context)!.settings.arguments,
     );
-    (super.presenter as StudentsListPresenter).load();
 
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +64,7 @@ class StudentsListPage extends BasePage {
           child: ListenableBuilder(
             listenable: (presenter as StudentsListPresenter),
             builder: (context, snapshot) {
-              if ((presenter as StudentsListPresenter).isLoading) {
+              if ((presenter as StudentsListPresenter).load.running) {
                 return const Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 );
@@ -75,7 +74,7 @@ class StudentsListPage extends BasePage {
                   message: "Adicione alunos e crie grupos",
                 );
               }
-              return GroupedListView<StudentsDto, String>(
+              return GroupedListView<StudentsDto, String>(                
                 elements: (presenter as StudentsListPresenter).studentsDto,
                 groupBy: (element) => element.getGroupId()!,
                 groupComparator: (value1, value2) => value2.compareTo(value1),
@@ -83,14 +82,16 @@ class StudentsListPage extends BasePage {
                     item1.getGroupId()!.compareTo(item2.getGroupId()!),
                 order: GroupedListOrder.DESC,
                 useStickyGroupSeparators: true,
-                groupSeparatorBuilder: (String value) => Padding(
-                  padding: const EdgeInsets.all(8.0),
+                stickyHeaderBackgroundColor: Colors.transparent,
+                groupSeparatorBuilder: (String value) => Container(
+                  color: Colors.transparent,
                   child: Text(
                     value,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -99,8 +100,10 @@ class StudentsListPage extends BasePage {
                     showCheckbox:
                         (presenter as StudentsListPresenter).isSelecting,
                     studentsDto: element,
-                    goToClassesPage: () {},
-                    goToEditPage: () {},
+                    goToStudentStatusPage: () {},
+                    goToEditPage: () {
+                      (presenter as StudentsListPresenter).editStudent((presenter as StudentsListPresenter).studentsDto.indexOf(element));
+                    },
                   );
                 },
               );

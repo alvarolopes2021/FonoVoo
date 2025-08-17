@@ -11,9 +11,9 @@ import 'package:fonovoo/pages/base_presenter.dart';
 class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/students-detail/:data";
 
-  late StudentsEntity? studentEntity;
+  late StudentsDto? studentsDto;
 
-  StudentsDto studentsDto = StudentsDto();
+  bool newStudent = false;
 
   late UseCase addStudentUseCase;
   late UseCase editStudentUsecase;
@@ -24,21 +24,20 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
   }
 
   void updateDto(Object? student) {
-    studentEntity = student as StudentsEntity?;
+    studentsDto = student as StudentsDto?;
 
-    if (studentEntity == null) {
+    if (studentsDto == null) {
+      studentsDto = StudentsDto();
+      newStudent = true;
       return;
     }
-
-    studentsDto.setId(studentEntity!.getId());
-    studentsDto.updateName(studentEntity!.getName());
   }
 
-  Future<List<StudentsEntity>?> addStudent() async {
+  Future<List<StudentsDto>?> addStudent() async {
     try {
-      StudentsEntity? newSchool =
-          await addStudentUseCase.execute(studentsDto) as StudentsEntity?;
-      pop(pageContext, newSchool);
+      StudentsDto? newStudent =
+          await addStudentUseCase.execute(studentsDto) as StudentsDto?;
+      pop(pageContext, newStudent);
     } catch (e) {
       return null;
     } finally {
@@ -48,9 +47,9 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
 
   Future<List<StudentsEntity>?> editStudent() async {
     try {
-      StudentsEntity? newSchool =
-          await editStudentUsecase.execute(studentsDto) as StudentsEntity?;
-      pop(pageContext, newSchool);
+      StudentsDto? editedStudent =
+          await editStudentUsecase.execute(studentsDto) as StudentsDto?;
+      pop(pageContext, editedStudent);
     } catch (e) {
       return null;
     } finally {
