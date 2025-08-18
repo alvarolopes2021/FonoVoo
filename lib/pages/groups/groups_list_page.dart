@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
-import 'package:fonovoo/pages/components/classrooms_component.dart';
+import 'package:fonovoo/pages/components/groups_component.dart';
 import 'package:fonovoo/pages/groups/presenters/groups_list_presenter.dart';
 
 class GroupsListPage extends BasePage {
@@ -16,11 +16,10 @@ class GroupsListPage extends BasePage {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: Text(
-          (presenter as GroupsListPresenter).schoolEntity == null
-              ? "Grupos da sala"
-              : (presenter as GroupsListPresenter).schoolEntity!.getName(),
-        ),
+        title: Text("Grupos da sala"),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.check_box_sharp)),
+        ],
       ),
       body: Center(
         child: Container(
@@ -46,20 +45,16 @@ class GroupsListPage extends BasePage {
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: (presenter as GroupsListPresenter).classrooms.length,
+                itemCount: (presenter as GroupsListPresenter).groups.length,
                 itemBuilder: (listContext, index) {
-                  return ClassroomsComponent(
-                    classroomName: (presenter as GroupsListPresenter)
-                        .classrooms[index]
-                        .getName(),
-                    goToStudentsPage: () {
-                      (presenter as GroupsListPresenter).goToStudentssPage(
-                        index,
-                      );
-                    },
+                  return GroupsComponent(
+                    group: (presenter as GroupsListPresenter).groups[index],
                     goToEditPage: () {
                       (presenter as GroupsListPresenter).editClassroom(index);
                     },
+                    goToClassesPage: () {},
+                    students: (presenter as GroupsListPresenter).students,
+                    removeStudentFromGroup: () {},
                   );
                 },
               );
@@ -69,10 +64,10 @@ class GroupsListPage extends BasePage {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          (presenter as GroupsListPresenter).addClassroom();
+          (presenter as GroupsListPresenter).startGame();
         },
-        tooltip: 'Adicionar nova sala de aula',
-        child: const Icon(Icons.add),
+        tooltip: 'Jogar',
+        child: const Icon(Icons.play_arrow),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

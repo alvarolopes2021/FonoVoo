@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fonovoo/domain/dtos/students_dto.dart';
 
+import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
 import 'package:fonovoo/pages/components/students_component.dart';
@@ -74,7 +74,8 @@ class StudentsListPage extends BasePage {
                   message: "Adicione alunos e crie grupos",
                 );
               }
-              return GroupedListView<StudentsDto, String>(                
+              return GroupedListView<StudentsDto, String>(
+                padding: const EdgeInsets.all(8),
                 elements: (presenter as StudentsListPresenter).studentsDto,
                 groupBy: (element) => element.getGroupId()!,
                 groupComparator: (value1, value2) => value2.compareTo(value1),
@@ -102,27 +103,14 @@ class StudentsListPage extends BasePage {
                     studentsDto: element,
                     goToStudentStatusPage: () {},
                     goToEditPage: () {
-                      (presenter as StudentsListPresenter).editStudent((presenter as StudentsListPresenter).studentsDto.indexOf(element));
+                      (presenter as StudentsListPresenter).editStudent(
+                        (presenter as StudentsListPresenter).studentsDto
+                            .indexOf(element),
+                      );
                     },
                   );
                 },
               );
-              /*
-              return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount:
-                    (presenter as StudentsListPresenter).studentsDto.length,
-                itemBuilder: (listContext, index) {
-                  return StudentsComponent(
-                    showCheckbox:
-                        (presenter as StudentsListPresenter).isSelecting,
-                    studentsDto:
-                        (presenter as StudentsListPresenter).studentsDto[index],
-                    goToClassesPage: () {},
-                    goToEditPage: () {},
-                  );
-                },
-              );*/
             },
           ),
         ),
@@ -154,12 +142,12 @@ class StudentsListPage extends BasePage {
 
               SizedBox(height: 10),
               FloatingActionButton(
-                heroTag: "start",
+                heroTag: "next",
                 onPressed: () async {
-                  (presenter as StudentsListPresenter).addStudent();
+                  (presenter as StudentsListPresenter).goToGroupsPage();
                 },
                 tooltip: 'Adicionar nova escola',
-                child: const Icon(Icons.play_arrow),
+                child: const Icon(Icons.navigate_next),
               ), // This trailing comma makes auto-formatting nicer for build methods.
             ],
           );

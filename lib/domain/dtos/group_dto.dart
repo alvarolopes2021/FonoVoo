@@ -6,7 +6,7 @@ class GroupDto {
 
   GroupDto(String id, String name) {
     _id = id;
-    _name = id;
+    _name = name;
   }
 
   groupDtoMapping(GroupEntity? groupEntity) {

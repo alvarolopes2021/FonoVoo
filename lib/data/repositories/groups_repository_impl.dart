@@ -9,9 +9,9 @@ class GroupsRepositoryImpl implements IgroupsRepository {
   ];
 
   @override
-  Future<bool> addGroup(GroupEntity classe) {
-    // TODO: implement addGroup
-    throw UnimplementedError();
+  Future<bool> addGroup(GroupEntity group) async {
+    groups.add(group);
+    return true;
   }
 
   @override
