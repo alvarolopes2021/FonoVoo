@@ -3,11 +3,11 @@ import 'package:fonovoo/domain/entities/students_entity.dart';
 
 class StudentsRepositoryImpl implements IstudentsRepository {
   List<StudentsEntity> students = [
-    StudentsEntity.create("1", "Dias", "", ""),
-    StudentsEntity.create("2", "Danilo", "", ""),
-    StudentsEntity.create("3", "Benito", "", ""),
-    StudentsEntity.create("3", "Lima", "", ""),
-    StudentsEntity.create("3", "Nerfandinho", "", ""),
+    StudentsEntity.create("1", "Dias", "", "1"),
+    StudentsEntity.create("2", "Danilo", "", "1"),
+    StudentsEntity.create("3", "Benito", "", "2"),
+    StudentsEntity.create("3", "Lima", "", "1"),
+    StudentsEntity.create("3", "Fernandinho", "", "2"),
   ];
 
   @override

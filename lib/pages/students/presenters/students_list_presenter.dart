@@ -11,7 +11,6 @@ import 'package:fonovoo/domain/entities/classroom_entity.dart';
 import 'package:fonovoo/domain/entities/group_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
-import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
 import 'package:fonovoo/pages/groups/presenters/groups_list_presenter.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';

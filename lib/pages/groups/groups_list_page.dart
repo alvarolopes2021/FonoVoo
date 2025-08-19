@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/domain/dtos/group_dto.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/groups_component.dart';
@@ -21,14 +22,15 @@ class GroupsListPage extends BasePage {
           ListenableBuilder(
             listenable: (presenter as GroupsListPresenter),
             builder: (pageContext, snapshot) {
-              return IconButton(
-                onPressed: () {
-                  (presenter as GroupsListPresenter).changeSelectionMode();
-                },
-                icon: (presenter as GroupsListPresenter).isSelecting
-                    ? Icon(Icons.list)
-                    : Icon(Icons.check_box_sharp),
-              );
+              if ((presenter as GroupsListPresenter).isSelecting) {
+                return IconButton(
+                  onPressed: () {
+                    (presenter as GroupsListPresenter).changeSelectionMode();
+                  },
+                  icon: Icon(Icons.cancel),
+                );
+              }
+              return Text("");
             },
           ),
         ],
@@ -57,16 +59,20 @@ class GroupsListPage extends BasePage {
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: (presenter as GroupsListPresenter).groups.length,
+                itemCount:
+                    (presenter as GroupsListPresenter).studentsByGroup.length,
                 itemBuilder: (listContext, index) {
+                  GroupDto group =
+                      (presenter as GroupsListPresenter).groups[index];
                   return GroupsComponent(
-                    group: (presenter as GroupsListPresenter).groups[index],
+                    group: group,
                     isSelecting: (presenter as GroupsListPresenter).isSelecting,
                     goToEditPage: () {
                       (presenter as GroupsListPresenter).editClassroom(index);
                     },
                     goToClassesPage: () {},
-                    students: (presenter as GroupsListPresenter).students,
+                    students: (presenter as GroupsListPresenter)
+                        .studentsByGroup[group.getId()]!,
                     removeStudentFromGroup: () {},
                   );
                 },
@@ -75,13 +81,25 @@ class GroupsListPage extends BasePage {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          (presenter as GroupsListPresenter).startGame();
+      floatingActionButton: ListenableBuilder(
+        listenable: (presenter as GroupsListPresenter),
+        builder: (pageContext, snapshot) {
+          return FloatingActionButton(
+            onPressed: () {
+              if ((presenter as GroupsListPresenter).isSelecting) {
+                (presenter as GroupsListPresenter).startGame();
+                return;
+              }
+
+              (presenter as GroupsListPresenter).changeSelectionMode();
+            },
+            tooltip: 'Jogar',
+            child: (presenter as GroupsListPresenter).isSelecting
+                ? const Icon(Icons.check)
+                : const Icon(Icons.play_arrow),
+          );
         },
-        tooltip: 'Jogar',
-        child: const Icon(Icons.play_arrow),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
