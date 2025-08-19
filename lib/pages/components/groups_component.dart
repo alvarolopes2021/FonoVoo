@@ -15,6 +15,7 @@ class GroupsComponent extends StatefulWidget {
     super.key,
     required this.group,
     required this.students,
+    required this.isSelecting,
     required this.goToEditPage,
     required this.goToClassesPage,
     required this.removeStudentFromGroup,
@@ -33,13 +34,16 @@ class _GroupsComponent extends State<GroupsComponent> {
       elevation: 2,
       shadowColor: Colors.white,
       child: ExpansionTile(
+        enabled: !widget.isSelecting,
         shape: Border(),
         leading: Icon(Icons.group),
         trailing: widget.isSelecting
             ? Checkbox(
-                value: widget.isSelecting,
+                value: widget.group.isSelected,
                 onChanged: (value) {
-                  widget.isSelecting = value!;
+                  setState(() {
+                    widget.group.isSelected = value!;
+                  });
                 },
               )
             : (widget.isExpanded)

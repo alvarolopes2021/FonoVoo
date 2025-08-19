@@ -18,7 +18,19 @@ class GroupsListPage extends BasePage {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text("Grupos da sala"),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.check_box_sharp)),
+          ListenableBuilder(
+            listenable: (presenter as GroupsListPresenter),
+            builder: (pageContext, snapshot) {
+              return IconButton(
+                onPressed: () {
+                  (presenter as GroupsListPresenter).changeSelectionMode();
+                },
+                icon: (presenter as GroupsListPresenter).isSelecting
+                    ? Icon(Icons.list)
+                    : Icon(Icons.check_box_sharp),
+              );
+            },
+          ),
         ],
       ),
       body: Center(
@@ -36,7 +48,7 @@ class GroupsListPage extends BasePage {
           ),
           width: MediaQuery.of(context).size.width,
           child: ListenableBuilder(
-            listenable: (presenter as GroupsListPresenter).load,
+            listenable: (presenter as GroupsListPresenter),
             builder: (context, snapshot) {
               if ((presenter as GroupsListPresenter).load.running) {
                 return const Center(
@@ -49,6 +61,7 @@ class GroupsListPage extends BasePage {
                 itemBuilder: (listContext, index) {
                   return GroupsComponent(
                     group: (presenter as GroupsListPresenter).groups[index],
+                    isSelecting: (presenter as GroupsListPresenter).isSelecting,
                     goToEditPage: () {
                       (presenter as GroupsListPresenter).editClassroom(index);
                     },

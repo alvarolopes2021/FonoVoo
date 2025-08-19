@@ -13,6 +13,8 @@ import 'package:fonovoo/pages/load_data_command.dart';
 class GroupsListPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/groups-list";
 
+  bool isSelecting = false;
+
   List<GroupDto> groups = [];
   List<StudentsDto> students = [];
 
@@ -26,13 +28,18 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     var dto = StudentsDto();
     dto.setGroupId("2");
     dto.updateName("Benito");
-    students = [dto, dto, dto, dto, dto, dto];
+    students = [dto, dto, dto, dto];
   }
 
   void updateDto(Object? school) {
     if (school == null) {
       return;
     }
+  }
+
+  void changeSelectionMode(){
+    isSelecting = !isSelecting;
+    notifyListeners();
   }
 
   Future<void> editClassroom(int index) async {

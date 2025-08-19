@@ -3,6 +3,7 @@ import 'package:fonovoo/domain/entities/group_entity.dart';
 class GroupDto {
   String _id = "";
   String _name = "";
+  bool isSelected = false;
 
   GroupDto(String id, String name) {
     _id = id;
