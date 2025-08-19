@@ -3,6 +3,8 @@ import 'package:fonovoo/pages/classrooms/classroom_detail_page.dart';
 import 'package:fonovoo/pages/classrooms/classrooms_list_page.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classroom_detail_presenter.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
+import 'package:fonovoo/pages/game/game_page.dart';
+import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
 import 'package:fonovoo/pages/groups/groups_detail_page.dart';
 import 'package:fonovoo/pages/groups/groups_list_page.dart';
 import 'package:fonovoo/pages/groups/presenters/groups_detail_presenter.dart';
@@ -61,6 +63,8 @@ class MainPage extends StatelessWidget {
         GroupsDetailPresenter.pageName: (pageContext) => GroupsDetailPage(
           presenter: GroupsDetailPresenter(pageContext: pageContext),
         ),
+        GamePagePresenter.pageName: (pageContext) =>
+            GamePage(presenter: GamePagePresenter(pageContext: pageContext)),
       },
     );
   }

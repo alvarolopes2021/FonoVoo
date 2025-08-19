@@ -8,6 +8,7 @@ import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classroom_detail_presenter.dart';
+import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
 import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
@@ -63,10 +64,11 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> startGame() async {
-    const snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
-    ScaffoldMessenger.of(super.pageContext).showSnackBar(snackBar);
+    bool hasSelected = groups.where((group) => group.isSelected).isNotEmpty;
 
-    notifyListeners();
+    if (hasSelected) {
+      navigate(GamePagePresenter.pageName, null, pageContext);
+    }
   }
 
   Future<void> goToStudentssPage(int index) async {
