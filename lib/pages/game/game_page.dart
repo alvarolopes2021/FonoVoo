@@ -7,28 +7,60 @@ class GamePage extends BasePage {
 
   @override
   Widget build(BuildContext context) {
+    (super.presenter as GamePagePresenter).updateDto(
+      ModalRoute.of(context)!.settings.arguments,
+    );
+
     return Scaffold(
       appBar: AppBar(
-        leading: null,
+        automaticallyImplyLeading: false,
+        centerTitle: false,
         title: ListenableBuilder(
           listenable: (presenter as GamePagePresenter),
           builder: (pageContext, snapshot) {
             return Text(
-              (presenter as GamePagePresenter).minutesLeft.toString(),
+              (presenter as GamePagePresenter).minutesLeft
+                  .toString()
+                  .split(".")
+                  .first
+                  .padLeft(8, "0"),
             );
           },
         ),
+        actions: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: TextButton.icon(
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+                backgroundColor: Colors.white, // Set the background color here
+              ),
+              label: Text("Finalizar"),
+              icon: Icon(Icons.flag),
+            ),
+          ),
+        ],
       ),
       body: Container(
         color: Color.fromRGBO(0, 90, 152, 1),
         child: Column(
           children: [
+            Container(
+              margin: EdgeInsets.all(5),
+              width: MediaQuery.of(context).size.width,
+              child: DropdownButton<String>(
+                items: [DropdownMenuItem(child: Text("Samuel"))],
+                onChanged: (value) {},
+                hint: Text("Jogador da vez"),
+              ),
+            ),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
                 childAspectRatio:
                     (MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height * 0.8)),
+                    (MediaQuery.of(context).size.height * 0.75)),
                 children: [
                   GestureDetector(
                     onTap: () {},
@@ -51,18 +83,41 @@ class GamePage extends BasePage {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.09,
-              width: MediaQuery.of(context).size.height * 0.8,
-              child: Container(
-                margin: EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor:
-                        Colors.blue, // Set the background color here
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextButton.icon(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor:
+                              Colors.green, // Set the background color here
+                        ),
+                        label: Text("Confirmar"),
+                        icon: Icon(Icons.check),
+                      ),
+                    ),
                   ),
-                  child: Text("Finalizar"),
-                ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextButton.icon(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.blue,
+                          backgroundColor:
+                              Colors.white, // Set the background color here
+                        ),
+                        label: Text("Pular"),
+                        icon: Icon(Icons.keyboard_arrow_right),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

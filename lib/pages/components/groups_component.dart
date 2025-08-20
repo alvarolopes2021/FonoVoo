@@ -7,8 +7,6 @@ class GroupsComponent extends StatefulWidget {
   bool isSelecting = false;
   bool isExpanded = false;
   List<StudentsDto> students;
-  VoidCallback goToEditPage;
-  VoidCallback goToClassesPage;
   VoidCallback removeStudentFromGroup;
 
   GroupsComponent({
@@ -16,8 +14,6 @@ class GroupsComponent extends StatefulWidget {
     required this.group,
     required this.students,
     required this.isSelecting,
-    required this.goToEditPage,
-    required this.goToClassesPage,
     required this.removeStudentFromGroup,
   });
 

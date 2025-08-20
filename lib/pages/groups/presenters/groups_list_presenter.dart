@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fonovoo/application/usacases/groups/factories/make_load_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
@@ -7,9 +6,7 @@ import 'package:fonovoo/domain/entities/group_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
-import 'package:fonovoo/pages/classrooms/presenters/classroom_detail_presenter.dart';
 import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
-import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
 
@@ -46,23 +43,6 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
-  Future<void> editClassroom(int index) async {
-    GroupDto? editGroups =
-        (await navigate(
-              ClassroomDetailPresenter.pageName,
-              groups[index],
-              pageContext,
-            ))
-            as GroupDto?;
-
-    if (editGroups == null) {
-      return;
-    }
-
-    groups[index] = editGroups;
-    notifyListeners();
-  }
-
   Future<void> startGame() async {
     bool hasSelected = groups.where((group) => group.isSelected).isNotEmpty;
 
@@ -71,13 +51,24 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     }
   }
 
-  Future<void> goToStudentssPage(int index) async {
+  Future<void> goToGamePage(int index) async {
+    List<GroupDto> selecteds = groups.where((g) => g.isSelected).toList();
+
+    if (selecteds.isEmpty) {
+      return;
+    }
+    Map<String, List<StudentsDto>> selectedMap = {};
+
+    for (var cell in studentsByGroup.entries) {
+      for (var group in selecteds) {
+        if (cell.key == group.getId()) {
+          selectedMap.addAll({cell.key: cell.value});
+        }
+      }
+    }
+
     GroupDto? editedGroup =
-        (await navigate(
-              StudentsListPresenter.pageName,
-              groups[index],
-              pageContext,
-            ))
+        (await navigate(GamePagePresenter.pageName, selectedMap, pageContext))
             as GroupDto?;
 
     if (editedGroup == null) {

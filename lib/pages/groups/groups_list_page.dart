@@ -67,10 +67,6 @@ class GroupsListPage extends BasePage {
                   return GroupsComponent(
                     group: group,
                     isSelecting: (presenter as GroupsListPresenter).isSelecting,
-                    goToEditPage: () {
-                      (presenter as GroupsListPresenter).editClassroom(index);
-                    },
-                    goToClassesPage: () {},
                     students: (presenter as GroupsListPresenter)
                         .studentsByGroup[group.getId()]!,
                     removeStudentFromGroup: () {},
