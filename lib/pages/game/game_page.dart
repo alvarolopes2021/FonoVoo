@@ -47,64 +47,90 @@ class GamePage extends BasePage {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(5),
+              margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
-              child: DropdownButton<String>(
-                items: [DropdownMenuItem(child: Text("Samuel"))],
-                onChanged: (value) {},
-                hint: Text("Jogador da vez"),
+              child: DropdownMenu<String>(
+                hintText: "Jogador da vez",
+                width: MediaQuery.of(context).size.width,
+                label: Text(
+                  'Jogador da vez',
+                  style: TextStyle(color: Colors.white),
+                ),
+                dropdownMenuEntries: [
+                  DropdownMenuEntry<String>(value: "Samuel", label: "Samuel"),
+                  DropdownMenuEntry<String>(value: "Dias", label: "Dias"),
+                ],
+                textStyle: TextStyle(color: Colors.white),
+                selectedTrailingIcon: Icon(
+                  Icons.keyboard_arrow_up,
+                  color: Colors.white,
+                ),
+                inputDecorationTheme: InputDecorationTheme(border: null),
+                trailingIcon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.white,
+                ),
               ),
             ),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio:
-                    (MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height * 0.75)),
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(color: Colors.red),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(color: Colors.green),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(color: Colors.blue),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(color: Colors.yellow),
-                  ),
-                ],
+              child: ListenableBuilder(
+                listenable: (presenter as GamePagePresenter),
+                builder: (pageContext, snapshot) {
+                  return Container(
+                    margin: EdgeInsets.all(10),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      childAspectRatio:
+                          (MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height * 0.70)),
+                      children: List<Widget>.generate(
+                        (presenter as GamePagePresenter).grid.length,
+                        (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              (presenter as GamePagePresenter).updateSelection(
+                                index,
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: (presenter as GamePagePresenter)
+                                    .grid
+                                    .keys
+                                    .toList()[index],
+                                border: Border.all(
+                                  color:
+                                      (presenter as GamePagePresenter)
+                                          .grid
+                                          .values
+                                          .toList()[index]
+                                      ? Colors.greenAccent
+                                      : Colors
+                                            .transparent, // 👈 Border appears on click
+                                  width: 10,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.09,
+              height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: TextButton.icon(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor:
-                              Colors.green, // Set the background color here
-                        ),
-                        label: Text("Confirmar"),
-                        icon: Icon(Icons.check),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(5),
                       child: TextButton.icon(
                         onPressed: () {},
                         style: TextButton.styleFrom(
@@ -114,6 +140,21 @@ class GamePage extends BasePage {
                         ),
                         label: Text("Pular"),
                         icon: Icon(Icons.keyboard_arrow_right),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      child: TextButton.icon(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor:
+                              Colors.green, // Set the background color here
+                        ),
+                        label: Text("Confirmar"),
+                        icon: Icon(Icons.check),
                       ),
                     ),
                   ),
