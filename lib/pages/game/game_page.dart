@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/game_selector_component.dart';
 import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
 
 class GamePage extends BasePage {
@@ -56,10 +57,17 @@ class GamePage extends BasePage {
                   'Jogador da vez',
                   style: TextStyle(color: Colors.white),
                 ),
-                dropdownMenuEntries: [
-                  DropdownMenuEntry<String>(value: "Samuel", label: "Samuel"),
-                  DropdownMenuEntry<String>(value: "Dias", label: "Dias"),
-                ],
+                dropdownMenuEntries: List.generate(
+                  (presenter as GamePagePresenter).allStudents.length,
+                  (index) {
+                    return DropdownMenuEntry<String>(
+                      value: (presenter as GamePagePresenter).allStudents[index]
+                          .getName(),
+                      label: (presenter as GamePagePresenter).allStudents[index]
+                          .getName(),
+                    );
+                  },
+                ),
                 textStyle: TextStyle(color: Colors.white),
                 selectedTrailingIcon: Icon(
                   Icons.keyboard_arrow_up,
@@ -88,32 +96,12 @@ class GamePage extends BasePage {
                       children: List<Widget>.generate(
                         (presenter as GamePagePresenter).grid.length,
                         (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              (presenter as GamePagePresenter).updateSelection(
-                                index,
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: (presenter as GamePagePresenter)
-                                    .grid
-                                    .keys
-                                    .toList()[index],
-                                border: Border.all(
-                                  color:
-                                      (presenter as GamePagePresenter)
-                                          .grid
-                                          .values
-                                          .toList()[index]
-                                      ? Colors.greenAccent
-                                      : Colors
-                                            .transparent, // 👈 Border appears on click
-                                  width: 10,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
+                          return GameSelectorComponent(
+                            categoryDto:
+                                (presenter as GamePagePresenter).grid[index],
+                            updateSelection: (presenter as GamePagePresenter)
+                                .updateSelection,
+                            index: index,
                           );
                         },
                       ),
@@ -138,7 +126,7 @@ class GamePage extends BasePage {
                           backgroundColor:
                               Colors.white, // Set the background color here
                         ),
-                        label: Text("Pular"),
+                        label: Text("Errou"),
                         icon: Icon(Icons.keyboard_arrow_right),
                       ),
                     ),
@@ -147,13 +135,15 @@ class GamePage extends BasePage {
                     child: Container(
                       margin: EdgeInsets.all(5),
                       child: TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          (presenter as GamePagePresenter).gotIt();
+                        },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor:
                               Colors.green, // Set the background color here
                         ),
-                        label: Text("Confirmar"),
+                        label: Text("Acertou"),
                         icon: Icon(Icons.check),
                       ),
                     ),

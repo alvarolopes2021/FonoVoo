@@ -1,14 +1,15 @@
 class ClassroomEntity {
   String _id = "";
+  String _schoolId = "";
   String _name = "";
 
-  ClassroomEntity(String id, String name) {
+  ClassroomEntity(String id, String name, String schoolId) {
     _id = id;
     _name = name;
   }
 
-  static ClassroomEntity create(String id, String name) {
-    return ClassroomEntity(id, name);
+  static ClassroomEntity create(String id, String name, String schoolId) {
+    return ClassroomEntity(id, name, schoolId);
   }
 
   String getId() {
@@ -25,5 +26,13 @@ class ClassroomEntity {
 
   void updateName(String name) {
     _name = name;
+  }
+
+  String getSchoolId() {
+    return _schoolId;
+  }
+
+  void updateSchoolId(String id) {
+    _schoolId = id;
   }
 }

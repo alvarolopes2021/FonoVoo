@@ -1,8 +1,8 @@
 class StudentsEntity {
-  String _id = "";
-  String _name = "";
+  String _id = "";  
   String? _classid = "";
   String? _groupid = "";
+  String _name = "";
 
   StudentsEntity(String id, String name, String? classId, String? groupId) {
     _id = id;

@@ -6,7 +6,7 @@ class AddClassroomsUseCase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
     try {
-      ClassroomEntity classroomEntity = ClassroomEntity.create("id", "name");
+      ClassroomEntity classroomEntity = ClassroomEntity.create("id", "name","");
 
       makeClassesRepositoryFactory.addClass(classroomEntity);
 

@@ -43,15 +43,8 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
-  Future<void> startGame() async {
-    bool hasSelected = groups.where((group) => group.isSelected).isNotEmpty;
 
-    if (hasSelected) {
-      navigate(GamePagePresenter.pageName, null, pageContext);
-    }
-  }
-
-  Future<void> goToGamePage(int index) async {
+  Future<void> goToGamePage() async {
     List<GroupDto> selecteds = groups.where((g) => g.isSelected).toList();
 
     if (selecteds.isEmpty) {
@@ -75,7 +68,6 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
       return;
     }
 
-    groups[index] = editedGroup;
     notifyListeners();
   }
 

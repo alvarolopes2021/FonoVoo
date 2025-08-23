@@ -83,7 +83,7 @@ class GroupsListPage extends BasePage {
           return FloatingActionButton(
             onPressed: () {
               if ((presenter as GroupsListPresenter).isSelecting) {
-                (presenter as GroupsListPresenter).startGame();
+                (presenter as GroupsListPresenter).goToGamePage();
                 return;
               }
 

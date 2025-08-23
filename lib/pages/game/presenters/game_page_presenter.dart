@@ -1,40 +1,64 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+
+import 'package:fonovoo/application/usacases/categories/factories/make_list_categories_uscase_factory.dart';
+import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/domain/dtos/category_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
+import 'package:fonovoo/domain/entities/category_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
+import 'package:fonovoo/pages/load_data_command.dart';
 
 class GamePagePresenter extends BasePresenter {
   static String pageName = "/game-page";
 
   late Timer _timer;
 
-  Map<Color, bool> grid = {
-    Colors.red: false,
-    Colors.green: false,
-    Colors.blue: false,
-    Colors.yellow: false,
-  };
+  List<CategoryDto> grid = [];
+
+  List<StudentsDto> allStudents = [];
 
   Duration minutesLeft = Duration(minutes: 35, seconds: 1);
 
+  late UseCase listCategoriesUsecase;
+  late Command loadCategories;
+
   GamePagePresenter({required super.pageContext}) {
+    listCategoriesUsecase = makeListCategoriesUscaseFactory;
+    loadCategories = Command0(_loadCategories)..execute();
     _timer = Timer.periodic(const Duration(seconds: 1), handleTimeout);
   }
 
-  void updateDto(Object? school) {
-    if (school == null) {
+  void updateDto(Object? selectedGroups) {
+    if (selectedGroups == null) {
       return;
     }
-    Map<String, List<StudentsDto>> groups = {};
+    Map<String, List<StudentsDto>> groups =
+        selectedGroups as Map<String, List<StudentsDto>>;
+
+    for (var element in groups.entries) {
+      allStudents.addAll(element.value);
+    }
   }
 
   void updateSelection(int index) {
-    for (var key in grid.keys) {
-      grid[key] = false;
+    for (var cat in grid) {
+      cat.isSelected = false;
     }
-    Color selectedColor = grid.keys.toList()[index];
-    grid[selectedColor] = !grid[selectedColor]!;
+    grid[index].isSelected = !grid[index].isSelected;
+    
+    notifyListeners();
+  }
+
+  void _loadCategories() async {
+    var categories =
+        await listCategoriesUsecase.execute(null) as List<CategoryEntity>;
+
+    if (categories.isEmpty) return;
+
+    for (var cat in categories) {
+      grid.add(CategoryDto.create(cat.getId(), cat.getName(), cat.getColor()));
+    }
     notifyListeners();
   }
 
@@ -45,4 +69,6 @@ class GamePagePresenter extends BasePresenter {
     }
     notifyListeners();
   }
+
+  void gotIt() {}
 }
