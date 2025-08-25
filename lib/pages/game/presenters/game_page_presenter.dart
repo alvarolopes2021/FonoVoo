@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 
 import 'package:fonovoo/application/usacases/categories/factories/make_list_categories_uscase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
@@ -46,7 +45,7 @@ class GamePagePresenter extends BasePresenter {
       cat.isSelected = false;
     }
     grid[index].isSelected = !grid[index].isSelected;
-    
+
     notifyListeners();
   }
 
