@@ -1,0 +1,43 @@
+class StudentsCategoryEntity {
+  String _id = "";
+  String _studentid = "";
+  String _categoryid = "";
+  double _grade = 0;
+
+  StudentsCategoryEntity(
+    String id,
+    String studentid,
+    String categoryid,
+    double grade,
+  ) {
+    _id = id;
+    _studentid = studentid;
+    _categoryid = categoryid;
+    _grade = grade;
+  }
+
+  static StudentsCategoryEntity create(
+    String id,
+    String studentid,
+    String categoryid,
+    double grade,
+  ) {
+    return StudentsCategoryEntity(id, studentid, categoryid, grade);
+  }
+
+  String getId() {
+    return _id;
+  }
+
+  void setId(String id) {
+    _id = id;
+  }
+
+  double getGrade() {
+    return _grade;
+  }
+
+  void setGrade(double grade) {
+    _grade = grade;
+  }
+}

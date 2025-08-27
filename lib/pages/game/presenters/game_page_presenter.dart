@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:fonovoo/application/usacases/categories/factories/make_list_categories_uscase_factory.dart';
+import 'package:fonovoo/application/usacases/grade/factories/make_add_grade_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/domain/dtos/category_dto.dart';
+import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/category_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
@@ -17,14 +19,17 @@ class GamePagePresenter extends BasePresenter {
   List<StudentsDto> allStudents = [];
 
   late StudentsDto selectedStudent;
+  late CategoryDto selectedCategory;
 
   Duration minutesLeft = Duration(minutes: 35, seconds: 1);
 
   late UseCase listCategoriesUsecase;
   late Command loadCategories;
+  late UseCase addGradeToStudentUsecase;
 
   GamePagePresenter({required super.pageContext}) {
     listCategoriesUsecase = makeListCategoriesUscaseFactory;
+    addGradeToStudentUsecase = makeAddGradeUsecaseFactory;
     loadCategories = Command0(_loadCategories)..execute();
     _timer = Timer.periodic(const Duration(seconds: 1), handleTimeout);
   }
@@ -46,6 +51,7 @@ class GamePagePresenter extends BasePresenter {
       cat.isSelected = false;
     }
     grid[index].isSelected = !grid[index].isSelected;
+    selectedCategory = grid.firstWhere((cat) => cat.isSelected);
 
     notifyListeners();
   }
@@ -74,7 +80,13 @@ class GamePagePresenter extends BasePresenter {
     selectedStudent = student;
   }
 
-  void gotIt() {
-    
+  void gotIt() async {
+    StudentsCategoryDto categoryDto = StudentsCategoryDto(
+      "",
+      selectedStudent.getId(),
+      selectedCategory.getId(),
+      1,
+    );
+    bool a = await addGradeToStudentUsecase.execute(categoryDto) as bool;
   }
 }
