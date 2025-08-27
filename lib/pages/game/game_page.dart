@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/game_selector_component.dart';
 import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
@@ -50,9 +51,14 @@ class GamePage extends BasePage {
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
-              child: DropdownMenu<String>(
+              child: DropdownMenu<dynamic>(
                 hintText: "Jogador da vez",
                 width: MediaQuery.of(context).size.width,
+                onSelected: (selectedStudent) {
+                  (presenter as GamePagePresenter).selectRunningStudent(
+                    selectedStudent,
+                  );
+                },
                 label: Text(
                   'Jogador da vez',
                   style: TextStyle(color: Colors.white),
@@ -60,9 +66,9 @@ class GamePage extends BasePage {
                 dropdownMenuEntries: List.generate(
                   (presenter as GamePagePresenter).allStudents.length,
                   (index) {
-                    return DropdownMenuEntry<String>(
-                      value: (presenter as GamePagePresenter).allStudents[index]
-                          .getName(),
+                    return DropdownMenuEntry<dynamic>(
+                      value:
+                          (presenter as GamePagePresenter).allStudents[index],
                       label: (presenter as GamePagePresenter).allStudents[index]
                           .getName(),
                     );

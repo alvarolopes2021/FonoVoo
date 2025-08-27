@@ -14,8 +14,9 @@ class GamePagePresenter extends BasePresenter {
   late Timer _timer;
 
   List<CategoryDto> grid = [];
-
   List<StudentsDto> allStudents = [];
+
+  late StudentsDto selectedStudent;
 
   Duration minutesLeft = Duration(minutes: 35, seconds: 1);
 
@@ -69,5 +70,11 @@ class GamePagePresenter extends BasePresenter {
     notifyListeners();
   }
 
-  void gotIt() {}
+  void selectRunningStudent(StudentsDto student) {
+    selectedStudent = student;
+  }
+
+  void gotIt() {
+    
+  }
 }
