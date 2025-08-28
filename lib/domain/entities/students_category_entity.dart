@@ -33,6 +33,22 @@ class StudentsCategoryEntity {
     _id = id;
   }
 
+  String getStudentId() {
+    return _studentid;
+  }
+
+  void setStudentId(String id) {
+    _studentid = id;
+  }
+
+  String getCategoryId() {
+    return _categoryid;
+  }
+
+  void setCategoryId(String id) {
+    _categoryid = id;
+  }
+
   double getGrade() {
     return _grade;
   }

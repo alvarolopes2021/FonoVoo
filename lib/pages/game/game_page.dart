@@ -33,7 +33,9 @@ class GamePage extends BasePage {
           Container(
             margin: EdgeInsets.all(10),
             child: TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                (presenter as GamePagePresenter).finish();
+              },
               style: TextButton.styleFrom(
                 foregroundColor: Colors.red,
                 backgroundColor: Colors.white, // Set the background color here

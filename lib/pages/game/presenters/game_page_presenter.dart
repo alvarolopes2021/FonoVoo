@@ -8,9 +8,11 @@ import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/category_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
+import 'package:fonovoo/pages/gamestatus/presenters/game_status_presenter.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
+import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 
-class GamePagePresenter extends BasePresenter {
+class GamePagePresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/game-page";
 
   late Timer _timer;
@@ -88,5 +90,9 @@ class GamePagePresenter extends BasePresenter {
       1,
     );
     bool a = await addGradeToStudentUsecase.execute(categoryDto) as bool;
+  }
+
+  void finish() async {
+    await navigate(GameStatusPresenter.pageName, null, super.pageContext);
   }
 }
