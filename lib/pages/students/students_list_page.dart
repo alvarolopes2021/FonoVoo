@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
 import 'package:fonovoo/pages/components/students_component.dart';
 import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
-import 'package:grouped_list/grouped_list.dart';
 
 class StudentsListPage extends BasePage {
   StudentsListPage({super.key, required super.presenter, super.title});
@@ -54,9 +54,9 @@ class StudentsListPage extends BasePage {
               begin: Alignment.topCenter,
               end: Alignment(0.8, 1),
               colors: <Color>[
-                Color.fromRGBO(78, 157, 30, 1),
-                Color.fromRGBO(88, 167, 40, 1),
-                Color.fromRGBO(118, 197, 70, 1),
+                Color.fromRGBO(242, 66, 51, 1),
+                Color.fromRGBO(252, 76, 61, 1),
+                Color.fromRGBO(255, 86, 71, 1),
               ], // Gradient from,
             ),
           ),
@@ -101,7 +101,10 @@ class StudentsListPage extends BasePage {
                     showCheckbox:
                         (presenter as StudentsListPresenter).isSelecting,
                     studentsDto: element,
-                    goToStudentStatusPage: () {},
+                    goToStudentStatusPage: () {
+                      (presenter as StudentsListPresenter)
+                          .goToStudentStatusPage(element);
+                    },
                     goToEditPage: () {
                       (presenter as StudentsListPresenter).editStudent(
                         (presenter as StudentsListPresenter).studentsDto
@@ -136,7 +139,7 @@ class StudentsListPage extends BasePage {
                 onPressed: () async {
                   (presenter as StudentsListPresenter).addStudent();
                 },
-                tooltip: 'Adicionar nova escola',
+                tooltip: 'Adicionar novo aluno',
                 child: const Icon(Icons.add),
               ), // This trailing comma makes auto-formatting nicer for build methods.
 
@@ -146,7 +149,7 @@ class StudentsListPage extends BasePage {
                 onPressed: () async {
                   (presenter as StudentsListPresenter).goToGroupsPage();
                 },
-                tooltip: 'Adicionar nova escola',
+                tooltip: 'Próxima página',
                 child: const Icon(Icons.navigate_next),
               ), // This trailing comma makes auto-formatting nicer for build methods.
             ],

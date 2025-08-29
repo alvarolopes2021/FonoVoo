@@ -4,9 +4,11 @@ import 'package:fonovoo/application/usacases/categories/factories/make_list_cate
 import 'package:fonovoo/application/usacases/grade/factories/make_add_grade_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/domain/dtos/category_dto.dart';
+import 'package:fonovoo/domain/dtos/match_dto.dart';
 import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/category_entity.dart';
+import 'package:fonovoo/domain/enums/match_status.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/pages/gamestatus/presenters/game_status_presenter.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
@@ -22,6 +24,8 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
 
   late StudentsDto selectedStudent;
   late CategoryDto selectedCategory;
+
+  MatchDto match = MatchDto("", MatchStatus.Running);
 
   Duration minutesLeft = Duration(minutes: 35, seconds: 1);
 

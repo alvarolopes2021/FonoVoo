@@ -12,6 +12,7 @@ class SchoolsListPage extends BasePage {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(title!),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),

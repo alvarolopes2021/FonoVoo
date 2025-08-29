@@ -4,8 +4,10 @@ import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/entities/students_category_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
+import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
+import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
 
-class GameStatusPresenter extends BasePresenter {
+class GameStatusPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/game-status-page";
 
   List<StudentsCategoryDto> studentsCategoryDto = [];
@@ -44,6 +46,14 @@ class GameStatusPresenter extends BasePresenter {
       return;
     } finally {
       notifyListeners();
+    }
+  }
+
+  Future<void> goToSchoolsPage() async {
+    try {
+      navigate(SchoolsListPresenter.pageName, null, super.pageContext);
+    } catch (e) {
+      return;
     }
   }
 }

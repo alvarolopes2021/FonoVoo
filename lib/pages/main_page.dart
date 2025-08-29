@@ -17,6 +17,8 @@ import 'package:fonovoo/pages/schools/schools_detail_page.dart';
 import 'package:fonovoo/pages/schools/schools_list_page.dart';
 import 'package:fonovoo/pages/students/presenters/students_detail_presenter.dart';
 import 'package:fonovoo/pages/students/presenters/students_list_presenter.dart';
+import 'package:fonovoo/pages/students/presenters/students_status_presenter.dart';
+import 'package:fonovoo/pages/students/student_status_page.dart';
 import 'package:fonovoo/pages/students/students_detail_page.dart';
 import 'package:fonovoo/pages/students/students_list_page.dart';
 
@@ -69,6 +71,9 @@ class MainPage extends StatelessWidget {
             GamePage(presenter: GamePagePresenter(pageContext: pageContext)),
         GameStatusPresenter.pageName: (pageContext) => GameStatusPage(
           presenter: GameStatusPresenter(pageContext: pageContext),
+        ),
+        StudentsStatusPresenter.pageName: (pageContext) => StudentStatusPage(
+          presenter: StudentsStatusPresenter(pageContext: pageContext),
         ),
       },
     );

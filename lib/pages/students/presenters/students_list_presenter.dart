@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fonovoo/application/usacases/students/factories/make_edit_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_list_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
@@ -15,6 +13,7 @@ import 'package:fonovoo/pages/groups/presenters/groups_list_presenter.dart';
 import 'package:fonovoo/pages/load_data_command.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 import 'package:fonovoo/pages/students/presenters/students_detail_presenter.dart';
+import 'package:fonovoo/pages/students/presenters/students_status_presenter.dart';
 
 class StudentsListPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/students-list";
@@ -123,6 +122,10 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   Future<void> goToGroupsPage() async {
     (await navigate(GroupsListPresenter.pageName, null, pageContext));
     notifyListeners();
+  }
+
+  Future<void> goToStudentStatusPage(StudentsDto student) async {
+    (await navigate(StudentsStatusPresenter.pageName, student, pageContext));
   }
 
   Future<void> addStudent() async {

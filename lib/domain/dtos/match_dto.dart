@@ -1,16 +1,16 @@
 import 'package:fonovoo/domain/enums/match_status.dart';
 
-class MatchEntity {
+class MatchDto {
   String _id = "";
-  MatchStatus _status = MatchStatus.Running;
+  MatchStatus _status = MatchStatus.Finished;
 
-  MatchEntity(String id, MatchStatus status) {
+  MatchDto(String id, MatchStatus status) {
     _id = id;
     _status = status;
   }
 
-  static MatchEntity create(String id, MatchStatus status) {
-    return MatchEntity(id, status);
+  static MatchDto create(String id, MatchStatus status) {
+    return MatchDto(id, status);
   }
 
   String getId() {

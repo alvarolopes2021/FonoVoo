@@ -32,9 +32,9 @@ class StudentsDetailPage extends BasePage {
               begin: Alignment.topCenter,
               end: Alignment(0.8, 1),
               colors: <Color>[
-                Color.fromRGBO(78, 157, 30, 1),
-                Color.fromRGBO(88, 167, 40, 1),
-                Color.fromRGBO(118, 197, 70, 1),
+                Color.fromRGBO(242, 66, 51, 1),
+                Color.fromRGBO(252, 76, 61, 1),
+                Color.fromRGBO(255, 86, 71, 1),
               ], // Gradient from,
             ),
           ),
