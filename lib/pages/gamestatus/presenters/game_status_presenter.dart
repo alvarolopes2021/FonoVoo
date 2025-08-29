@@ -33,7 +33,9 @@ class GameStatusPresenter extends BasePresenter {
           StudentsCategoryDto(
             cat.getId(),
             cat.getStudentId(),
+            cat.getStudentName(),
             cat.getCategoryId(),
+            cat.getCategoryName(),
             cat.getGrade(),
           ),
         );

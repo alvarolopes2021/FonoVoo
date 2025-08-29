@@ -16,7 +16,9 @@ class AddGradeUseCase implements UseCase {
       StudentsCategoryEntity categoryEntity = StudentsCategoryEntity.create(
         categoryDto.getId(),
         categoryDto.getStudentId(),
+        categoryDto.getStudentName(),
         categoryDto.getCategoryId(),
+        categoryDto.getCategoryName(),
         categoryDto.getGrade(),
       );
 

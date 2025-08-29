@@ -1,28 +1,43 @@
 class StudentsCategoryEntity {
   String _id = "";
   String _studentid = "";
+  String _studentName = "";
   String _categoryid = "";
+  String _categoryName = "";
   double _grade = 0;
 
   StudentsCategoryEntity(
     String id,
     String studentid,
+    String studentName,
     String categoryid,
+    String categoryName,
     double grade,
   ) {
     _id = id;
     _studentid = studentid;
+    _studentName = studentName;
     _categoryid = categoryid;
+    _categoryName = categoryName;
     _grade = grade;
   }
 
   static StudentsCategoryEntity create(
     String id,
     String studentid,
+    String studentName,
     String categoryid,
+    String categoryName,
     double grade,
   ) {
-    return StudentsCategoryEntity(id, studentid, categoryid, grade);
+    return StudentsCategoryEntity(
+      id,
+      studentid,
+      studentName,
+      categoryid,
+      categoryName,
+      grade,
+    );
   }
 
   String getId() {
@@ -41,12 +56,28 @@ class StudentsCategoryEntity {
     _studentid = id;
   }
 
+  String getStudentName() {
+    return _studentName;
+  }
+
+  void setStudentName(String name) {
+    _studentName = name;
+  }
+
   String getCategoryId() {
     return _categoryid;
   }
 
   void setCategoryId(String id) {
     _categoryid = id;
+  }
+
+  String getCategoryName() {
+    return _categoryName;
+  }
+
+  void setCategoryName(String name) {
+    _categoryName = name;
   }
 
   double getGrade() {

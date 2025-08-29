@@ -46,29 +46,21 @@ class GameStatusPage extends BasePage {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      TextButton.icon(
-                        style: ButtonStyle(
-                          elevation: WidgetStateProperty.all(2),
-                          shadowColor: WidgetStateProperty.all(Colors.yellow),
-                          backgroundColor: WidgetStateProperty.all(
-                            Colors.white,
-                          ),
-                        ),
-                        onPressed: () {},
-                        icon: Icon(Icons.check, color: Colors.blue),
-                        label: Text(
-                          "Finalizar",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
+                  margin: EdgeInsets.all(15),
+                  child: TextButton.icon(
+                    style: ButtonStyle(
+                      elevation: WidgetStateProperty.all(2),
+                      shadowColor: WidgetStateProperty.all(Colors.yellow),
+                      backgroundColor: WidgetStateProperty.all(Colors.white),
+                    ),
+                    onPressed: () {},
+                    icon: Icon(Icons.check, color: Colors.blue),
+                    label: Text(
+                      "Finalizar",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                 ),
               ],

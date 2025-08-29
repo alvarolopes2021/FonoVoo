@@ -87,6 +87,8 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
       "",
       selectedStudent.getId(),
       selectedCategory.getId(),
+      selectedCategory.getId(),
+      selectedCategory.getId(),
       1,
     );
     bool a = await addGradeToStudentUsecase.execute(categoryDto) as bool;
