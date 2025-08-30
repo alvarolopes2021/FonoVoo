@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
+import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
 import 'package:fonovoo/pages/components/classrooms_component.dart';
 
 class ClassroomsListPage extends BasePage {
@@ -22,52 +23,52 @@ class ClassroomsListPage extends BasePage {
               : (presenter as ClassroomsListPresenter).schoolEntity!.getName(),
         ),
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment(0.8, 1),
-              colors: <Color>[
-                Color.fromRGBO(250, 138, 10, 1),
-                Color.fromRGBO(250, 158, 30, 1),
-                Color.fromRGBO(250, 178, 50, 1),
-              ], // Gradient from,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(250, 138, 10, 1),
+              Color.fromRGBO(250, 158, 30, 1),
+              Color.fromRGBO(250, 178, 50, 1),
+            ], // Gradient from,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: ListenableBuilder(
-            listenable: (presenter as ClassroomsListPresenter).load,
-            builder: (context, snapshot) {
-              if ((presenter as ClassroomsListPresenter).load.running) {
-                return const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                );
-              }
-              return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount:
-                    (presenter as ClassroomsListPresenter).classrooms.length,
-                itemBuilder: (listContext, index) {
-                  return ClassroomsComponent(
-                    classroomName: (presenter as ClassroomsListPresenter)
-                        .classrooms[index]
-                        .getName(),
-                    goToStudentsPage: () {
-                      (presenter as ClassroomsListPresenter).goToStudentssPage(
-                        index,
-                      );
-                    },
-                    goToEditPage: () {
-                      (presenter as ClassroomsListPresenter).editClassroom(
-                        index,
-                      );
-                    },
-                  );
-                },
+        ),
+        child: ListenableBuilder(
+          listenable: (presenter as ClassroomsListPresenter).load,
+          builder: (context, snapshot) {
+            if ((presenter as ClassroomsListPresenter).load.running) {
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.white),
               );
-            },
-          ),
+            }
+            if ((presenter as ClassroomsListPresenter).classrooms.isEmpty) {
+              return CenterMessageWithSmileComponent(
+                message: "Adicione uma sala de aula para começar",
+              );
+            }
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount:
+                  (presenter as ClassroomsListPresenter).classrooms.length,
+              itemBuilder: (listContext, index) {
+                return ClassroomsComponent(
+                  classroomName: (presenter as ClassroomsListPresenter)
+                      .classrooms[index]
+                      .getName(),
+                  goToStudentsPage: () {
+                    (presenter as ClassroomsListPresenter).goToStudentssPage(
+                      index,
+                    );
+                  },
+                  goToEditPage: () {
+                    (presenter as ClassroomsListPresenter).editClassroom(index);
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(

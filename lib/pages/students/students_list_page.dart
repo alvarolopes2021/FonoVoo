@@ -47,75 +47,74 @@ class StudentsListPage extends BasePage {
         ),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment(0.8, 1),
-              colors: <Color>[
-                Color.fromRGBO(242, 66, 51, 1),
-                Color.fromRGBO(252, 76, 61, 1),
-                Color.fromRGBO(255, 86, 71, 1),
-              ], // Gradient from,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(242, 66, 51, 1),
+              Color.fromRGBO(252, 76, 61, 1),
+              Color.fromRGBO(255, 86, 71, 1),
+            ], // Gradient from,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: ListenableBuilder(
-            listenable: (presenter as StudentsListPresenter),
-            builder: (context, snapshot) {
-              if ((presenter as StudentsListPresenter).load.running) {
-                return const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                );
-              }
-              if ((presenter as StudentsListPresenter).studentsDto.isEmpty) {
-                return CenterMessageWithSmileComponent(
-                  message: "Adicione alunos e crie grupos",
-                );
-              }
-              return GroupedListView<StudentsDto, String>(
-                padding: const EdgeInsets.all(8),
-                elements: (presenter as StudentsListPresenter).studentsDto,
-                groupBy: (element) => element.getGroupId()!,
-                groupComparator: (value1, value2) => value2.compareTo(value1),
-                itemComparator: (item1, item2) =>
-                    item1.getGroupId()!.compareTo(item2.getGroupId()!),
-                order: GroupedListOrder.DESC,
-                useStickyGroupSeparators: true,
-                stickyHeaderBackgroundColor: Colors.transparent,
-                groupSeparatorBuilder: (String value) => Container(
-                  color: Colors.transparent,
-                  child: Text(
-                    value,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+        ),
+        child: ListenableBuilder(
+          listenable: (presenter as StudentsListPresenter),
+          builder: (context, snapshot) {
+            if ((presenter as StudentsListPresenter).load.running) {
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              );
+            }
+            if ((presenter as StudentsListPresenter).studentsDto.isEmpty) {
+              return CenterMessageWithSmileComponent(
+                message: "Adicione alunos e crie grupos",
+              );
+            }
+            return GroupedListView<StudentsDto, String>(
+              padding: const EdgeInsets.all(8),
+              elements: (presenter as StudentsListPresenter).studentsDto,
+              groupBy: (element) => element.getGroupId()!,
+              groupComparator: (value1, value2) => value2.compareTo(value1),
+              itemComparator: (item1, item2) =>
+                  item1.getGroupId()!.compareTo(item2.getGroupId()!),
+              order: GroupedListOrder.DESC,
+              useStickyGroupSeparators: true,
+              stickyHeaderBackgroundColor: Colors.transparent,
+              groupSeparatorBuilder: (String value) => Container(
+                color: Colors.transparent,
+                child: Text(
+                  value,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-                itemBuilder: (c, element) {
-                  return StudentsComponent(
-                    showCheckbox:
-                        (presenter as StudentsListPresenter).isSelecting,
-                    studentsDto: element,
-                    goToStudentStatusPage: () {
-                      (presenter as StudentsListPresenter)
-                          .goToStudentStatusPage(element);
-                    },
-                    goToEditPage: () {
-                      (presenter as StudentsListPresenter).editStudent(
-                        (presenter as StudentsListPresenter).studentsDto
-                            .indexOf(element),
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
+              ),
+              itemBuilder: (c, element) {
+                return StudentsComponent(
+                  showCheckbox:
+                      (presenter as StudentsListPresenter).isSelecting,
+                  studentsDto: element,
+                  goToStudentStatusPage: () {
+                    (presenter as StudentsListPresenter).goToStudentStatusPage(
+                      element,
+                    );
+                  },
+                  goToEditPage: () {
+                    (presenter as StudentsListPresenter).editStudent(
+                      (presenter as StudentsListPresenter).studentsDto.indexOf(
+                        element,
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
       floatingActionButton: ListenableBuilder(

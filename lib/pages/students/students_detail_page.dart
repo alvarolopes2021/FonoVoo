@@ -25,67 +25,64 @@ class StudentsDetailPage extends BasePage {
         ),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment(0.8, 1),
-              colors: <Color>[
-                Color.fromRGBO(242, 66, 51, 1),
-                Color.fromRGBO(252, 76, 61, 1),
-                Color.fromRGBO(255, 86, 71, 1),
-              ], // Gradient from,
-            ),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(242, 66, 51, 1),
+              Color.fromRGBO(252, 76, 61, 1),
+              Color.fromRGBO(255, 86, 71, 1),
+            ], // Gradient from,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            margin: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Form(
-                  key: formKey,
-                  child: MyTextFormField(
-                    updateValueFunction:
-                        (super.presenter as StudentsDetailPresenter)
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Form(
+                key: formKey,
+                child: MyTextFormField(
+                  updateValueFunction:
+                      (super.presenter as StudentsDetailPresenter)
+                          .studentsDto!
+                          .updateName,
+                  hint: "Nome do aluno",
+                  initialValue:
+                      (presenter as StudentsDetailPresenter).newStudent
+                      ? ""
+                      : (super.presenter as StudentsDetailPresenter)
                             .studentsDto!
-                            .updateName,
-                    hint: "Nome do aluno",
-                    initialValue:
-                        (presenter as StudentsDetailPresenter).newStudent
-                        ? ""
-                        : (super.presenter as StudentsDetailPresenter)
-                              .studentsDto!
-                              .getName(),
-                  ),
+                            .getName(),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: (presenter as StudentsDetailPresenter).newStudent
-                        ? ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                (super.presenter as StudentsDetailPresenter)
-                                    .addStudent();
-                              }
-                            },
-                            child: Text("Salvar"),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                (super.presenter as StudentsDetailPresenter)
-                                    .editStudent();
-                              }
-                            },
-                            child: Text("Editar"),
-                          ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(15),
+              child: (presenter as StudentsDetailPresenter).newStudent
+                  ? ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          (super.presenter as StudentsDetailPresenter)
+                              .addStudent();
+                        }
+                      },
+                      child: Text("Salvar"),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          (super.presenter as StudentsDetailPresenter)
+                              .editStudent();
+                        }
+                      },
+                      child: Text("Editar"),
+                    ),
+            ),
+          ],
         ),
       ),
     );

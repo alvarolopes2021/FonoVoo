@@ -25,72 +25,68 @@ class SchoolsDetailPage extends BasePage {
         ),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment(0.8, 1),
-              colors: <Color>[
-                Color.fromRGBO(0, 90, 152, 1),
-                Color.fromRGBO(0, 100, 162, 1),
-                Color.fromRGBO(0, 110, 172, 1),
-              ], // Gradient from,
-            ),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(0, 90, 152, 1),
+              Color.fromRGBO(0, 100, 162, 1),
+              Color.fromRGBO(0, 110, 172, 1),
+            ], // Gradient from,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            margin: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Form(
-                  key: formKey,
-                  child: MyTextFormField(
-                    updateValueFunction:
-                        (super.presenter as SchoolsDetailPresenter)
-                            .schoolDto
-                            .updateName,
-                    hint: "Nome da escola",
-                    initialValue:
-                        (super.presenter as SchoolsDetailPresenter)
-                                .schoolEntity ==
-                            null
-                        ? ""
-                        : (super.presenter as SchoolsDetailPresenter)
-                              .schoolEntity!
-                              .getName(),
-                  ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Form(
+                key: formKey,
+                child: MyTextFormField(
+                  updateValueFunction:
+                      (super.presenter as SchoolsDetailPresenter)
+                          .schoolDto
+                          .updateName,
+                  hint: "Nome da escola",
+                  initialValue:
+                      (super.presenter as SchoolsDetailPresenter)
+                              .schoolEntity ==
+                          null
+                      ? ""
+                      : (super.presenter as SchoolsDetailPresenter)
+                            .schoolEntity!
+                            .getName(),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child:
-                        (super.presenter as SchoolsDetailPresenter)
-                                .schoolEntity ==
-                            null
-                        ? ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                (super.presenter as SchoolsDetailPresenter)
-                                    .addSchool();
-                              }
-                            },
-                            child: Text("Salvar"),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                (super.presenter as SchoolsDetailPresenter)
-                                    .editSchool();
-                              }
-                            },
-                            child: Text("Editar"),
-                          ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(15),
+              child:
+                  (super.presenter as SchoolsDetailPresenter).schoolEntity ==
+                      null
+                  ? ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          (super.presenter as SchoolsDetailPresenter)
+                              .addSchool();
+                        }
+                      },
+                      child: Text("Salvar"),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          (super.presenter as SchoolsDetailPresenter)
+                              .editSchool();
+                        }
+                      },
+                      child: Text("Editar"),
+                    ),
+            ),
+          ],
         ),
       ),
     );

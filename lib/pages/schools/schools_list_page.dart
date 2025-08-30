@@ -17,54 +17,50 @@ class SchoolsListPage extends BasePage {
         title: Text(title!),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment(0.8, 1),
-              colors: <Color>[
-                Color.fromRGBO(0, 90, 152, 1),
-                Color.fromRGBO(0, 100, 162, 1),
-                Color.fromRGBO(0, 110, 172, 1),
-              ], // Gradient from,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(0, 90, 152, 1),
+              Color.fromRGBO(0, 100, 162, 1),
+              Color.fromRGBO(0, 110, 172, 1),
+            ], // Gradient from,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: ListenableBuilder(
-            listenable: (presenter as SchoolsListPresenter).load,
-            builder: (context, snapshot) {
-              if ((presenter as SchoolsListPresenter).load.running) {
-                return const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                );
-              }
-              if ((presenter as SchoolsListPresenter).schools.isEmpty) {
-                return CenterMessageWithSmileComponent(
-                  message: "Adicione uma escola para começar",
-                );
-              }
-              return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: (presenter as SchoolsListPresenter).schools.length,
-                itemBuilder: (listContext, index) {
-                  return SchoolsComponent(
-                    schoolName: (presenter as SchoolsListPresenter)
-                        .schools[index]
-                        .getName(),
-                    goToClassesPage: () {
-                      (presenter as SchoolsListPresenter).goToClassroomsPage(
-                        index,
-                      );
-                    },
-                    goToEditPage: () {
-                      (presenter as SchoolsListPresenter).editSchool(index);
-                    },
-                  );
-                },
+        ),
+        child: ListenableBuilder(
+          listenable: (presenter as SchoolsListPresenter).load,
+          builder: (context, snapshot) {
+            if ((presenter as SchoolsListPresenter).load.running) {
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.white),
               );
-            },
-          ),
+            }
+            if ((presenter as SchoolsListPresenter).schools.isEmpty) {
+              return CenterMessageWithSmileComponent(
+                message: "Adicione uma escola para começar",
+              );
+            }
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: (presenter as SchoolsListPresenter).schools.length,
+              itemBuilder: (listContext, index) {
+                return SchoolsComponent(
+                  schoolName: (presenter as SchoolsListPresenter).schools[index]
+                      .getName(),
+                  goToClassesPage: () {
+                    (presenter as SchoolsListPresenter).goToClassroomsPage(
+                      index,
+                    );
+                  },
+                  goToEditPage: () {
+                    (presenter as SchoolsListPresenter).editSchool(index);
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(

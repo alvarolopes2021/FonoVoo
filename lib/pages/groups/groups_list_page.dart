@@ -35,46 +35,43 @@ class GroupsListPage extends BasePage {
           ),
         ],
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment(0.8, 1),
-              colors: <Color>[
-                Color.fromRGBO(249, 190, 8, 1),
-                Color.fromRGBO(249, 200, 18, 1),
-                Color.fromRGBO(249, 210, 28, 1),
-              ], // Gradient from,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(249, 190, 8, 1),
+              Color.fromRGBO(249, 200, 18, 1),
+              Color.fromRGBO(249, 210, 28, 1),
+            ], // Gradient from,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: ListenableBuilder(
-            listenable: (presenter as GroupsListPresenter),
-            builder: (context, snapshot) {
-              if ((presenter as GroupsListPresenter).load.running) {
-                return const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                );
-              }
-              return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount:
-                    (presenter as GroupsListPresenter).studentsByGroup.length,
-                itemBuilder: (listContext, index) {
-                  GroupDto group =
-                      (presenter as GroupsListPresenter).groups[index];
-                  return GroupsComponent(
-                    group: group,
-                    isSelecting: (presenter as GroupsListPresenter).isSelecting,
-                    students: (presenter as GroupsListPresenter)
-                        .studentsByGroup[group.getId()]!,
-                    removeStudentFromGroup: () {},
-                  );
-                },
+        ),
+        child: ListenableBuilder(
+          listenable: (presenter as GroupsListPresenter),
+          builder: (context, snapshot) {
+            if ((presenter as GroupsListPresenter).load.running) {
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.white),
               );
-            },
-          ),
+            }
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount:
+                  (presenter as GroupsListPresenter).studentsByGroup.length,
+              itemBuilder: (listContext, index) {
+                GroupDto group =
+                    (presenter as GroupsListPresenter).groups[index];
+                return GroupsComponent(
+                  group: group,
+                  isSelecting: (presenter as GroupsListPresenter).isSelecting,
+                  students: (presenter as GroupsListPresenter)
+                      .studentsByGroup[group.getId()]!,
+                  removeStudentFromGroup: () {},
+                );
+              },
+            );
+          },
         ),
       ),
       floatingActionButton: ListenableBuilder(
