@@ -31,12 +31,7 @@ class SchoolsListPresenter extends BasePresenter with NavigationMixin {
             as SchoolEntity?;
 
     try {
-      if (editedSchool == null) {
-        schools.removeAt(index);
-        return;
-      }
-
-      schools[index] = editedSchool;
+      load.execute();
     } catch (e) {
       return;
     } finally {

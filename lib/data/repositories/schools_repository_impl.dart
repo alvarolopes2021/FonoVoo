@@ -52,12 +52,14 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
 
   @override
   Future<bool> editSchool(SchoolEntity school) async {
-    SchoolEntity schoolToEdit = [].firstWhere(
-      (e) => e.getId() == school.getId(),
-    );
-    int index = [].indexOf(schoolToEdit);
+    try {
+      String sql =
+          "UPDATE schools SET schoolname = '${school.getName()}' WHERE schoolid = '${school.getId()}';";
 
-    return true;
+      return await database.writeData(sql);
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
