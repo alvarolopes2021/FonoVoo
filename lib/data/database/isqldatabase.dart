@@ -1,6 +1,7 @@
 abstract class Isqldatabase {
-  Future<Object>? readData(var params);
-  Future<bool> writeData(var params);
+  Future<Object>? readData(dynamic params);
+  Future<bool> writeData(dynamic params);
+  Future<bool> executeCommand(dynamic params);
   Future<bool> open();
   Future<bool> close();
 }

@@ -21,7 +21,7 @@ class ClassroomsComponent extends StatelessWidget {
       child: ListTile(
         leading: Icon(Icons.menu_book),
         title: Text(classroomName),
-        subtitle: Text("$numberOfStudents alunos"),
+        subtitle: Text("$numberOfStudents aluno(s)"),
         onTap: goToStudentsPage,
         trailing: IconButton(
           onPressed: goToEditPage,
