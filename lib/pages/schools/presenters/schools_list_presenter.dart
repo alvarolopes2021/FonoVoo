@@ -30,12 +30,18 @@ class SchoolsListPresenter extends BasePresenter with NavigationMixin {
             ))
             as SchoolEntity?;
 
-    if (editedSchool == null) {
-      return;
-    }
+    try {
+      if (editedSchool == null) {
+        schools.removeAt(index);
+        return;
+      }
 
-    schools[index] = editedSchool;
-    notifyListeners();
+      schools[index] = editedSchool;
+    } catch (e) {
+      return;
+    } finally {
+      notifyListeners();
+    }
   }
 
   Future<void> goToClassroomsPage(int index) async {

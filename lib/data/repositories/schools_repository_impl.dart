@@ -28,7 +28,7 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
   }
 
   @override
-  Future<List<SchoolEntity>?>? loadSchools() async {
+  Future<List<SchoolEntity>?> loadSchools() async {
     List<SchoolEntity> schools = [];
     try {
       String sql = "SELECT * FROM schools";
@@ -58,5 +58,23 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
     int index = [].indexOf(schoolToEdit);
 
     return true;
+  }
+
+  @override
+  Future<SchoolEntity?> deleteSchool(SchoolEntity school) async {
+    try {
+      if (school == null) {
+        return null;
+      }
+
+      String sql = "DELETE FROM schools WHERE schoolid = '${school.getId()}';";
+
+      bool res = await database.writeData(sql);
+      if (res) return school;
+
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }

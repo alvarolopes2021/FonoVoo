@@ -58,8 +58,19 @@ class SqliteImpl implements Isqldatabase {
   }
 
   @override
-  Future<Object>? readData(dynamic params) async {
+  Future<Object?> readData(dynamic params) async {
     if (db == null) return false;
+    try {
+      return await db!.rawQuery(params);
+    } catch (e) {
+      makeLogService.writeErrorMessage(e.toString());
+      return false;
+    }
+  }
+
+  @override
+  Future<Object?> deleteData(params) async {
+    if (db == null) return null;
     try {
       return await db!.rawQuery(params);
     } catch (e) {

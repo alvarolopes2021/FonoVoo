@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/confim_dialog_component.dart';
 import 'package:fonovoo/pages/components/my_text_form_field.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_detail_presenter.dart';
 
@@ -16,8 +17,34 @@ class SchoolsDetailPage extends BasePage {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        actions:
+            (super.presenter as SchoolsDetailPresenter).schoolEntity != null
+            ? [
+                IconButton(
+                  onPressed: () {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible:
+                          false, // User must tap a button to dismiss
+                      builder: (BuildContext dialogContext) {
+                        return ConfimDialogComponent(
+                          pageContext: context,
+                          confirmAction: (presenter as SchoolsDetailPresenter)
+                              .deleteSchool,
+                          cancelAction: null,
+                          message:
+                              'Tem certeza que deseja deletar esta escola?',
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
+              ]
+            : [],
         title: Text(
           (presenter as SchoolsDetailPresenter).schoolEntity == null
               ? "Adicionar escola"

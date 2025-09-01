@@ -1,3 +1,4 @@
+import 'package:fonovoo/application/usacases/schools/factories/make_delete_school_usecase_factory.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
 
 import 'package:fonovoo/application/usacases/schools/factories/make_add_school_usecase_factory.dart';
@@ -16,10 +17,12 @@ class SchoolsDetailPresenter extends BasePresenter with NavigationMixin {
 
   late UseCase addSchoolUseCase;
   late UseCase editSchoolUseCase;
+  late UseCase deleteSchoolUseCase;
 
   SchoolsDetailPresenter({required super.pageContext}) {
     addSchoolUseCase = makeAddSchoolUsecaseFactory;
     editSchoolUseCase = makeEditSchoolUsecaseFactory;
+    deleteSchoolUseCase = makeDeleteSchoolUsecaseFactory;
   }
 
   void updateDto(Object? school) {
@@ -50,6 +53,18 @@ class SchoolsDetailPresenter extends BasePresenter with NavigationMixin {
       SchoolEntity? newSchool =
           await editSchoolUseCase.execute(schoolDto) as SchoolEntity?;
       pop(pageContext, newSchool);
+    } catch (e) {
+      return null;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<List<SchoolEntity>?> deleteSchool() async {
+    try {
+      SchoolEntity? newSchool =
+          await deleteSchoolUseCase.execute(schoolDto) as SchoolEntity?;
+      pop(pageContext, null);
     } catch (e) {
       return null;
     } finally {
