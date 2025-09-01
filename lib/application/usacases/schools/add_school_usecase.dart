@@ -1,4 +1,5 @@
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/data/ids/factories/make_id_service_factory.dart';
 import 'package:fonovoo/data/repositories/factories/make_school_repository_factory.dart';
 import 'package:fonovoo/domain/dtos/school_dto.dart';
 
@@ -13,7 +14,9 @@ class AddSchoolUsecase implements UseCase {
       return null;
     }
 
-    SchoolEntity schoolEntity = SchoolEntity.create("4", schoolDto.getName());
+    String id = makeIdServiceFactory.generateId();
+
+    SchoolEntity schoolEntity = SchoolEntity.create(id, schoolDto.getName());
 
     bool res = await makeSchoolsRepositoryFactory.addSchool(schoolEntity);
 

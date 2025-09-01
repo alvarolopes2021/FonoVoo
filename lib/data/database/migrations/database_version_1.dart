@@ -35,7 +35,7 @@ class DatabaseVersion1 extends BaseMigrations {
         name TEXT NOT NULL, 
         groupid TEXT,
         FOREIGN KEY (classid) REFERENCES classrooms(classroomid) ON DELETE CASCADE,        
-        FOREIGN KEY (groupid) REFERENCES groups(groupid) ON DELETE CASCADE,
+        FOREIGN KEY (groupid) REFERENCES groups(groupid) ON DELETE CASCADE
       );''');
 
     await database.executeCommand('''
@@ -48,25 +48,25 @@ class DatabaseVersion1 extends BaseMigrations {
     String id = idService.generateId();
 
     await database.writeData('''
-        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ($id, "frases", "RED");
+        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'frases', 'RED');
       ''');
 
     id = idService.generateId();
 
     await database.writeData('''
-        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ($id, "rimas", "GREEN");
+        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'rimas', 'GREEN');
       ''');
 
     id = idService.generateId();
 
     await database.writeData('''
-        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ($id, "parlendas", "BLUE");
+        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'parlendas', 'BLUE');
       ''');
 
     id = idService.generateId();
 
     await database.writeData('''
-        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ($id, "silabas", "YELLOW");
+        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'silabas', 'YELLOW');
       ''');
 
     await database.executeCommand('''

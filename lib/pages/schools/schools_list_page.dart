@@ -30,7 +30,7 @@ class SchoolsListPage extends BasePage {
           ),
         ),
         child: ListenableBuilder(
-          listenable: (presenter as SchoolsListPresenter).load,
+          listenable: (presenter as SchoolsListPresenter),
           builder: (context, snapshot) {
             if ((presenter as SchoolsListPresenter).load.running) {
               return const Center(

@@ -1,17 +1,26 @@
+import 'package:fonovoo/data/database/factories/make_sql_database_factory.dart';
+import 'package:fonovoo/data/database/isqldatabase.dart';
 import 'package:fonovoo/data/repositories/ischools_repository.dart';
 import 'package:fonovoo/domain/entities/school_entity.dart';
 
 class SchoolsRepositoryImpl implements IschoolsRepository {
-  List<SchoolEntity> schools = [
-    SchoolEntity("1", "CIEM de Fátima"),
-    SchoolEntity("2", "Colégio São José"),
-    SchoolEntity("3", "Objetivo"),
-  ];
+  late Isqldatabase database;
+
+  SchoolsRepositoryImpl() {
+    database = makeSqlDatabaseFactory;
+  }
 
   @override
-  Future<bool> addSchool(SchoolEntity school) async {
+  Future<bool> addSchool(SchoolEntity? school) async {
     try {
-      schools.add(school);
+      if (school == null) {
+        return false;
+      }
+
+      String sql =
+          "INSERT INTO schools (schoolid, schoolname) VALUES ('${school.getId()}', '${school.getName()}')";
+
+      database.writeData(sql);
       return true;
     } catch (e) {
       return false;
@@ -20,18 +29,33 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
 
   @override
   Future<List<SchoolEntity>?>? loadSchools() async {
-    await Future.delayed(Duration(seconds: 2));
-    return schools;
+    List<SchoolEntity> schools = [];
+    try {
+      String sql = "SELECT * FROM schools";
+
+      Object? result = await database.readData(sql);
+      List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
+      for (var element in data) {
+        schools.add(
+          SchoolEntity.create(
+            element["schoolid"].toString(),
+            element["schoolname"].toString(),
+          ),
+        );
+      }
+
+      return schools;
+    } catch (e) {
+      return [];
+    }
   }
 
   @override
   Future<bool> editSchool(SchoolEntity school) async {
-    SchoolEntity schoolToEdit = schools.firstWhere(
+    SchoolEntity schoolToEdit = [].firstWhere(
       (e) => e.getId() == school.getId(),
     );
-    int index = schools.indexOf(schoolToEdit);
-
-    schools[index] = school;
+    int index = [].indexOf(schoolToEdit);
 
     return true;
   }

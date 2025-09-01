@@ -14,7 +14,8 @@ class SqliteImpl implements Isqldatabase {
       db = await openDatabase(
         join(await getDatabasesPath(), 'fonovoo.db'),
         version: 1,
-        onCreate: (db, version) async {
+        onCreate: (Database database, version) async {
+          db = database;
           var db1 = DatabaseVersion1(this);
           await db1.run();
         },
@@ -60,7 +61,7 @@ class SqliteImpl implements Isqldatabase {
   Future<Object>? readData(dynamic params) async {
     if (db == null) return false;
     try {
-      return db!.rawQuery(params);
+      return await db!.rawQuery(params);
     } catch (e) {
       makeLogService.writeErrorMessage(e.toString());
       return false;

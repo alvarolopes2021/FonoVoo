@@ -74,6 +74,8 @@ class SchoolsListPresenter extends BasePresenter with NavigationMixin {
       return load.result;
     } catch (e) {
       return load.result;
+    } finally {
+      notifyListeners();
     }
   }
 }
