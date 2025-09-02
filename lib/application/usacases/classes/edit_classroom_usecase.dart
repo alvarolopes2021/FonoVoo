@@ -16,6 +16,7 @@ class EditClassroomUsecase implements UseCase {
       classroomDto.getId(),
       classroomDto.getName(),
       classroomDto.getSchoolId(),
+      classroomDto.getNumberOfStudents(),
     );
 
     bool res = await makeClassesRepositoryFactory.editClass(classroomEntity);

@@ -16,6 +16,7 @@ class DeleteClassroomUsecase implements UseCase {
       classroomdto.getId(),
       classroomdto.getName(),
       classroomdto.getSchoolId(),
+      classroomdto.getNumberOfStudents(),
     );
 
     return await makeClassesRepositoryFactory.deleteClass(classroomEntity);

@@ -19,6 +19,7 @@ class AddClassroomsUseCase implements UseCase {
         id,
         classroom.getName(),
         classroom.getSchoolId(),
+        classroom.getNumberOfStudents(),
       );
 
       makeClassesRepositoryFactory.addClass(classroomEntity);

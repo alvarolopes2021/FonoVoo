@@ -31,7 +31,8 @@ class ClassesRepositoryImpl implements IClassesRepository {
   Future<List<ClassroomEntity>> listClassrooms() async {
     List<ClassroomEntity> classrooms = [];
     try {
-      String sql = "SELECT * FROM classrooms";
+      String sql =
+          "SELECT classroomid, classroomname, schoolid, COUNT(s.studentid) AS numstudents FROM classrooms c LEFT JOIN students s ON c.classroomid = s.classid GROUP BY c.classroomname;";
 
       Object? result = await database.readData(sql);
       List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
@@ -41,6 +42,7 @@ class ClassesRepositoryImpl implements IClassesRepository {
             element["classroomid"].toString(),
             element["classroomname"].toString(),
             element["schoolid"].toString(),
+            int.parse(element["numstudents"].toString()),
           ),
         );
       }

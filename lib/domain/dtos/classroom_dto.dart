@@ -4,6 +4,7 @@ class ClassroomDto {
   String _id = "";
   String _schoolId = "";
   String _name = "";
+  int _numberOfStudents = 0;
 
   ClassroomDto();
 
@@ -14,6 +15,7 @@ class ClassroomDto {
     _id = classroomEntity.getId();
     _name = classroomEntity.getName();
     _schoolId = classroomEntity.getSchoolId();
+    _numberOfStudents = classroomEntity.getNumberOfStudents();
   }
 
   String getId() {
@@ -38,5 +40,13 @@ class ClassroomDto {
 
   void updateSchoolId(String id) {
     _schoolId = id;
+  }
+
+  int getNumberOfStudents() {
+    return _numberOfStudents;
+  }
+
+  void updateNumberOfStudents(int numberOfStudents) {
+    _numberOfStudents = numberOfStudents;
   }
 }
