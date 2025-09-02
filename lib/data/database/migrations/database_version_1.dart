@@ -16,6 +16,7 @@ class DatabaseVersion1 extends BaseMigrations {
     await database.executeCommand('''
       CREATE TABLE classrooms ( 
         classroomid TEXT PRIMARY KEY,
+        classroomname TEXT NOT NULL, 
         schoolid TEXT NOT NULL,
         FOREIGN KEY (schoolid) REFERENCES schools(schoolid) ON DELETE CASCADE
       );''');

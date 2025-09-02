@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classroom_detail_presenter.dart';
+import 'package:fonovoo/pages/components/confim_dialog_component.dart';
 import 'package:fonovoo/pages/components/my_text_form_field.dart';
 
 class ClassroomDetailPage extends BasePage {
@@ -18,10 +19,36 @@ class ClassroomDetailPage extends BasePage {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        actions:
+            (super.presenter as ClassroomDetailPresenter).classroomEntity !=
+                null
+            ? [
+                IconButton(
+                  onPressed: () {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible:
+                          false, // User must tap a button to dismiss
+                      builder: (BuildContext dialogContext) {
+                        return ConfimDialogComponent(
+                          pageContext: context,
+                          confirmAction: (presenter as ClassroomDetailPresenter)
+                              .deleteClassrrom,
+                          cancelAction: null,
+                          message: 'Tem certeza que deseja deletar esta sala?',
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
+              ]
+            : [],
         title: Text(
-          (presenter as ClassroomDetailPresenter).schoolEntity == null
+          (presenter as ClassroomDetailPresenter).classroomEntity == null
               ? "Adicionar sala de aula"
-              : (presenter as ClassroomDetailPresenter).schoolEntity!.getName(),
+              : (presenter as ClassroomDetailPresenter).classroomEntity!
+                    .getName(),
         ),
         //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
       ),
@@ -46,16 +73,16 @@ class ClassroomDetailPage extends BasePage {
                 child: MyTextFormField(
                   updateValueFunction:
                       (super.presenter as ClassroomDetailPresenter)
-                          .schoolDto
+                          .classroomDto
                           .updateName,
                   hint: "Nome da sala",
                   initialValue:
                       (super.presenter as ClassroomDetailPresenter)
-                              .schoolEntity ==
+                              .classroomEntity ==
                           null
                       ? ""
                       : (super.presenter as ClassroomDetailPresenter)
-                            .schoolEntity!
+                            .classroomEntity!
                             .getName(),
                 ),
               ),
@@ -65,7 +92,8 @@ class ClassroomDetailPage extends BasePage {
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.all(15),
               child:
-                  (super.presenter as ClassroomDetailPresenter).schoolEntity ==
+                  (super.presenter as ClassroomDetailPresenter)
+                          .classroomEntity ==
                       null
                   ? ElevatedButton(
                       onPressed: () {

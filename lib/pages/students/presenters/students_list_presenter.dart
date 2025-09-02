@@ -7,6 +7,7 @@ import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
 import 'package:fonovoo/domain/entities/group_entity.dart';
+import 'package:fonovoo/domain/entities/school_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/pages/groups/presenters/groups_list_presenter.dart';
@@ -24,6 +25,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   List<GroupDto> groupList = [];
 
   late ClassroomEntity? classroomEntity;
+  late SchoolEntity? schoolEntity;
 
   late UseCase loadStudentsUsecase;
   late UseCase makeGroupUsecase;
@@ -48,7 +50,10 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
       return;
     }
 
-    classroomEntity = classroom as ClassroomEntity?;
+    Map<String, Object?> argument = classroom as Map<String, Object?>;
+
+    classroomEntity = argument["classroom"] as ClassroomEntity?;
+    schoolEntity = argument["school"] as SchoolEntity?;
   }
 
   void changeSelectionMode() {

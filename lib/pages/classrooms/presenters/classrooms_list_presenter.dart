@@ -33,26 +33,29 @@ class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> editClassroom(int index) async {
-    ClassroomEntity? editClassroom =
-        (await navigate(
-              ClassroomDetailPresenter.pageName,
-              classrooms[index],
-              pageContext,
-            ))
-            as ClassroomEntity?;
+    Map<String, Object?> parameter = {
+      "school": schoolEntity,
+      "classroom": classrooms[index],
+    };
 
-    if (editClassroom == null) {
+    ClassroomEntity? editClassroom = await _navigateToDetail(parameter);
+
+    try {
+      load.execute();
+    } catch (e) {
       return;
+    } finally {
+      notifyListeners();
     }
-
-    classrooms[index] = editClassroom;
-    notifyListeners();
   }
 
   Future<void> addClassroom() async {
-    ClassroomEntity? newClassroom =
-        (await navigate(ClassroomDetailPresenter.pageName, null, pageContext))
-            as ClassroomEntity?;
+    Map<String, Object?> parameter = {
+      "school": schoolEntity,
+      "classroom": null,
+    };
+
+    ClassroomEntity? newClassroom = await _navigateToDetail(parameter);
 
     if (newClassroom == null) {
       return;
@@ -62,13 +65,22 @@ class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
+  Future<ClassroomEntity?> _navigateToDetail(dynamic param) async {
+    ClassroomEntity? editClassroom =
+        (await navigate(ClassroomDetailPresenter.pageName, param, pageContext))
+            as ClassroomEntity?;
+
+    return editClassroom;
+  }
+
   Future<void> goToStudentssPage(int index) async {
+    Map<String, Object?> parameter = {
+      "school": schoolEntity,
+      "classroom": classrooms[index],
+    };
+
     ClassroomEntity? editedClassroom =
-        (await navigate(
-              StudentsListPresenter.pageName,
-              classrooms[index],
-              pageContext,
-            ))
+        (await navigate(StudentsListPresenter.pageName, parameter, pageContext))
             as ClassroomEntity?;
 
     if (editedClassroom == null) {

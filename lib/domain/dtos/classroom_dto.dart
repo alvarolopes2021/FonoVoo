@@ -1,16 +1,19 @@
-class ClassroomEntity {
+import 'package:fonovoo/domain/entities/classroom_entity.dart';
+
+class ClassroomDto {
   String _id = "";
   String _schoolId = "";
   String _name = "";
 
-  ClassroomEntity(String id, String name, String schoolId) {
-    _id = id;
-    _name = name;
-    _schoolId = schoolId;
-  }
+  ClassroomDto();
 
-  static ClassroomEntity create(String id, String name, String schoolId) {
-    return ClassroomEntity(id, name, schoolId);
+  classroomDtoMapping(ClassroomEntity? classroomEntity) {
+    if (classroomEntity == null) {
+      return ClassroomDto();
+    }
+    _id = classroomEntity.getId();
+    _name = classroomEntity.getName();
+    _schoolId = classroomEntity.getSchoolId();
   }
 
   String getId() {
