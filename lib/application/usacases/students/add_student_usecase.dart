@@ -1,4 +1,5 @@
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/data/ids/factories/make_id_service_factory.dart';
 import 'package:fonovoo/data/repositories/factories/make_students_repository_factory.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
@@ -12,10 +13,12 @@ class AddStudentUsecase implements UseCase {
       return null;
     }
 
+    String id = makeIdServiceFactory.generateId();
+
     StudentsEntity studentsEntity = StudentsEntity.create(
-      "4",
+      id,
       studentDto.getName(),
-      "",
+      studentDto.getClassId(),
       studentDto.getGroupId(),
     );
 

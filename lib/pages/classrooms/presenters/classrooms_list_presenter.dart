@@ -21,7 +21,6 @@ class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
 
   ClassroomsListPresenter({required super.pageContext}) {
     loadSchoolsUseCase = makeLoadClassroomsUsecaseFactory;
-    load = Command0(_load)..execute();
   }
 
   void updateDto(Object? school) {
@@ -30,6 +29,8 @@ class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
     }
 
     schoolEntity = school as SchoolEntity?;
+
+    load = Command0(_load)..execute();
   }
 
   Future<void> editClassroom(int index) async {
@@ -94,7 +95,8 @@ class ClassroomsListPresenter extends BasePresenter with NavigationMixin {
   Future<Result?> _load() async {
     try {
       classrooms =
-          await loadSchoolsUseCase.execute(null) as List<ClassroomEntity>;
+          await loadSchoolsUseCase.execute(schoolEntity!.getId())
+              as List<ClassroomEntity>;
       return load.result;
     } catch (e) {
       return load.result;

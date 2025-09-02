@@ -3,7 +3,7 @@ import 'package:fonovoo/data/repositories/factories/make_students_repository_fac
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 
-class EditStudentUsecase implements UseCase {
+class DeleteStudentUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
     StudentsDto? studentsDto = param as StudentsDto?;
@@ -19,7 +19,9 @@ class EditStudentUsecase implements UseCase {
       studentsDto.getGroupId(),
     );
 
-    bool res = await makeStudentsRepositoryFactory.editStudent(studentsEntity);
+    bool res = await makeStudentsRepositoryFactory.deleteStudent(
+      studentsEntity,
+    );
 
     if (res) {
       return studentsDto;

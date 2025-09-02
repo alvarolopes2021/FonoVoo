@@ -18,7 +18,7 @@ class ClassesRepositoryImpl implements IClassesRepository {
       }
 
       String sql =
-          "INSERT INTO classrooms (classroomid, classroomname, schoolid) VALUES ('${classe.getId()}', '${classe.getName()}', '${classe.getSchoolId()}')";
+          "INSERT INTO classrooms (classroomid, classroomname, schoolid) VALUES ('${classe.getId()}', '${classe.getName()}', '${classe.getSchoolId()}');";
 
       await database.writeData(sql);
       return true;
@@ -28,11 +28,13 @@ class ClassesRepositoryImpl implements IClassesRepository {
   }
 
   @override
-  Future<List<ClassroomEntity>> listClassrooms() async {
+  Future<List<ClassroomEntity>> listClassroomsBySchoolId(
+    String schoolid,
+  ) async {
     List<ClassroomEntity> classrooms = [];
     try {
       String sql =
-          "SELECT classroomid, classroomname, schoolid, COUNT(s.studentid) AS numstudents FROM classrooms c LEFT JOIN students s ON c.classroomid = s.classid GROUP BY c.classroomname;";
+          "SELECT classroomid, classroomname, schoolid, COUNT(s.studentid) AS numstudents FROM classrooms c LEFT JOIN students s ON c.classroomid = s.classid WHERE c.schoolid = '$schoolid' GROUP BY c.classroomname;";
 
       Object? result = await database.readData(sql);
       List<Map<String, Object?>> data = result as List<Map<String, Object?>>;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/confim_dialog_component.dart';
 import 'package:fonovoo/pages/components/my_text_form_field.dart';
 import 'package:fonovoo/pages/students/presenters/students_detail_presenter.dart';
 
@@ -18,6 +19,30 @@ class StudentsDetailPage extends BasePage {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        actions:
+            (super.presenter as StudentsDetailPresenter).studentsDto != null
+            ? [
+                IconButton(
+                  onPressed: () {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible:
+                          false, // User must tap a button to dismiss
+                      builder: (BuildContext dialogContext) {
+                        return ConfimDialogComponent(
+                          pageContext: context,
+                          confirmAction: (presenter as StudentsDetailPresenter)
+                              .deleteStudent,
+                          cancelAction: null,
+                          message: 'Tem certeza que deseja deletar este aluno?',
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
+              ]
+            : [],
         title: Text(
           (presenter as StudentsDetailPresenter).newStudent
               ? "Adicionar aluno"

@@ -40,20 +40,20 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     listGroupsUsecase = makeListGroupsUsecaseFactory;
     makeGroupUsecase = makeMakeGroupUsecaseFactory;
     editStudentsUsecase = makeEditStudentUsecaseFactory;
-
-    load = Command0(_load)..execute();
-    loadGroups = Command0(_loadGroups)..execute();
   }
 
-  void updateDto(Object? classroom) {
-    if (classroom == null) {
+  void updateDto(Object? data) {
+    if (data == null) {
       return;
     }
 
-    Map<String, Object?> argument = classroom as Map<String, Object?>;
+    Map<String, Object?> argument = data as Map<String, Object?>;
 
     classroomEntity = argument["classroom"] as ClassroomEntity?;
     schoolEntity = argument["school"] as SchoolEntity?;
+
+    load = Command0(_load)..execute();
+    loadGroups = Command0(_loadGroups)..execute();
   }
 
   void changeSelectionMode() {
@@ -67,9 +67,12 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<Result?> _load() async {
+    studentsDto = [];
+
     try {
       List<StudentsEntity> students =
-          await loadStudentsUsecase.execute(null) as List<StudentsEntity>;
+          await loadStudentsUsecase.execute(classroomEntity!.getId())
+              as List<StudentsEntity>;
 
       if (students.isNotEmpty) {
         for (var student in students) {
@@ -106,12 +109,16 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> editStudent(int index) async {
-    StudentsDto studentToEdit = studentsDto.elementAt(index);
+    Map<String, Object?> parameter = {
+      "school": schoolEntity,
+      "classroom": classroomEntity,
+      "student": studentsDto.elementAt(index),
+    };
 
     StudentsDto? editedStudent =
         (await navigate(
               StudentsDetailPresenter.pageName,
-              studentToEdit,
+              parameter,
               pageContext,
             ))
             as StudentsDto?;
@@ -134,8 +141,18 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> addStudent() async {
+    Map<String, Object?> parameter = {
+      "school": schoolEntity,
+      "classroom": classroomEntity,
+      "student": null,
+    };
+
     StudentsDto? newStudent =
-        (await navigate(StudentsDetailPresenter.pageName, null, pageContext))
+        (await navigate(
+              StudentsDetailPresenter.pageName,
+              parameter,
+              pageContext,
+            ))
             as StudentsDto?;
 
     if (newStudent == null) {

@@ -54,9 +54,8 @@ class ClassroomsListPage extends BasePage {
                   (presenter as ClassroomsListPresenter).classrooms.length,
               itemBuilder: (listContext, index) {
                 return ClassroomsComponent(
-                  classroomName: (presenter as ClassroomsListPresenter)
-                      .classrooms[index]
-                      .getName(),
+                  classroomEntity:
+                      (presenter as ClassroomsListPresenter).classrooms[index],
                   goToStudentsPage: () {
                     (presenter as ClassroomsListPresenter).goToStudentssPage(
                       index,

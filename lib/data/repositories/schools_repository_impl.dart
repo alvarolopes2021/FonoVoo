@@ -18,7 +18,7 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
       }
 
       String sql =
-          "INSERT INTO schools (schoolid, schoolname) VALUES ('${school.getId()}', '${school.getName()}')";
+          "INSERT INTO schools (schoolid, schoolname) VALUES ('${school.getId()}', '${school.getName()}');";
 
       database.writeData(sql);
       return true;
@@ -31,7 +31,7 @@ class SchoolsRepositoryImpl implements IschoolsRepository {
   Future<List<SchoolEntity>?> loadSchools() async {
     List<SchoolEntity> schools = [];
     try {
-      String sql = "SELECT * FROM schools";
+      String sql = "SELECT * FROM schools;";
 
       Object? result = await database.readData(sql);
       List<Map<String, Object?>> data = result as List<Map<String, Object?>>;

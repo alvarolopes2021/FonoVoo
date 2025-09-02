@@ -5,7 +5,9 @@ class ListStudentUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
     try {
-      return makeStudentsRepositoryFactory.listStudents();
+      return makeStudentsRepositoryFactory.listStudentsByClass(
+        param.toString(),
+      );
     } catch (e) {
       return null;
     }
