@@ -43,7 +43,6 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
-
   Future<void> goToGamePage() async {
     List<GroupDto> selecteds = groups.where((g) => g.isSelected).toList();
 
@@ -81,7 +80,11 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
       }
 
       for (var group in loadedGroups) {
-        GroupDto dto = GroupDto(group.getId(), group.getName());
+        GroupDto dto = GroupDto(
+          group.getId(),
+          group.getName(),
+          group.getClassId(),
+        );
         groups.add(dto);
       }
 

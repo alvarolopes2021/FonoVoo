@@ -5,7 +5,9 @@ import 'package:fonovoo/domain/entities/group_entity.dart';
 class ListGroupsUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
-    List<GroupEntity> res = await makeGroupsRepositoryFactory.listGroups();
+    List<GroupEntity> res = await makeGroupsRepositoryFactory.listGroups(
+      param.toString(),
+    );
 
     return res;
   }

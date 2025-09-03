@@ -1,21 +1,53 @@
+import 'package:fonovoo/data/database/factories/make_sql_database_factory.dart';
+import 'package:fonovoo/data/database/isqldatabase.dart';
 import 'package:fonovoo/data/repositories/igroups_repository.dart';
 import 'package:fonovoo/domain/entities/group_entity.dart';
 
 class GroupsRepositoryImpl implements IgroupsRepository {
-  List<GroupEntity> groups = [
-    GroupEntity.create("1", "Grupo 1", ""),
-    GroupEntity.create("2", "Grupo 2", ""),
-    GroupEntity.create("3", "Grupo 3", ""),
-  ];
+  late Isqldatabase database;
 
-  @override
-  Future<bool> addGroup(GroupEntity group) async {
-    groups.add(group);
-    return true;
+  GroupsRepositoryImpl() {
+    database = makeSqlDatabaseFactory;
   }
 
   @override
-  Future<List<GroupEntity>> listGroups() async {
-    return groups;
+  Future<bool> addGroup(GroupEntity group) async {
+    try {
+      if (group == null) {
+        return false;
+      }
+
+      String sql =
+          "INSERT INTO groups (groupid, classroomid, groupname) VALUES ('${group.getId()}', '${group.getClassId()}', '${group.getName()}');";
+
+      await database.writeData(sql);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<GroupEntity>> listGroups(String classid) async {
+    List<GroupEntity> groups = [];
+    try {
+      String sql = "SELECT * FROM students WHERE classid = '$classid';";
+
+      Object? result = await database.readData(sql);
+      List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
+      for (var element in data) {
+        groups.add(
+          GroupEntity.create(
+            element["groupid"].toString(),
+            element["groupname"].toString(),
+            element["classroomid"].toString(),
+          ),
+        );
+      }
+
+      return groups;
+    } catch (e) {
+      return [];
+    }
   }
 }

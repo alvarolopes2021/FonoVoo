@@ -96,7 +96,11 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
 
       if (groups.isNotEmpty) {
         for (var group in groups) {
-          var dto = GroupDto(group.getId(), group.getName());
+          var dto = GroupDto(
+            group.getId(),
+            group.getName(),
+            group.getClassId(),
+          );
           groupList.add(dto);
         }
       }
@@ -170,8 +174,16 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
       return;
     }
 
+    if (classroomEntity == null) {
+      return;
+    }
+
     String groupId = (groupList.length + 1).toString();
-    GroupDto? newGroup = GroupDto(groupId, "Grupo $groupId");
+    GroupDto? newGroup = GroupDto(
+      groupId,
+      "Grupo $groupId",
+      classroomEntity!.getId(),
+    );
     groupList.add(newGroup);
 
     newGroup = (await makeGroupUsecase.execute(newGroup)) as GroupDto?;

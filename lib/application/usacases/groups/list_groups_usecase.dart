@@ -5,7 +5,7 @@ class ListGroupsUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
     try {
-      return makeGroupsRepositoryFactory.listGroups();
+      return makeGroupsRepositoryFactory.listGroups(param.toString());
     } catch (e) {
       return null;
     }

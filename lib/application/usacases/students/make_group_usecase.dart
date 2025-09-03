@@ -15,7 +15,7 @@ class MakeGroupUsecase implements UseCase {
     GroupEntity groupEntity = GroupEntity.create(
       groupDto.getId(),
       groupDto.getName(),
-      groupDto.getId(),
+      groupDto.getClassId(),
     );
 
     bool res = await makeGroupsRepositoryFactory.addGroup(groupEntity);
