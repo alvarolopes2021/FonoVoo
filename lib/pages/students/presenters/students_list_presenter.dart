@@ -22,7 +22,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   bool isSelecting = false;
 
   List<StudentsDto> studentsDto = [];
-  List<Map<GroupDto, List<StudentsDto>>> groupsWithStudents = [];
+  Map<GroupDto, List<StudentsDto>> groupsWithStudents = {};
 
   late ClassroomEntity? classroomEntity;
   late SchoolEntity? schoolEntity;
@@ -89,7 +89,9 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
               as List<GroupEntity>;
 
       if (groups.isEmpty) {
-        groupsWithStudents.add({GroupDto("", "Sem grupos", ""): studentsDto});
+        groupsWithStudents.addAll({
+          GroupDto("", "Sem grupos", ""): studentsDto,
+        });
       } else {
         for (var group in groups) {
           List<StudentsDto> studentsWithGroups = studentsDto
@@ -101,7 +103,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
             group.getName(),
             group.getClassId(),
           );
-          groupsWithStudents.add({dto: studentsWithGroups});
+          groupsWithStudents.addAll({dto: studentsWithGroups});
         }
       }
 
@@ -187,7 +189,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
       "Grupo $groupId",
       classroomEntity!.getId(),
     );
-    groupsWithStudents.add({newGroup: selecteds});
+    groupsWithStudents.addAll({newGroup: selecteds});
 
     newGroup = (await makeGroupUsecase.execute(newGroup)) as GroupDto?;
 

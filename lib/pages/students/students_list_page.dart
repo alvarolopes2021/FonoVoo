@@ -73,20 +73,35 @@ class StudentsListPage extends BasePage {
                 message: "Adicione alunos e crie grupos",
               );
             }
-            return GroupedListView<Map<GroupDto, List<StudentsDto>>, String>(
+            return GroupedListView<StudentsDto, GroupDto>(
               padding: const EdgeInsets.all(8),
-              elements: (presenter as StudentsListPresenter).groupsWithStudents,
-              groupBy: (element) => element.keys.toList()[0].getName(),
-              groupComparator: (value1, value2) => value2.compareTo(value1),
-              itemComparator: (item1, item2) =>
-                  item1.keys.toList()[0].getName().compareTo(item2.keys.toList()[0].getName()),
+              elements: (presenter as StudentsListPresenter)
+                  .groupsWithStudents
+                  .values
+                  .expand((list) => list)
+                  .toList(),
+              groupBy: (element) {
+                // Find the category for the current element
+                for (var entry
+                    in (presenter as StudentsListPresenter)
+                        .groupsWithStudents
+                        .entries) {
+                  if (entry.value.contains(element)) {
+                    return entry.key;
+                  }
+                }
+                return GroupDto("", "Sem grupo", "");
+              },
+              groupComparator: (value1, value2) =>
+                  value2.getName().compareTo(value1.getName()),
+
               order: GroupedListOrder.DESC,
               useStickyGroupSeparators: true,
               stickyHeaderBackgroundColor: Colors.transparent,
-              groupSeparatorBuilder: (String value) => Container(
+              groupSeparatorBuilder: (GroupDto value) => Container(
                 color: Colors.transparent,
                 child: Text(
-                  value,
+                  value.getName(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
@@ -99,7 +114,7 @@ class StudentsListPage extends BasePage {
                 return StudentsComponent(
                   showCheckbox:
                       (presenter as StudentsListPresenter).isSelecting,
-                  studentsDto: element.,
+                  studentsDto: element,
                   goToStudentStatusPage: () {
                     (presenter as StudentsListPresenter).goToStudentStatusPage(
                       element,
