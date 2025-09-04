@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 import 'package:fonovoo/domain/dtos/students_dto.dart';
@@ -72,13 +73,13 @@ class StudentsListPage extends BasePage {
                 message: "Adicione alunos e crie grupos",
               );
             }
-            return GroupedListView<StudentsDto, String>(
+            return GroupedListView<Map<GroupDto, List<StudentsDto>>, String>(
               padding: const EdgeInsets.all(8),
-              elements: (presenter as StudentsListPresenter).studentsDto,
-              groupBy: (element) => element.getGroupId()!,
+              elements: (presenter as StudentsListPresenter).groupsWithStudents,
+              groupBy: (element) => element.keys.toList()[0].getName(),
               groupComparator: (value1, value2) => value2.compareTo(value1),
               itemComparator: (item1, item2) =>
-                  item1.getGroupId()!.compareTo(item2.getGroupId()!),
+                  item1.keys.toList()[0].getName().compareTo(item2.keys.toList()[0].getName()),
               order: GroupedListOrder.DESC,
               useStickyGroupSeparators: true,
               stickyHeaderBackgroundColor: Colors.transparent,
@@ -98,7 +99,7 @@ class StudentsListPage extends BasePage {
                 return StudentsComponent(
                   showCheckbox:
                       (presenter as StudentsListPresenter).isSelecting,
-                  studentsDto: element,
+                  studentsDto: element.,
                   goToStudentStatusPage: () {
                     (presenter as StudentsListPresenter).goToStudentStatusPage(
                       element,
