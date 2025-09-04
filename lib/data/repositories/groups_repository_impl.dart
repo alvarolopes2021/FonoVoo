@@ -21,6 +21,11 @@ class GroupsRepositoryImpl implements IgroupsRepository {
           "INSERT INTO groups (groupid, classroomid, groupname) VALUES ('${group.getId()}', '${group.getClassId()}', '${group.getName()}');";
 
       await database.writeData(sql);
+
+      sql = "UPDATE students SET groupid = '${group.getId()}';";
+
+      await database.writeData(sql);
+
       return true;
     } catch (e) {
       return false;
@@ -31,7 +36,7 @@ class GroupsRepositoryImpl implements IgroupsRepository {
   Future<List<GroupEntity>> listGroups(String classid) async {
     List<GroupEntity> groups = [];
     try {
-      String sql = "SELECT * FROM students WHERE classid = '$classid';";
+      String sql = "SELECT * FROM groups WHERE classroomid = '$classid';";
 
       Object? result = await database.readData(sql);
       List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
@@ -49,5 +54,29 @@ class GroupsRepositoryImpl implements IgroupsRepository {
     } catch (e) {
       return [];
     }
+  }
+
+  @override
+  Future<bool> deleteGroup(GroupEntity group) async {
+    try {
+      if (group == null) {
+        return false;
+      }
+
+      String sql =
+          "UPDATE students SET groupid = '' WHERE groupid = '${group.getId()}';";
+
+      bool res = await database.writeData(sql);
+
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> editGroup(GroupEntity group) async {
+    // TODO: implement editGroup
+    throw UnimplementedError();
   }
 }

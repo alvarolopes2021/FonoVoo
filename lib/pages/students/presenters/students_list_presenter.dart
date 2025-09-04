@@ -22,7 +22,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   bool isSelecting = false;
 
   List<StudentsDto> studentsDto = [];
-  List<GroupDto> groupList = [];
+  List<Map<GroupDto, List<StudentsDto>>> groupsWithStudents = [];
 
   late ClassroomEntity? classroomEntity;
   late SchoolEntity? schoolEntity;
@@ -33,7 +33,6 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   late UseCase editStudentsUsecase;
 
   late Command0 load;
-  late Command0 loadGroups;
 
   StudentsListPresenter({required super.pageContext}) {
     loadStudentsUsecase = makeLoadStudentUsecaseFactory;
@@ -53,7 +52,6 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     schoolEntity = argument["school"] as SchoolEntity?;
 
     load = Command0(_load)..execute();
-    loadGroups = Command0(_loadGroups)..execute();
   }
 
   void changeSelectionMode() {
@@ -74,36 +72,39 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
           await loadStudentsUsecase.execute(classroomEntity!.getId())
               as List<StudentsEntity>;
 
-      if (students.isNotEmpty) {
-        for (var student in students) {
-          var dto = StudentsDto();
-          dto.studentDtoMapping(student);
-          studentsDto.add(dto);
-        }
+      if (students.isEmpty) return Result.Ok;
+
+      for (var student in students) {
+        var dto = StudentsDto();
+        dto.studentDtoMapping(student);
+        studentsDto.add(dto);
       }
-      return load.result;
-    } catch (e) {
-      return load.result;
-    } finally {
-      notifyListeners();
-    }
-  }
 
-  Future<Result?> _loadGroups() async {
-    try {
+      if (classroomEntity == null) {
+        return Result.Error;
+      }
+
       List<GroupEntity> groups =
-          await listGroupsUsecase.execute(null) as List<GroupEntity>;
+          await listGroupsUsecase.execute(classroomEntity!.getId())
+              as List<GroupEntity>;
 
-      if (groups.isNotEmpty) {
+      if (groups.isEmpty) {
+        groupsWithStudents.add({GroupDto("", "Sem grupos", ""): studentsDto});
+      } else {
         for (var group in groups) {
+          List<StudentsDto> studentsWithGroups = studentsDto
+              .where((student) => student.getGroupId() == group.getId())
+              .toList();
+
           var dto = GroupDto(
             group.getId(),
             group.getName(),
             group.getClassId(),
           );
-          groupList.add(dto);
+          groupsWithStudents.add({dto: studentsWithGroups});
         }
       }
+
       return load.result;
     } catch (e) {
       return load.result;
@@ -168,9 +169,11 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> makeGroup() async {
-    bool hasSelected = studentsDto.where((s) => s.isSelected).isNotEmpty;
+    List<StudentsDto> selecteds = studentsDto
+        .where((s) => s.isSelected)
+        .toList();
 
-    if (!hasSelected) {
+    if (selecteds.isEmpty) {
       return;
     }
 
@@ -178,13 +181,13 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
       return;
     }
 
-    String groupId = (groupList.length + 1).toString();
+    String groupId = (groupsWithStudents.length + 1).toString();
     GroupDto? newGroup = GroupDto(
       groupId,
       "Grupo $groupId",
       classroomEntity!.getId(),
     );
-    groupList.add(newGroup);
+    groupsWithStudents.add({newGroup: selecteds});
 
     newGroup = (await makeGroupUsecase.execute(newGroup)) as GroupDto?;
 

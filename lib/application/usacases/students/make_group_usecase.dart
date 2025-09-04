@@ -1,4 +1,5 @@
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/data/ids/factories/make_id_service_factory.dart';
 import 'package:fonovoo/data/repositories/factories/make_groups_repository_factory.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/entities/group_entity.dart';
@@ -12,8 +13,10 @@ class MakeGroupUsecase implements UseCase {
       return null;
     }
 
+    String id = makeIdServiceFactory.generateId();
+
     GroupEntity groupEntity = GroupEntity.create(
-      groupDto.getId(),
+      id,
       groupDto.getName(),
       groupDto.getClassId(),
     );
