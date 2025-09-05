@@ -67,7 +67,8 @@ class GroupsListPage extends BasePage {
                   isSelecting: (presenter as GroupsListPresenter).isSelecting,
                   students: (presenter as GroupsListPresenter)
                       .studentsByGroup[group.getId()]!,
-                  removeStudentFromGroup: () {},
+                  removeStudentFromGroup:
+                      (presenter as GroupsListPresenter).removeStudentFromGroup,
                 );
               },
             );

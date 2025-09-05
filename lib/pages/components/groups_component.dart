@@ -7,7 +7,7 @@ class GroupsComponent extends StatefulWidget {
   bool isSelecting = false;
   bool isExpanded = false;
   List<StudentsDto> students;
-  VoidCallback removeStudentFromGroup;
+  Function removeStudentFromGroup;
 
   GroupsComponent({
     super.key,
@@ -60,7 +60,12 @@ class _GroupsComponent extends State<GroupsComponent> {
                 return ListTile(
                   title: Text(widget.students[index].getName()),
                   trailing: IconButton(
-                    onPressed: widget.removeStudentFromGroup,
+                    onPressed: () {
+                      widget.removeStudentFromGroup.call(
+                        widget.group.getId(),
+                        widget.students[index],
+                      );
+                    },
                     icon: Icon(Icons.delete, color: Colors.red),
                   ),
                 );

@@ -1,4 +1,5 @@
 import 'package:fonovoo/application/usacases/groups/factories/make_load_groups_usecase_factory.dart';
+import 'package:fonovoo/application/usacases/students/factories/make_edit_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
@@ -21,6 +22,7 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   late SchoolEntity? schoolEntity;
   Map<String, List<StudentsDto>> studentsByGroup = {};
 
+  List<StudentsDto> loadedStudents = [];
   List<GroupDto> groups = [];
 
   late Command0 load;
@@ -28,10 +30,12 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
 
   late UseCase loadGroupsUsecase;
   late UseCase loadStudentsUsecase;
+  late UseCase editStudentsUsecase;
 
   GroupsListPresenter({required super.pageContext}) {
     loadGroupsUsecase = makeLoadGroupsUsecaseFactory;
     loadStudentsUsecase = makeLoadStudentUsecaseFactory;
+    editStudentsUsecase = makeEditStudentUsecaseFactory;
   }
 
   void updateDto(Object? data) {
@@ -123,7 +127,7 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
         return load.result;
       }
 
-      List<StudentsDto> loadedStudents = [];
+      loadedStudents = [];
 
       for (var student in studentsEntities) {
         var dto = StudentsDto();
@@ -151,5 +155,23 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> removeStudentFromGroup(
+    String groupId,
+    StudentsDto student,
+  ) async {
+    student.setGroupId("");
+
+    StudentsDto? res =
+        await editStudentsUsecase.execute(student) as StudentsDto?;
+
+    if (res == null) {
+      return;
+    }
+
+    studentsByGroup[groupId]!.remove(student);
+
+    _loadStudents();
   }
 }
