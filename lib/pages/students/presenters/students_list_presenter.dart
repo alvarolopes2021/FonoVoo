@@ -131,7 +131,12 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> goToGroupsPage() async {
-    (await navigate(GroupsListPresenter.pageName, null, pageContext));
+    Map<String, Object?> parameter = {
+      "school": schoolEntity,
+      "classroom": classroomEntity,
+    };
+
+    (await navigate(GroupsListPresenter.pageName, parameter, pageContext));
     notifyListeners();
   }
 

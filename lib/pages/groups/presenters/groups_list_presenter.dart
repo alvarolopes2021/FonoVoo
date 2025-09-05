@@ -2,7 +2,9 @@ import 'package:fonovoo/application/usacases/groups/factories/make_load_groups_u
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
+import 'package:fonovoo/domain/entities/classroom_entity.dart';
 import 'package:fonovoo/domain/entities/group_entity.dart';
+import 'package:fonovoo/domain/entities/school_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
@@ -15,6 +17,8 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
 
   bool isSelecting = false;
 
+  late ClassroomEntity? classroomEntity;
+  late SchoolEntity? schoolEntity;
   Map<String, List<StudentsDto>> studentsByGroup = {};
 
   List<GroupDto> groups = [];
@@ -28,14 +32,20 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   GroupsListPresenter({required super.pageContext}) {
     loadGroupsUsecase = makeLoadGroupsUsecaseFactory;
     loadStudentsUsecase = makeLoadStudentUsecaseFactory;
-    load = Command0(_load)..execute();
-    loadStudents = Command0(_loadStudents)..execute();
   }
 
-  void updateDto(Object? school) {
-    if (school == null) {
+  void updateDto(Object? data) {
+    if (data == null) {
       return;
     }
+
+    Map<String, Object?> argument = data as Map<String, Object?>;
+
+    classroomEntity = argument["classroom"] as ClassroomEntity?;
+    schoolEntity = argument["school"] as SchoolEntity?;
+
+    load = Command0(_load)..execute();
+    loadStudents = Command0(_loadStudents)..execute();
   }
 
   void changeSelectionMode() {
@@ -71,9 +81,13 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<Result?> _load() async {
+    if (classroomEntity == null) {
+      return Result.Error;
+    }
     try {
       List<GroupEntity>? loadedGroups =
-          await loadGroupsUsecase.execute(null) as List<GroupEntity>?;
+          await loadGroupsUsecase.execute(classroomEntity!.getId())
+              as List<GroupEntity>?;
 
       if (loadedGroups == null || loadedGroups.isEmpty) {
         return load.result;
@@ -97,9 +111,13 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<Result?> _loadStudents() async {
+    if (classroomEntity == null) {
+      return Result.Error;
+    }
     try {
       List<StudentsEntity>? studentsEntities =
-          await loadStudentsUsecase.execute(null) as List<StudentsEntity>?;
+          await loadStudentsUsecase.execute(classroomEntity!.getId())
+              as List<StudentsEntity>?;
 
       if (studentsEntities == null || studentsEntities.isEmpty) {
         return load.result;
