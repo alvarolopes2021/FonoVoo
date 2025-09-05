@@ -73,35 +73,24 @@ class StudentsListPage extends BasePage {
                 message: "Adicione alunos e crie grupos",
               );
             }
-            return GroupedListView<StudentsDto, GroupDto>(
+            return GroupedListView<StudentsDto, String>(
               padding: const EdgeInsets.all(8),
-              elements: (presenter as StudentsListPresenter)
-                  .groupsWithStudents
-                  .values
-                  .expand((list) => list)
-                  .toList(),
-              groupBy: (element) {
-                // Find the category for the current element
-                for (var entry
-                    in (presenter as StudentsListPresenter)
-                        .groupsWithStudents
-                        .entries) {
-                  if (entry.value.contains(element)) {
-                    return entry.key;
-                  }
-                }
-                return GroupDto("", "Sem grupo", "");
-              },
-              groupComparator: (value1, value2) =>
-                  value2.getName().compareTo(value1.getName()),
+              elements: (presenter as StudentsListPresenter).studentsDto,
+              groupBy: (student) => student.getGroupId()!,
+              groupComparator: (value1, value2) => value2.compareTo(value1),
 
               order: GroupedListOrder.DESC,
               useStickyGroupSeparators: true,
               stickyHeaderBackgroundColor: Colors.transparent,
-              groupSeparatorBuilder: (GroupDto value) => Container(
+              groupSeparatorBuilder: (value) => Container(
                 color: Colors.transparent,
                 child: Text(
-                  value.getName(),
+                  (presenter as StudentsListPresenter).groupsDto
+                      .firstWhere(
+                        (group) => group.getId() == value,
+                        orElse: () => GroupDto("", "Sem grupo", ""),
+                      )
+                      .getName(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,

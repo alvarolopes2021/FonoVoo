@@ -22,7 +22,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   bool isSelecting = false;
 
   List<StudentsDto> studentsDto = [];
-  Map<GroupDto, List<StudentsDto>> groupsWithStudents = {};
+  List<GroupDto> groupsDto = [];
 
   late ClassroomEntity? classroomEntity;
   late SchoolEntity? schoolEntity;
@@ -88,22 +88,14 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
           await listGroupsUsecase.execute(classroomEntity!.getId())
               as List<GroupEntity>;
 
-      if (groups.isEmpty) {
-        groupsWithStudents.addAll({
-          GroupDto("", "Sem grupos", ""): studentsDto,
-        });
-      } else {
+      if (groups.isNotEmpty) {
         for (var group in groups) {
-          List<StudentsDto> studentsWithGroups = studentsDto
-              .where((student) => student.getGroupId() == group.getId())
-              .toList();
-
           var dto = GroupDto(
             group.getId(),
             group.getName(),
             group.getClassId(),
           );
-          groupsWithStudents.addAll({dto: studentsWithGroups});
+          groupsDto.add(dto);
         }
       }
 
@@ -183,20 +175,24 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
       return;
     }
 
-    String groupId = (groupsWithStudents.length + 1).toString();
+    String groupId = (groupsDto.length + 1).toString();
     GroupDto? newGroup = GroupDto(
       groupId,
       "Grupo $groupId",
       classroomEntity!.getId(),
     );
-    groupsWithStudents.addAll({newGroup: selecteds});
+    groupsDto.add(newGroup);
 
     newGroup = (await makeGroupUsecase.execute(newGroup)) as GroupDto?;
+
+    if (newGroup == null) {
+      return;
+    }
 
     for (var student in studentsDto) {
       if (student.isSelected) {
         student.belongsToGroup = student.isSelected;
-        student.setGroupId(groupId);
+        student.setGroupId(newGroup.getId());
         editStudentsUsecase.execute(student);
       }
       student.isSelected = false;

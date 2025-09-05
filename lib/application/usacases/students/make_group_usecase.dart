@@ -24,6 +24,7 @@ class MakeGroupUsecase implements UseCase {
     bool res = await makeGroupsRepositoryFactory.addGroup(groupEntity);
 
     if (res) {
+      groupDto.setId(id);
       return groupDto;
     }
   }

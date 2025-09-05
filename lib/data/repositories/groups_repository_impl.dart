@@ -22,10 +22,6 @@ class GroupsRepositoryImpl implements IgroupsRepository {
 
       await database.writeData(sql);
 
-      sql = "UPDATE students SET groupid = '${group.getId()}';";
-
-      await database.writeData(sql);
-
       return true;
     } catch (e) {
       return false;

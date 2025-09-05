@@ -55,7 +55,7 @@ class StudentsRepositoryImpl implements IstudentsRepository {
   Future<bool> editStudent(StudentsEntity student) async {
     try {
       String sql =
-          "UPDATE students SET name = '${student.getName()}' WHERE classid = '${student.getClassId()}' AND studentid = '${student.getId()}';";
+          "UPDATE students SET name = '${student.getName()}', classid = '${student.getClassId()}', groupid = '${student.getGroupId()}' WHERE classid = '${student.getClassId()}' AND studentid = '${student.getId()}';";
 
       return await database.writeData(sql);
     } catch (e) {
