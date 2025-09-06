@@ -60,7 +60,7 @@ class GroupsRepositoryImpl implements IgroupsRepository {
       }
 
       String sql =
-          "UPDATE students SET groupid = '' WHERE groupid = '${group.getId()}';";
+          "DELETE FROM groups WHERE groupid = '${group.getId()}';";
 
       bool res = await database.writeData(sql);
 

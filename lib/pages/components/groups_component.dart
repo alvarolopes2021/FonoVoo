@@ -61,12 +61,14 @@ class _GroupsComponent extends State<GroupsComponent> {
                   title: Text(widget.students[index].getName()),
                   trailing: IconButton(
                     onPressed: () {
-                      widget.removeStudentFromGroup.call(
-                        widget.group.getId(),
-                        widget.students[index],
-                      );
+                      if (!widget.isSelecting) {
+                        widget.removeStudentFromGroup.call(
+                          widget.group.getId(),
+                          widget.students[index],
+                        );
+                      }
                     },
-                    icon: Icon(Icons.delete, color: Colors.red),
+                    icon: Icon(Icons.delete, color: widget.isSelecting ? Colors.grey : Colors.red),
                   ),
                 );
               },

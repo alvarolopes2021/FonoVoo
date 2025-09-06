@@ -66,6 +66,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
 
   Future<Result?> _load() async {
     studentsDto = [];
+    groupsDto = [];
 
     try {
       List<StudentsEntity> students =

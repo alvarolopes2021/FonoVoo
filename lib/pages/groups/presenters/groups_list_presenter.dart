@@ -1,4 +1,6 @@
+import 'package:fonovoo/application/usacases/groups/factories/make_delete_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/groups/factories/make_load_groups_usecase_factory.dart';
+import 'package:fonovoo/application/usacases/students/factories/make_delete_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_edit_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
@@ -31,11 +33,13 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   late UseCase loadGroupsUsecase;
   late UseCase loadStudentsUsecase;
   late UseCase editStudentsUsecase;
+  late UseCase deleteGroupUsecase;
 
   GroupsListPresenter({required super.pageContext}) {
     loadGroupsUsecase = makeLoadGroupsUsecaseFactory;
     loadStudentsUsecase = makeLoadStudentUsecaseFactory;
     editStudentsUsecase = makeEditStudentUsecaseFactory;
+    deleteGroupUsecase = makeDeleteGroupsUsecaseFactory;
   }
 
   void updateDto(Object? data) {
@@ -115,6 +119,9 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<Result?> _loadStudents() async {
+    studentsByGroup = {};
+    loadedStudents = [];
+
     if (classroomEntity == null) {
       return Result.Error;
     }
@@ -126,8 +133,6 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
       if (studentsEntities == null || studentsEntities.isEmpty) {
         return load.result;
       }
-
-      loadedStudents = [];
 
       for (var student in studentsEntities) {
         var dto = StudentsDto();
@@ -171,6 +176,15 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     }
 
     studentsByGroup[groupId]!.remove(student);
+
+    if (studentsByGroup[groupId]!.isEmpty) {
+      GroupDto groupToRemove = groups.firstWhere(
+        (group) => group.getId() == groupId,
+      );
+      deleteGroupUsecase.execute(groupToRemove);
+      groups.remove(groupToRemove);
+      studentsByGroup.removeWhere((key, value) => key == groupId);
+    }
 
     _loadStudents();
   }
