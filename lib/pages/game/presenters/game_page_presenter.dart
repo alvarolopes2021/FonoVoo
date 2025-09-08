@@ -4,6 +4,7 @@ import 'package:fonovoo/application/usacases/categories/factories/make_list_cate
 import 'package:fonovoo/application/usacases/grade/factories/make_add_grade_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/domain/dtos/category_dto.dart';
+import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/match_dto.dart';
 import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
@@ -21,9 +22,10 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
 
   List<CategoryDto> grid = [];
   List<StudentsDto> allStudents = [];
+  late Map<GroupDto, List<StudentsDto>> groups;
 
-  late StudentsDto selectedStudent;
-  late CategoryDto selectedCategory;
+  StudentsDto? selectedStudent;
+  CategoryDto? selectedCategory;
 
   MatchDto match = MatchDto("", MatchStatus.Running);
 
@@ -44,8 +46,9 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
     if (selectedGroups == null) {
       return;
     }
-    Map<String, List<StudentsDto>> groups =
-        selectedGroups as Map<String, List<StudentsDto>>;
+    allStudents = [];
+
+    groups = selectedGroups as Map<GroupDto, List<StudentsDto>>;
 
     for (var element in groups.entries) {
       allStudents.addAll(element.value);
@@ -87,12 +90,18 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
   }
 
   void gotIt() async {
+    selectedStudent ??= allStudents.first;
+
+    if (selectedCategory == null) {
+      return;
+    }
+
     StudentsCategoryDto categoryDto = StudentsCategoryDto(
       "",
-      selectedStudent.getId(),
-      selectedCategory.getId(),
-      selectedCategory.getId(),
-      selectedCategory.getId(),
+      selectedStudent!.getId(),
+      selectedStudent!.getName(),
+      selectedCategory!.getId(),
+      selectedCategory!.getName(),
       1,
     );
     bool a = await addGradeToStudentUsecase.execute(categoryDto) as bool;

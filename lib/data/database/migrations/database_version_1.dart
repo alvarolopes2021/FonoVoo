@@ -71,27 +71,20 @@ class DatabaseVersion1 extends BaseMigrations {
       ''');
 
     await database.executeCommand('''
-      CREATE TABLE categories_grade ( 
-        categorygradeid TEXT PRIMARY KEY,
-        studentid TEXT NOT NULL,
-        categoryid TEXT NOT NULL, 
-        grade INTEGER,        
-        FOREIGN KEY (studentid) REFERENCES students(studentid) ON DELETE CASCADE,        
-        FOREIGN KEY (categoryid) REFERENCES categories(categoryid) ON DELETE CASCADE
-      );''');
-
-    await database.executeCommand('''
       CREATE TABLE matches ( 
         matchid TEXT PRIMARY KEY,
         status TEXT NOT NULL
       );''');
 
     await database.executeCommand('''
-      CREATE TABLE match_group( 
-        matchgroupid TEXT PRIMARY KEY,
-        matchid TEXT NOT NULL,
-        groupid TEXT NOT NULL,
-        FOREIGN KEY (groupid) REFERENCES groups(groupid) ON DELETE CASCADE,        
+      CREATE TABLE categories_grade ( 
+        categorygradeid TEXT PRIMARY KEY,
+        studentid TEXT NOT NULL,
+        categoryid TEXT NOT NULL, 
+        grade INTEGER,
+        matchid TEXT,
+        FOREIGN KEY (studentid) REFERENCES students(studentid) ON DELETE CASCADE,        
+        FOREIGN KEY (categoryid) REFERENCES categories(categoryid) ON DELETE CASCADE,
         FOREIGN KEY (matchid) REFERENCES matches(matchid) ON DELETE CASCADE
       );''');
   }

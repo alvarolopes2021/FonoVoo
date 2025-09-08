@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/confim_dialog_component.dart';
 import 'package:fonovoo/pages/components/game_selector_component.dart';
 import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
 
@@ -34,7 +35,19 @@ class GamePage extends BasePage {
             margin: EdgeInsets.all(10),
             child: TextButton.icon(
               onPressed: () {
-                (presenter as GamePagePresenter).finish();
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible:
+                      false, // User must tap a button to dismiss
+                  builder: (BuildContext dialogContext) {
+                    return ConfimDialogComponent(
+                      pageContext: context,
+                      confirmAction: (presenter as GamePagePresenter).finish,
+                      cancelAction: null,
+                      message: 'Finalizar esta partida?',
+                    );
+                  },
+                );
               },
               style: TextButton.styleFrom(
                 foregroundColor: Colors.red,
@@ -55,6 +68,8 @@ class GamePage extends BasePage {
               width: MediaQuery.of(context).size.width,
               child: DropdownMenu<dynamic>(
                 hintText: "Jogador da vez",
+                initialSelection:
+                    (presenter as GamePagePresenter).allStudents.first,
                 width: MediaQuery.of(context).size.width,
                 onSelected: (selectedStudent) {
                   (presenter as GamePagePresenter).selectRunningStudent(

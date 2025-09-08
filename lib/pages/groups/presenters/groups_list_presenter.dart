@@ -1,6 +1,5 @@
 import 'package:fonovoo/application/usacases/groups/factories/make_delete_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/groups/factories/make_load_groups_usecase_factory.dart';
-import 'package:fonovoo/application/usacases/students/factories/make_delete_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_edit_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_load_students_usecase_factory.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
@@ -67,12 +66,12 @@ class GroupsListPresenter extends BasePresenter with NavigationMixin {
     if (selecteds.isEmpty) {
       return;
     }
-    Map<String, List<StudentsDto>> selectedMap = {};
+    Map<GroupDto, List<StudentsDto>> selectedMap = {};
 
     for (var cell in studentsByGroup.entries) {
       for (var group in selecteds) {
         if (cell.key == group.getId()) {
-          selectedMap.addAll({cell.key: cell.value});
+          selectedMap.addAll({group: cell.value});
         }
       }
     }
