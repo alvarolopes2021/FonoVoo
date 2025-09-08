@@ -1,24 +1,31 @@
 import 'package:fonovoo/application/usacases/usecase.dart';
-import 'package:fonovoo/data/repositories/factories/make_school_repository_factory.dart';
-import 'package:fonovoo/domain/dtos/school_dto.dart';
-
-import 'package:fonovoo/domain/entities/school_entity.dart';
+import 'package:fonovoo/data/ids/factories/make_id_service_factory.dart';
+import 'package:fonovoo/data/repositories/factories/make_match_repository_factory.dart';
+import 'package:fonovoo/domain/dtos/match_dto.dart';
+import 'package:fonovoo/domain/entities/match_entity.dart';
 
 class StartMatchUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
-    SchoolDto? schoolDto = param as SchoolDto?;
+    MatchDto? matchDto = param as MatchDto?;
 
-    if (schoolDto == null) {
+    if (matchDto == null) {
       return null;
     }
 
-    SchoolEntity schoolEntity = SchoolEntity.create("4", schoolDto.getName());
+    String id = makeIdServiceFactory.generateId();
 
-    bool res = await makeSchoolsRepositoryFactory.addSchool(schoolEntity);
+    MatchEntity? matchEntity = MatchEntity.create(
+      id,
+      matchDto.getMatchStatus(),
+    );
+
+    bool res = await makeMatchRepositoryFactory.startMatch(matchEntity);
 
     if (res) {
-      return schoolEntity;
+      return matchEntity;
     }
+
+    return null;
   }
 }

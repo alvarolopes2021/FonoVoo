@@ -5,7 +5,9 @@ class LoadGradesUsecase implements UseCase {
   @override
   Future<Object?> execute(Object? param) async {
     try {
-      return makeStudentsGradeRepositoryFactory.loadGrades();
+      return makeStudentsGradeRepositoryFactory.loadGradesByMatch(
+        param.toString(),
+      );
     } catch (e) {
       return null;
     }

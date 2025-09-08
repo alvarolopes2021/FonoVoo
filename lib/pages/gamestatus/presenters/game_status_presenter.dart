@@ -1,5 +1,6 @@
 import 'package:fonovoo/application/usacases/grade/factories/make_load_grades_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
+import 'package:fonovoo/domain/dtos/match_dto.dart';
 import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/entities/students_category_entity.dart';
 import 'package:fonovoo/pages/base_presenter.dart';
@@ -15,15 +16,28 @@ class GameStatusPresenter extends BasePresenter with NavigationMixin {
 
   late Command loadGradesCommand;
 
+  late MatchDto match;
+
   GameStatusPresenter({required super.pageContext}) {
     loadStudentsCategoryUsecase = makeLoadGradesUsecaseFactory;
+  }
+
+  void updateDto(Object? data) {
+    if (data == null) {
+      return;
+    }
+
+    Map<String, Object?> args = data as Map<String, Object?>;
+
+    match = args['match'] as MatchDto;
+
     loadGradesCommand = Command0(loadStudentsCategory)..execute();
   }
 
   Future<void> loadStudentsCategory() async {
     try {
       List<StudentsCategoryEntity>? studentsCategoryEntity =
-          await loadStudentsCategoryUsecase.execute(null)
+          await loadStudentsCategoryUsecase.execute(match.getId())
               as List<StudentsCategoryEntity>?;
 
       if (studentsCategoryEntity == null) {
@@ -38,6 +52,7 @@ class GameStatusPresenter extends BasePresenter with NavigationMixin {
             cat.getStudentName(),
             cat.getCategoryId(),
             cat.getCategoryName(),
+            cat.getMatchId(),
             cat.getGrade(),
           ),
         );

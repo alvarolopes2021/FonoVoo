@@ -22,6 +22,7 @@ class AddGradeUseCase implements UseCase {
         categoryDto.getStudentName(),
         categoryDto.getCategoryId(),
         categoryDto.getCategoryName(),
+        categoryDto.getMatchId(),
         categoryDto.getGrade(),
       );
 

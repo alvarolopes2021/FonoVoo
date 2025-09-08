@@ -143,7 +143,9 @@ class GamePage extends BasePage {
                     child: Container(
                       margin: EdgeInsets.all(5),
                       child: TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          (presenter as GamePagePresenter).setGrade(-1);
+                        },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.blue,
                           backgroundColor:
@@ -159,7 +161,7 @@ class GamePage extends BasePage {
                       margin: EdgeInsets.all(5),
                       child: TextButton.icon(
                         onPressed: () {
-                          (presenter as GamePagePresenter).gotIt();
+                          (presenter as GamePagePresenter).setGrade(1);
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white,

@@ -4,16 +4,16 @@ class ColorConverter {
   static Color stringToColor(String color) {
     Color colorToReturn = Colors.deepOrangeAccent;
     switch (color) {
-      case "red":
+      case "RED":
         colorToReturn = Colors.red;
         break;
-      case "blue":
+      case "BLUE":
         colorToReturn = Colors.blue;
         break;
-      case "green":
+      case "GREEN":
         colorToReturn = Colors.green;
         break;
-      case "yellow":
+      case "YELLOW":
         colorToReturn = Colors.yellow;
         break;
     }

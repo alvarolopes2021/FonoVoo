@@ -5,6 +5,7 @@ class StudentsDto {
   String? _classid = "";
   String? _groupId = "";
   String _name = "";
+  double _grade = 0;
   bool isSelected = false;
   bool belongsToGroup = false;
 
@@ -18,6 +19,8 @@ class StudentsDto {
     _name = studentEntity.getName();
     _classid = studentEntity.getClassId();
     _groupId = studentEntity.getGroupId();
+    belongsToGroup =
+        studentEntity.getGroupId() != null && studentEntity.getGroupId() != "";
   }
 
   String getId() {
@@ -58,5 +61,13 @@ class StudentsDto {
 
   void updateBelongsToGroup(bool value) {
     belongsToGroup = value;
+  }
+
+  double getGrade() {
+    return _grade;
+  }
+
+  void setGrade(double grade) {
+    _grade = grade;
   }
 }

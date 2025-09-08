@@ -10,6 +10,9 @@ class GameStatusPage extends BasePage {
 
   @override
   Widget build(BuildContext context) {
+    (super.presenter as GameStatusPresenter).updateDto(
+      ModalRoute.of(context)!.settings.arguments,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text("Estatísticas da partida"),

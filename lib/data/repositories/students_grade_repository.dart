@@ -1,29 +1,64 @@
+import 'package:fonovoo/data/database/factories/make_sql_database_factory.dart';
+import 'package:fonovoo/data/database/isqldatabase.dart';
 import 'package:fonovoo/data/repositories/istudents_grade_repository.dart';
 import 'package:fonovoo/domain/entities/students_category_entity.dart';
 
 class StudentsGradeRepository implements IStudentsGradeRepository {
-  List<StudentsCategoryEntity> grades = [
-    StudentsCategoryEntity("2", "2", "Danilo", "1", "frases", 3),
-    StudentsCategoryEntity("2", "2", "Danilo", "1", "frases", 3),
-    StudentsCategoryEntity("3", "2", "Danilo", "3", "parlendas", 4),
-    StudentsCategoryEntity("4", "1", "Dias", "3", "parlendas", 1),
-    StudentsCategoryEntity("5", "1", "Dias", "4", "silabas", 5),
-    StudentsCategoryEntity("6", "1", "Dias", "4", "silabas", 4),
-    StudentsCategoryEntity("7", "1", "Dias", "1", "frases", 4),
-    StudentsCategoryEntity("8", "3", "Benito", "1", "frases", 4),
-    StudentsCategoryEntity("8", "4", "Benito", "1", "frases", 4),
-    StudentsCategoryEntity("8", "4", "Benito", "1", "frases", 4),
-  ];
+  late Isqldatabase database;
 
-  @override
-  Future<bool> addGradeToStudent(
-    StudentsCategoryEntity studentsCategoryEntity,
-  ) async {
-    return true;
+  StudentsGradeRepository() {
+    database = makeSqlDatabaseFactory;
   }
 
   @override
-  Future<List<StudentsCategoryEntity>> loadGrades() async {
-    return grades;
+  Future<bool> addGradeToStudent(
+    StudentsCategoryEntity? studentsCategoryEntity,
+  ) async {
+    try {
+      if (studentsCategoryEntity == null) {
+        return false;
+      }
+
+      String sql =
+          "INSERT INTO categories_grade (categorygradeid, studentid, categoryid, grade, matchid) VALUES ('${studentsCategoryEntity.getId()}', '${studentsCategoryEntity.getStudentId()}', '${studentsCategoryEntity.getCategoryId()}', '${studentsCategoryEntity.getGrade()}', '${studentsCategoryEntity.getMatchId()}');";
+
+      database.writeData(sql);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<StudentsCategoryEntity>?> loadGradesByMatch(
+    String matchid,
+  ) async {
+    try {
+      String sql =
+          "SELECT cg.categorygradeid as categoryid, cg.studentid as studentid, cg.categoryid as categoryid, cg.grade as grade, cg.matchid as matchid, s.name as studentname, cat.categoryname as categoryname FROM categories_grade cg INNER JOIN students s ON s.studentid = cg.studentid INNER JOIN categories cat ON cat.categoryid = cg.categoryid WHERE cg.matchid = '$matchid';";
+
+      Object? result = await database.readData(sql);
+      List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
+
+      List<StudentsCategoryEntity> grades = [];
+
+      for (var element in data) {
+        grades.add(
+          StudentsCategoryEntity.create(
+            element["categorygradeid"].toString(),
+            element["studentid"].toString(),
+            element["studentname"].toString(),
+            element["categoryid"].toString(),
+            element["categoryname"].toString(),
+            element["matchid"].toString(),
+            double.parse(element["grade"].toString()),
+          ),
+        );
+      }
+
+      return grades;
+    } catch (e) {
+      return null;
+    }
   }
 }
