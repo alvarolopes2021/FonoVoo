@@ -54,9 +54,9 @@ class StudentsListPage extends BasePage {
             begin: Alignment.topCenter,
             end: Alignment(0.8, 1),
             colors: <Color>[
-              Color.fromRGBO(242, 66, 51, 1),
-              Color.fromRGBO(252, 76, 61, 1),
-              Color.fromRGBO(255, 86, 71, 1),
+              Color.fromRGBO(0, 90, 152, 1),
+              Color.fromRGBO(0, 100, 162, 1),
+              Color.fromRGBO(0, 110, 172, 1),
             ], // Gradient from,
           ),
         ),
