@@ -121,7 +121,10 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
       return;
     }
 
-    selectedStudent!.setGrade(selectedStudent!.getGrade() + grade);
+    double finalGrade = selectedStudent!.getGrade() + grade;
+    finalGrade = finalGrade < 0 ? 0 : finalGrade;
+
+    selectedStudent!.setGrade(finalGrade);
 
     StudentsCategoryDto categoryDto = StudentsCategoryDto(
       "",

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:fonovoo/core/helpers/fl_charts_converter.dart';
 import 'package:fonovoo/core/helpers/material_charts_converter.dart';
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/fl_chart_component.dart';
+import 'package:fonovoo/pages/components/material_pie_chart_component.dart';
 import 'package:fonovoo/pages/components/multiline_chart_component.dart';
 import 'package:fonovoo/pages/gamestatus/presenters/game_status_presenter.dart';
 
@@ -45,6 +48,19 @@ class GameStatusPage extends BasePage {
                                 .studentsCategoryDto,
                           ),
                       chartName: "Partida",
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.all(15),
+                    child: MaterialPieChartComponent(
+                      seriesList:
+                          MaterialChartsConverter.buildCategoriesPieChartData(
+                            (presenter as GameStatusPresenter)
+                                .studentsCategoryDto,
+                          ),
+                      chartName: "Categorias",
                     ),
                   ),
                 ),

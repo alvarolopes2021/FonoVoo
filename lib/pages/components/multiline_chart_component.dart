@@ -22,21 +22,37 @@ class _MultilineChartComponent extends State<MultilineChartComponent> {
   Widget build(BuildContext context) {
     return MultiLineChart(
       series: widget.seriesList,
+      enableZoom: true,
+      enablePan: true,
       style: MultiLineChartStyle(
+        crosshair: CrosshairConfig(
+          enabled: true,
+          lineColor: Colors.grey,
+          lineWidth: 1.0,
+          showLabel: true,
+        ),
         showLegend: true,
-
         backgroundColor: Colors.transparent,
         gridColor: Colors.white,
         gridLineWidth: 1,
+        forceYAxisFromZero: true,
         tooltipStyle: MultiLineTooltipStyle(
+          backgroundColor: Colors.black,
           borderRadius: 5,
           textStyle: TextStyle(
             color: Colors.white,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
+          padding: 8.0,
         ),
-        colors: [Colors.black, Colors.red, Colors.blueAccent],
+        colors: [
+          Colors.black,
+          Colors.red,
+          Colors.blueAccent,
+          Colors.white,
+          Colors.yellow,
+        ],
       ),
     );
   }
