@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/alert_dialog_component.dart';
 import 'package:fonovoo/pages/components/confim_dialog_component.dart';
 import 'package:fonovoo/pages/components/game_selector_component.dart';
 import 'package:fonovoo/pages/game/presenters/game_page_presenter.dart';
@@ -144,7 +145,23 @@ class GamePage extends BasePage {
                       margin: EdgeInsets.all(5),
                       child: TextButton.icon(
                         onPressed: () {
-                          (presenter as GamePagePresenter).setGrade(-1);
+                          (presenter as GamePagePresenter).missed();
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible:
+                                false, // User must tap a button to dismiss
+                            builder: (BuildContext dialogContext) {
+                              return AlertDialogComponent(
+                                pageContext: context,
+                                okAction: (presenter as GamePagePresenter)
+                                    .clearCategorySelection,
+                                okText: 'Próxima pergunta',
+                                title: 'Que pena!',
+                                message: 'O aluno errou',
+                                icon: Icon(Icons.close, color: Colors.red),
+                              );
+                            },
+                          );
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.blue,
@@ -161,7 +178,26 @@ class GamePage extends BasePage {
                       margin: EdgeInsets.all(5),
                       child: TextButton.icon(
                         onPressed: () {
-                          (presenter as GamePagePresenter).setGrade(1);
+                          (presenter as GamePagePresenter).gotIt();
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible:
+                                false, // User must tap a button to dismiss
+                            builder: (BuildContext dialogContext) {
+                              return AlertDialogComponent(
+                                pageContext: context,
+                                okAction: (presenter as GamePagePresenter)
+                                    .clearCategorySelection,
+                                okText: 'Próxima pergunta',
+                                title: 'Parabéns!',
+                                message: 'O aluno acertou',
+                                icon: Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                ),
+                              );
+                            },
+                          );
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white,

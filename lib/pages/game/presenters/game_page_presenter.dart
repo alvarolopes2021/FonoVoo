@@ -90,6 +90,14 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
     notifyListeners();
   }
 
+  void clearCategorySelection() {
+    for (var cat in grid) {
+      cat.isSelected = false;
+    }
+
+    notifyListeners();
+  }
+
   void _loadCategories() async {
     var categories =
         await listCategoriesUsecase.execute(null) as List<CategoryEntity>;
@@ -114,11 +122,19 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
     selectedStudent = student;
   }
 
-  void setGrade(double grade) async {
+  Future<bool> gotIt() async {
+    return await _setGrade(1);
+  }
+
+  Future<bool> missed() async {
+    return await _setGrade(-1);
+  }
+
+  Future<bool> _setGrade(double grade) async {
     selectedStudent ??= allStudents.first;
 
     if (selectedCategory == null) {
-      return;
+      return false;
     }
 
     double finalGrade = selectedStudent!.getGrade() + grade;
@@ -137,7 +153,7 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
     );
     bool res = await addGradeToStudentUsecase.execute(categoryDto) as bool;
 
-    if (res) {}
+    return res;
   }
 
   void finish() async {
