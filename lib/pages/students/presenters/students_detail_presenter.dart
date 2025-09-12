@@ -1,7 +1,9 @@
-import 'package:fonovoo/application/usacases/students/edit_student_usecase.dart';
+import 'package:fonovoo/application/usacases/groups/factories/make_load_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_delete_student_usecase_factory.dart';
+import 'package:fonovoo/domain/dtos/group_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
 import 'package:fonovoo/domain/entities/classroom_entity.dart';
+import 'package:fonovoo/domain/entities/group_entity.dart';
 import 'package:fonovoo/domain/entities/school_entity.dart';
 import 'package:fonovoo/domain/entities/students_entity.dart';
 import 'package:fonovoo/pages/navigation/navigation_mixin.dart';
@@ -17,20 +19,24 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
   late StudentsDto? studentsDto;
   late ClassroomEntity? classroomEntity;
   late SchoolEntity? schoolEntity;
+  List<GroupDto> groups = [];
+  GroupDto? selectedGroup;
 
   bool newStudent = false;
 
   late UseCase addStudentUseCase;
   late UseCase editStudentUsecase;
   late UseCase deleteStudentUsecase;
+  late UseCase loadGroupsUsecase;
 
   StudentsDetailPresenter({required super.pageContext}) {
     addStudentUseCase = makeAddStudentUsecaseFactory;
     editStudentUsecase = makeEditStudentUsecaseFactory;
     deleteStudentUsecase = makeDeleteStudentUsecaseFactory;
+    loadGroupsUsecase = makeLoadGroupsUsecaseFactory;
   }
 
-  void updateDto(Object? data) {
+  void updateDto(Object? data) async {
     Map<String, Object?> arguments = data as Map<String, Object?>;
 
     classroomEntity = arguments["classroom"] as ClassroomEntity?;
@@ -42,6 +48,33 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
       newStudent = true;
       return;
     }
+
+    List<GroupEntity> groupsEntity =
+        await loadGroupsUsecase.execute(classroomEntity!.getId())
+            as List<GroupEntity>;
+
+    if (groupsEntity.isEmpty) {
+      return;
+    }
+
+    for (var item in groupsEntity) {
+      GroupDto group = GroupDto(
+        item.getId(),
+        item.getName(),
+        item.getClassId(),
+      );
+      if (group.getId() == studentsDto!.getGroupId()) {
+        selectedGroup = group;
+      }
+
+      groups.add(group);
+    }
+
+    notifyListeners();
+  }
+
+  void selectStudentGroup(GroupDto groupDto) {
+    selectedGroup = groupDto;
   }
 
   Future<List<StudentsDto>?> addStudent() async {

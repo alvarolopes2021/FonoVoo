@@ -68,18 +68,89 @@ class StudentsDetailPage extends BasePage {
             Expanded(
               child: Form(
                 key: formKey,
-                child: MyTextFormField(
-                  updateValueFunction:
-                      (super.presenter as StudentsDetailPresenter)
-                          .studentsDto!
-                          .updateName,
-                  hint: "Nome do aluno",
-                  initialValue:
-                      (presenter as StudentsDetailPresenter).newStudent
-                      ? ""
-                      : (super.presenter as StudentsDetailPresenter)
-                            .studentsDto!
-                            .getName(),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      child: MyTextFormField(
+                        updateValueFunction:
+                            (super.presenter as StudentsDetailPresenter)
+                                .studentsDto!
+                                .updateName,
+                        hint: "Nome do aluno",
+                        initialValue:
+                            (presenter as StudentsDetailPresenter).newStudent
+                            ? ""
+                            : (super.presenter as StudentsDetailPresenter)
+                                  .studentsDto!
+                                  .getName(),
+                      ),
+                    ),
+                    ListenableBuilder(
+                      listenable: (presenter as StudentsDetailPresenter),
+                      builder: (pageContext, snapshot) {
+                        return DropdownMenu<dynamic>(
+                          hintText: "Grupo",
+                          initialSelection:
+                              (presenter as StudentsDetailPresenter)
+                                  .selectedGroup,
+                          width: MediaQuery.of(context).size.width,
+                          onSelected: (selectedGroup) {
+                            (presenter as StudentsDetailPresenter)
+                                .selectStudentGroup(selectedGroup);
+                          },
+                          label: Text(
+                            'Grupo do aluno',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          dropdownMenuEntries: List.generate(
+                            (presenter as StudentsDetailPresenter)
+                                .groups
+                                .length,
+                            (index) {
+                              return DropdownMenuEntry<dynamic>(
+                                value: (presenter as StudentsDetailPresenter)
+                                    .groups[index],
+                                label: (presenter as StudentsDetailPresenter)
+                                    .groups[index]
+                                    .getName(),
+                              );
+                            },
+                          ),
+                          textStyle: TextStyle(color: Colors.white),
+                          selectedTrailingIcon: Icon(
+                            Icons.keyboard_arrow_up,
+                            color: Colors.white,
+                          ),
+                          inputDecorationTheme: InputDecorationTheme(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ), // Your desired color
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ), // Your desired color
+                            ),
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.redAccent,
+                              ), // Your desired color
+                            ),
+                            errorStyle: TextStyle(color: Colors.redAccent),
+
+                            iconColor: Colors.white,
+                          ),
+                          leadingIcon: Icon(Icons.group, color: Colors.white),
+                          trailingIcon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.white,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
