@@ -32,12 +32,12 @@ class MainPage extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          backgroundColor: Color.fromRGBO(0, 90, 152, 1),
+          backgroundColor: Color.fromRGBO(60, 120, 172, 1),
           foregroundColor: Colors.white,
           centerTitle: true,
         ),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color.fromRGBO(0, 90, 152, 1),
+          seedColor: Color.fromRGBO(60, 120, 172, 1),
         ),
       ),
       initialRoute: SchoolsListPresenter.pageName,

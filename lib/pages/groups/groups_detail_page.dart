@@ -32,9 +32,9 @@ class GroupsDetailPage extends BasePage {
               begin: Alignment.topCenter,
               end: Alignment(0.8, 1),
               colors: <Color>[
-                Color.fromRGBO(0, 90, 152, 1),
-                Color.fromRGBO(0, 100, 162, 1),
-                Color.fromRGBO(0, 110, 172, 1),
+                Color.fromRGBO(60, 120, 172, 1),
+                Color.fromRGBO(70, 130, 182, 1),
+                Color.fromRGBO(80, 140, 192, 1),
               ], // Gradie
             ),
           ),

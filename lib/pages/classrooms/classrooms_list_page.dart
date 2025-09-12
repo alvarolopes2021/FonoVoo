@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/classrooms/presenters/classrooms_list_presenter.dart';
-import 'package:fonovoo/pages/components/center_message_with_smile_component.dart';
+import 'package:fonovoo/pages/components/center_message_with_icon_component.dart';
 import 'package:fonovoo/pages/components/classrooms_component.dart';
 
 class ClassroomsListPage extends BasePage {
@@ -29,9 +29,9 @@ class ClassroomsListPage extends BasePage {
             begin: Alignment.topCenter,
             end: Alignment(0.8, 1),
             colors: <Color>[
-              Color.fromRGBO(0, 90, 152, 1),
-              Color.fromRGBO(0, 100, 162, 1),
-              Color.fromRGBO(0, 110, 172, 1),
+              Color.fromRGBO(60, 120, 172, 1),
+              Color.fromRGBO(70, 130, 182, 1),
+              Color.fromRGBO(80, 140, 192, 1),
             ], // Gradient from,
           ),
         ),
@@ -44,8 +44,9 @@ class ClassroomsListPage extends BasePage {
               );
             }
             if ((presenter as ClassroomsListPresenter).classrooms.isEmpty) {
-              return CenterMessageWithSmileComponent(
+              return CenterMessageWithIconComponent(
                 message: "Adicione uma sala de aula para começar",
+                icon: Icon(Icons.emoji_emotions, color: Colors.white),
               );
             }
             return ListView.builder(

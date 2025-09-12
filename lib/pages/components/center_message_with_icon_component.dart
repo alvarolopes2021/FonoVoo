@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
-class CenterMessageWithSmileComponent extends StatelessWidget {
+class CenterMessageWithIconComponent extends StatelessWidget {
   String message;
+  final Widget icon;
 
-  CenterMessageWithSmileComponent({super.key, required this.message});
+  CenterMessageWithIconComponent({
+    super.key,
+    required this.message,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +24,7 @@ class CenterMessageWithSmileComponent extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Icon(Icons.emoji_emotions, color: Colors.white),
-          ),
+          Container(margin: EdgeInsets.all(10), child: icon),
         ],
       ),
     );

@@ -61,7 +61,7 @@ class GamePage extends BasePage {
         ],
       ),
       body: Container(
-        color: Color.fromRGBO(0, 90, 152, 1),
+        color: Color.fromRGBO(60, 120, 172, 1),
         child: Column(
           children: [
             Container(

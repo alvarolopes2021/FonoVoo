@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fonovoo/domain/dtos/group_dto.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/center_message_with_icon_component.dart';
 import 'package:fonovoo/pages/components/groups_component.dart';
 import 'package:fonovoo/pages/groups/presenters/groups_list_presenter.dart';
 
@@ -41,9 +42,9 @@ class GroupsListPage extends BasePage {
             begin: Alignment.topCenter,
             end: Alignment(0.8, 1),
             colors: <Color>[
-              Color.fromRGBO(0, 90, 152, 1),
-              Color.fromRGBO(0, 100, 162, 1),
-              Color.fromRGBO(0, 110, 172, 1),
+              Color.fromRGBO(60, 120, 172, 1),
+              Color.fromRGBO(70, 130, 182, 1),
+              Color.fromRGBO(80, 140, 192, 1),
             ], // Gradient from,
           ),
         ),
@@ -53,6 +54,12 @@ class GroupsListPage extends BasePage {
             if ((presenter as GroupsListPresenter).load.running) {
               return const Center(
                 child: CircularProgressIndicator(color: Colors.white),
+              );
+            }
+            if ((presenter as GroupsListPresenter).studentsByGroup.isEmpty) {
+              return CenterMessageWithIconComponent(
+                message: "Você ainda não agrupou os alunos",
+                icon: Icon(Icons.sentiment_dissatisfied, color: Colors.white),
               );
             }
             return ListView.builder(
