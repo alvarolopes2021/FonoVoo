@@ -127,7 +127,7 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<bool> missed() async {
-    return await _setGrade(-1);
+    return await _setGrade(0);
   }
 
   Future<bool> _setGrade(double grade) async {
@@ -137,10 +137,7 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
       return false;
     }
 
-    double finalGrade = selectedStudent!.getGrade() + grade;
-    finalGrade = finalGrade < 0 ? 0 : finalGrade;
-
-    selectedStudent!.setGrade(finalGrade);
+    selectedStudent!.setGrade(grade);
 
     StudentsCategoryDto categoryDto = StudentsCategoryDto(
       "",

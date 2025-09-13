@@ -75,6 +75,7 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
 
   void selectStudentGroup(GroupDto groupDto) {
     selectedGroup = groupDto;
+    studentsDto!.setGroupId(groupDto.getId());
   }
 
   Future<List<StudentsDto>?> addStudent() async {

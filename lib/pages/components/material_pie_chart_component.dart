@@ -22,8 +22,8 @@ class _MaterialPieChartComponent extends State<MaterialPieChartComponent> {
   Widget build(BuildContext context) {
     return MaterialPieChart(
       data: widget.seriesList,
-      width: 500,
-      height: 350,
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.width * 0.7,
       minSizePercent: 10.0,
       chartRadius: MediaQuery.of(context).size.width * 0.4,
       style: PieChartStyle(

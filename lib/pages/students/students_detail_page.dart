@@ -19,9 +19,9 @@ class StudentsDetailPage extends BasePage {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        actions:
-            (super.presenter as StudentsDetailPresenter).studentsDto != null
-            ? [
+        actions: (super.presenter as StudentsDetailPresenter).newStudent
+            ? []
+            : [
                 IconButton(
                   onPressed: () {
                     showDialog<void>(
@@ -41,8 +41,7 @@ class StudentsDetailPage extends BasePage {
                   },
                   icon: Icon(Icons.delete),
                 ),
-              ]
-            : [],
+              ],
         title: Text(
           (presenter as StudentsDetailPresenter).newStudent
               ? "Adicionar aluno"
