@@ -1,16 +1,16 @@
-# fonovoo
+## FonoVoo
 
-A new Flutter project.
+A Flutter app to assist teachers working in fonoaudiologia subjects, get statistics and give a board game a digital touch
 
-## Getting Started
+### Getting Started
 
-This project is a starting point for a Flutter application.
+- Flutter version >= 3.35.3 • channel stable • [Download Flutter](https://flutter.dev/)
+- Dart >= 3.9.2 
+- Clone [FonoVoo repo](https://github.com/alvarolopes2021/FonoVoo)
+- Install [VSCode](https://code.visualstudio.com/)
+- Install Dart/Flutter extension
+- Run the app
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
