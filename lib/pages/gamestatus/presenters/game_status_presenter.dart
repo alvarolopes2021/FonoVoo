@@ -35,6 +35,8 @@ class GameStatusPresenter extends BasePresenter with NavigationMixin {
   }
 
   Future<void> loadStudentsCategory() async {
+    studentsCategoryDto = [];
+    
     try {
       List<StudentsCategoryEntity>? studentsCategoryEntity =
           await loadStudentsCategoryUsecase.execute(match.getId())
@@ -52,6 +54,7 @@ class GameStatusPresenter extends BasePresenter with NavigationMixin {
             cat.getStudentName(),
             cat.getCategoryId(),
             cat.getCategoryName(),
+            cat.getCategoryColor(),
             cat.getMatchId(),
             cat.getGrade(),
           ),

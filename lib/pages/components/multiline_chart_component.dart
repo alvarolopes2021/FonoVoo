@@ -24,6 +24,7 @@ class _MultilineChartComponent extends State<MultilineChartComponent> {
       series: widget.seriesList,
       enableZoom: true,
       enablePan: true,
+
       style: MultiLineChartStyle(
         crosshair: CrosshairConfig(
           enabled: true,
@@ -47,11 +48,14 @@ class _MultilineChartComponent extends State<MultilineChartComponent> {
           padding: 8.0,
         ),
         colors: [
-          Colors.black,
           Colors.red,
-          Colors.blueAccent,
-          Colors.white,
           Colors.yellow,
+          Colors.green,
+          Colors.white,
+          Colors.blueAccent,
+          Colors.deepOrange,
+          Colors.brown,
+          Colors.black,
         ],
       ),
     );

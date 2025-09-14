@@ -87,12 +87,8 @@ class MaterialChartsConverter {
     List<PieChartData> chartSeries = [];
 
     for (var element in group.entries) {
-      chartSeries.add(
-        PieChartData(
-          label: element.key,
-          value: element.value.reduce((value, element) => value + element),
-        ),
-      );
+      double grade = element.value.reduce((value, element) => value + element);
+      chartSeries.add(PieChartData(label: element.key, value: grade));
     }
 
     return chartSeries;

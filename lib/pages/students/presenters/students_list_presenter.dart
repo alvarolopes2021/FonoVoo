@@ -1,3 +1,4 @@
+import 'package:fonovoo/application/usacases/groups/factories/make_delete_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_edit_student_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/students/factories/make_list_groups_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
@@ -31,6 +32,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
   late UseCase makeGroupUsecase;
   late UseCase listGroupsUsecase;
   late UseCase editStudentsUsecase;
+  late UseCase deleteGroupUsecase;
 
   late Command0 load;
 
@@ -39,6 +41,7 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     listGroupsUsecase = makeListGroupsUsecaseFactory;
     makeGroupUsecase = makeMakeGroupUsecaseFactory;
     editStudentsUsecase = makeEditStudentUsecaseFactory;
+    deleteGroupUsecase = makeDeleteGroupsUsecaseFactory;
   }
 
   void updateDto(Object? data) {
@@ -128,6 +131,17 @@ class StudentsListPresenter extends BasePresenter with NavigationMixin {
     }
 
     studentsDto[index] = editedStudent;
+
+    for (GroupDto group in groupsDto) {
+      List<StudentsDto> studentsGroups = studentsDto
+          .where((student) => student.getGroupId() == group.getId())
+          .toList();
+
+      if (studentsGroups.isEmpty) {
+        deleteGroupUsecase.execute(group);
+      }
+    }
+
     notifyListeners();
   }
 

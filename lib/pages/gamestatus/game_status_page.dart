@@ -71,7 +71,7 @@ class GameStatusPage extends BasePage {
                   child: TextButton.icon(
                     style: ButtonStyle(
                       elevation: WidgetStateProperty.all(2),
-                      shadowColor: WidgetStateProperty.all(Colors.yellow),
+                      shadowColor: WidgetStateProperty.all(Colors.white),
                       backgroundColor: WidgetStateProperty.all(Colors.white),
                     ),
                     onPressed: () {

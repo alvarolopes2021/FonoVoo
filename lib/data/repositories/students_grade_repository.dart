@@ -35,7 +35,7 @@ class StudentsGradeRepository implements IStudentsGradeRepository {
   ) async {
     try {
       String sql =
-          "SELECT cg.categorygradeid as categoryid, cg.studentid as studentid, cg.categoryid as categoryid, cg.grade as grade, cg.matchid as matchid, s.name as studentname, cat.categoryname as categoryname FROM categories_grade cg INNER JOIN students s ON s.studentid = cg.studentid INNER JOIN categories cat ON cat.categoryid = cg.categoryid WHERE cg.matchid = '$matchid';";
+          "SELECT cg.categorygradeid as categoryid, cg.studentid as studentid, cg.categoryid as categoryid, cg.grade as grade, cg.matchid as matchid, s.name as studentname, cat.categoryname as categoryname, cat.categorycolor categorycolor FROM categories_grade cg INNER JOIN students s ON s.studentid = cg.studentid INNER JOIN categories cat ON cat.categoryid = cg.categoryid WHERE cg.matchid = '$matchid';";
 
       Object? result = await database.readData(sql);
       List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
@@ -50,6 +50,7 @@ class StudentsGradeRepository implements IStudentsGradeRepository {
             element["studentname"].toString(),
             element["categoryid"].toString(),
             element["categoryname"].toString(),
+            element["categorycolor"].toString(),
             element["matchid"].toString(),
             double.parse(element["grade"].toString()),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/domain/domain_services/category_color_converter.dart';
 import 'package:material_charts/material_charts.dart';
 
 class MaterialPieChartComponent extends StatefulWidget {
@@ -22,19 +23,16 @@ class _MaterialPieChartComponent extends State<MaterialPieChartComponent> {
   Widget build(BuildContext context) {
     return MaterialPieChart(
       data: widget.seriesList,
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.7,
       height: MediaQuery.of(context).size.width * 0.7,
-      minSizePercent: 10.0,
+      minSizePercent: 0.0,
       chartRadius: MediaQuery.of(context).size.width * 0.4,
       style: PieChartStyle(
-        defaultColors: [
-          Colors.blue,
-          Colors.red,
-          Colors.green,
-          Colors.orange,
-          Colors.purple,
-          Colors.teal,
-        ],
+        defaultColors: List.generate(widget.seriesList.length, (index) {
+          return CategoryColorConverter.stringToColor(
+            widget.seriesList[index].label,
+          );
+        }),
         backgroundColor: Colors.transparent,
         startAngle: -180.0,
         holeRadius: 0.00,

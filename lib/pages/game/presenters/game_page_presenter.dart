@@ -145,6 +145,7 @@ class GamePagePresenter extends BasePresenter with NavigationMixin {
       selectedStudent!.getName(),
       selectedCategory!.getId(),
       selectedCategory!.getName(),
+      selectedCategory!.getColor(),
       match.getId(),
       selectedStudent!.getGrade(),
     );

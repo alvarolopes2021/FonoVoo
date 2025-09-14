@@ -4,6 +4,7 @@ class StudentsCategoryEntity {
   String _studentName = "";
   String _categoryid = "";
   String _categoryName = "";
+  String _categoryColor = "";
   String _matchId = "";
   double _grade = 0;
 
@@ -13,6 +14,7 @@ class StudentsCategoryEntity {
     String studentName,
     String categoryid,
     String categoryName,
+    String categoryColor,
     String matchId,
     double grade,
   ) {
@@ -21,6 +23,7 @@ class StudentsCategoryEntity {
     _studentName = studentName;
     _categoryid = categoryid;
     _categoryName = categoryName;
+    _categoryColor = categoryColor;
     _matchId = matchId;
     _grade = grade;
   }
@@ -31,6 +34,7 @@ class StudentsCategoryEntity {
     String studentName,
     String categoryid,
     String categoryName,
+    String categoryColor,
     String matchId,
     double grade,
   ) {
@@ -40,6 +44,7 @@ class StudentsCategoryEntity {
       studentName,
       categoryid,
       categoryName,
+      categoryColor,
       matchId,
       grade,
     );
@@ -83,6 +88,14 @@ class StudentsCategoryEntity {
 
   void setCategoryName(String name) {
     _categoryName = name;
+  }
+
+  String getCategoryColor() {
+    return _categoryColor;
+  }
+
+  void setCategoryColor(String color) {
+    _categoryColor = color;
   }
 
   String getMatchId() {

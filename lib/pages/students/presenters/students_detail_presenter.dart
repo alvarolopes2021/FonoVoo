@@ -16,11 +16,12 @@ import 'package:fonovoo/pages/base_presenter.dart';
 class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
   static String pageName = "/students-detail/:data";
 
-  late StudentsDto? studentsDto;
+  StudentsDto? studentsDto = StudentsDto();
   late ClassroomEntity? classroomEntity;
   late SchoolEntity? schoolEntity;
   List<GroupDto> groups = [];
   GroupDto? selectedGroup;
+  bool loadedGroups = false;
 
   bool newStudent = false;
 
@@ -41,33 +42,33 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
 
     classroomEntity = arguments["classroom"] as ClassroomEntity?;
     schoolEntity = arguments["school"] as SchoolEntity?;
-    studentsDto = arguments["student"] as StudentsDto?;
+    StudentsDto? studentArgument = arguments["student"] as StudentsDto?;
 
-    if (studentsDto == null) {
-      studentsDto = StudentsDto();
+    if (studentArgument == null) {
       newStudent = true;
-      return;
+    } else {
+      studentsDto = studentArgument;
     }
 
-    List<GroupEntity> groupsEntity =
-        await loadGroupsUsecase.execute(classroomEntity!.getId())
-            as List<GroupEntity>;
+    if (!loadedGroups) {
+      List<GroupEntity> groupsEntity =
+          await loadGroupsUsecase.execute(classroomEntity!.getId())
+              as List<GroupEntity>;
 
-    if (groupsEntity.isEmpty) {
-      return;
-    }
+      for (var item in groupsEntity) {
+        GroupDto group = GroupDto(
+          item.getId(),
+          item.getName(),
+          item.getClassId(),
+        );
 
-    for (var item in groupsEntity) {
-      GroupDto group = GroupDto(
-        item.getId(),
-        item.getName(),
-        item.getClassId(),
-      );
-      if (group.getId() == studentsDto!.getGroupId()) {
-        selectedGroup = group;
+        if (group.getId() == studentsDto!.getGroupId()) {
+          selectedGroup = group;
+        }
+
+        groups.add(group);
       }
-
-      groups.add(group);
+      loadedGroups = true;
     }
 
     notifyListeners();
@@ -75,7 +76,6 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
 
   void selectStudentGroup(GroupDto groupDto) {
     selectedGroup = groupDto;
-    studentsDto!.setGroupId(groupDto.getId());
   }
 
   Future<List<StudentsDto>?> addStudent() async {
@@ -103,6 +103,7 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
       }
 
       studentsDto!.updateClassId(classroomEntity!.getId());
+      studentsDto!.setGroupId(selectedGroup!.getId());
 
       StudentsDto? editedStudent =
           await editStudentUsecase.execute(studentsDto) as StudentsDto?;

@@ -4,6 +4,7 @@ class StudentsCategoryDto {
   String _studentName = "";
   String _categoryid = "";
   String _categoryName = "";
+  String _categoryColor = "";
   String _matchId = "";
   double _grade = 0;
 
@@ -13,6 +14,7 @@ class StudentsCategoryDto {
     String studentName,
     String categoryid,
     String categoryName,
+    String categoryColor,
     String matchId,
     double grade,
   ) {
@@ -21,6 +23,7 @@ class StudentsCategoryDto {
     _studentName = studentName;
     _categoryid = categoryid;
     _categoryName = categoryName;
+    _categoryColor = categoryColor;
     _matchId = matchId;
     _grade = grade;
   }
@@ -31,6 +34,7 @@ class StudentsCategoryDto {
     String studentName,
     String categoryid,
     String categoryName,
+    String categoryColor,
     String matchId,
     double grade,
   ) {
@@ -40,6 +44,7 @@ class StudentsCategoryDto {
       studentName,
       categoryid,
       categoryName,
+      categoryColor,
       matchId,
       grade,
     );
@@ -83,6 +88,14 @@ class StudentsCategoryDto {
 
   void setCategoryName(String name) {
     _categoryName = name;
+  }
+
+  String getCategoryColor() {
+    return _categoryColor;
+  }
+
+  void setCategoryColor(String color) {
+    _categoryColor = color;
   }
 
   String getMatchId() {
