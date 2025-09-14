@@ -19,6 +19,9 @@ class MaterialChartsConverter {
     List<ChartSeries> chartSeries = [];
 
     for (var element in group.entries) {
+      if (element.value.length == 1){
+        element.value.add(1);
+      }
       chartSeries.add(
         ChartSeries(
           name: element.key,
@@ -28,6 +31,43 @@ class MaterialChartsConverter {
               value: element.value[index],
               label: "Rodada ${(index + 1)}",
             ),
+          ),
+        ),
+      );
+    }
+
+    return chartSeries;
+  }
+
+  static List<ChartSeries> buildStudentsLineChartDataByMatch(
+    List<StudentsCategoryDto> data,
+  ) {
+    Map<String, List<double>> group = {};
+
+    for (StudentsCategoryDto element in data) {
+      if (group.containsKey(element.getMatchId())) {
+        group[element.getMatchId()]!.add(element.getGrade());
+      } else {
+        group.addAll({
+          element.getMatchId(): [element.getGrade()],
+        });
+      }
+    }
+    List<ChartSeries> chartSeries = [];
+
+    int matchIndex = 0;
+
+    for (var element in group.entries) {
+      if (element.value.length == 1){
+        element.value.add(1);
+      }
+      matchIndex++;
+      chartSeries.add(
+        ChartSeries(
+          name: "Partida $matchIndex",
+          dataPoints: List.generate(
+            element.value.length,
+            (index) => ChartDataPoint(value: element.value[index]),
           ),
         ),
       );

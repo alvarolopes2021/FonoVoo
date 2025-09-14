@@ -1,4 +1,4 @@
-import 'package:fonovoo/application/usacases/grade/factories/make_load_grades_usecase_factory.dart';
+import 'package:fonovoo/application/usacases/grade/factories/make_load_grades_by_students_usecase_factory.dart';
 import 'package:fonovoo/application/usacases/usecase.dart';
 import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:fonovoo/domain/dtos/students_dto.dart';
@@ -16,7 +16,7 @@ class StudentsStatusPresenter extends BasePresenter {
   late Command loadGradesCommand;
 
   StudentsStatusPresenter({required super.pageContext}) {
-    loadStudentsCategoryUsecase = makeLoadGradesUsecaseFactory;
+    loadStudentsCategoryUsecase = makeLoadGradesByStudentUsecaseFactory;
   }
 
   void updateDto(Object? data) {

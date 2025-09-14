@@ -62,4 +62,38 @@ class StudentsGradeRepository implements IStudentsGradeRepository {
       return null;
     }
   }
+
+  @override
+  Future<List<StudentsCategoryEntity>?> loadGradesByStudent(
+    String studentid,
+  ) async {
+    try {
+      String sql =
+          "SELECT cg.categorygradeid as categoryid, cg.studentid as studentid, cg.categoryid as categoryid, cg.grade as grade, cg.matchid as matchid, s.name as studentname, cat.categoryname as categoryname, cat.categorycolor categorycolor FROM categories_grade cg INNER JOIN students s ON s.studentid = cg.studentid INNER JOIN categories cat ON cat.categoryid = cg.categoryid WHERE s.studentid = '$studentid';";
+
+      Object? result = await database.readData(sql);
+      List<Map<String, Object?>> data = result as List<Map<String, Object?>>;
+
+      List<StudentsCategoryEntity> grades = [];
+
+      for (var element in data) {
+        grades.add(
+          StudentsCategoryEntity.create(
+            element["categorygradeid"].toString(),
+            element["studentid"].toString(),
+            element["studentname"].toString(),
+            element["categoryid"].toString(),
+            element["categoryname"].toString(),
+            element["categorycolor"].toString(),
+            element["matchid"].toString(),
+            double.parse(element["grade"].toString()),
+          ),
+        );
+      }
+
+      return grades;
+    } catch (e) {
+      return null;
+    }
+  }
 }

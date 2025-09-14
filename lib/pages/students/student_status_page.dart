@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fonovoo/core/helpers/material_charts_converter.dart';
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/center_message_with_icon_component.dart';
 import 'package:fonovoo/pages/components/material_pie_chart_component.dart';
 import 'package:fonovoo/pages/components/multiline_chart_component.dart';
 import 'package:fonovoo/pages/students/presenters/students_status_presenter.dart';
@@ -35,6 +36,14 @@ class StudentStatusPage extends BasePage {
         child: ListenableBuilder(
           listenable: (presenter as StudentsStatusPresenter),
           builder: (pageContext, snapshot) {
+            if ((presenter as StudentsStatusPresenter)
+                .studentsCategoryDto
+                .isEmpty) {
+              return CenterMessageWithIconComponent(
+                message: "O aluno ainda não jogou",
+                icon: Icon(Icons.sentiment_dissatisfied, color: Colors.white),
+              );
+            }
             return Column(
               children: [
                 Expanded(
@@ -42,7 +51,7 @@ class StudentStatusPage extends BasePage {
                     margin: EdgeInsets.all(15),
                     child: MultilineChartComponent(
                       seriesList:
-                          MaterialChartsConverter.buildStudentsLineChartData(
+                          MaterialChartsConverter.buildStudentsLineChartDataByMatch(
                             (presenter as StudentsStatusPresenter)
                                 .studentsCategoryDto,
                           ),
@@ -73,9 +82,7 @@ class StudentStatusPage extends BasePage {
                       shadowColor: WidgetStateProperty.all(Colors.yellow),
                       backgroundColor: WidgetStateProperty.all(Colors.white),
                     ),
-                    onPressed: () {
-                      
-                    },
+                    onPressed: () {},
                     icon: Icon(Icons.check, color: Colors.blue),
                     label: Text(
                       "Finalizar",
