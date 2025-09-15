@@ -19,7 +19,7 @@ class MaterialChartsConverter {
     List<ChartSeries> chartSeries = [];
 
     for (var element in group.entries) {
-      if (element.value.length == 1){
+      if (element.value.length == 1) {
         element.value.add(1);
       }
       chartSeries.add(
@@ -55,23 +55,36 @@ class MaterialChartsConverter {
     }
     List<ChartSeries> chartSeries = [];
 
-    int matchIndex = 0;
-
+    Map<String, double> average = {};
     for (var element in group.entries) {
-      if (element.value.length == 1){
+      if (element.value.length == 1) {
         element.value.add(1);
       }
-      matchIndex++;
-      chartSeries.add(
-        ChartSeries(
-          name: "Partida $matchIndex",
-          dataPoints: List.generate(
-            element.value.length,
-            (index) => ChartDataPoint(value: element.value[index]),
+      if (average.containsKey(element.key)) {
+        average[element.key] = element.value.reduce(
+          (value, element) => value + element,
+        );
+      } else {
+        average.addAll({
+          element.key: element.value.reduce(
+            (value, element) => value + element,
+          ),
+        });
+      }
+    }
+
+    chartSeries.add(
+      ChartSeries(
+        name: "Média",
+        dataPoints: List.generate(
+          average.values.length,
+          (index) => ChartDataPoint(
+            label: "Partida $index",
+            value: average.values.toList()[index],
           ),
         ),
-      );
-    }
+      ),
+    );
 
     return chartSeries;
   }

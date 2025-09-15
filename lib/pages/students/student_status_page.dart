@@ -46,6 +46,10 @@ class StudentStatusPage extends BasePage {
             }
             return Column(
               children: [
+                Text(
+                  "Média das partidas",
+                  style: TextStyle(color: Colors.white),
+                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.all(15),
@@ -59,6 +63,10 @@ class StudentStatusPage extends BasePage {
                     ),
                   ),
                 ),
+                Text(
+                  "Parcial dos tópicos trabalhados",
+                  style: TextStyle(color: Colors.white),
+                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.all(15),
@@ -69,24 +77,6 @@ class StudentStatusPage extends BasePage {
                                 .studentsCategoryDto,
                           ),
                       chartName: "Categorias",
-                    ),
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.all(15),
-                  child: TextButton.icon(
-                    style: ButtonStyle(
-                      elevation: WidgetStateProperty.all(2),
-                      shadowColor: WidgetStateProperty.all(Colors.yellow),
-                      backgroundColor: WidgetStateProperty.all(Colors.white),
-                    ),
-                    onPressed: () {},
-                    icon: Icon(Icons.check, color: Colors.blue),
-                    label: Text(
-                      "Finalizar",
-                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ),
