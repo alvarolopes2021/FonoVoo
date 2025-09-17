@@ -73,6 +73,10 @@ class MaterialChartsConverter {
       }
     }
 
+    if (average.length == 1) {
+      average.addAll({"1": 1});
+    }
+
     chartSeries.add(
       ChartSeries(
         name: "Nota",

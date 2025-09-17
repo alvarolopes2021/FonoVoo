@@ -46,18 +46,6 @@ class StudentStatusPage extends BasePage {
             }
             return Column(
               children: [
-                Container(
-                  margin: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Icon(Icons.warning, color: Colors.amberAccent),
-                      Text(
-                        "O aluno tem dificuldade em: ",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
                 Text(
                   "Nota das partidas",
                   style: TextStyle(color: Colors.white),
@@ -90,6 +78,25 @@ class StudentStatusPage extends BasePage {
                           ),
                       chartName: "Categorias",
                     ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 0, 50),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning, color: Colors.white),
+                      Text(
+                        "As parciais indicam dificuldade em: ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        "Frases",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

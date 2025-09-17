@@ -25,7 +25,7 @@ class StudentsStatusPresenter extends BasePresenter {
     }
 
     selectedStudent = data as StudentsDto;
-    
+
     loadGradesCommand = Command0(loadStudentsCategory)..execute();
   }
 
