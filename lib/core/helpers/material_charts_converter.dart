@@ -75,7 +75,7 @@ class MaterialChartsConverter {
 
     chartSeries.add(
       ChartSeries(
-        name: "Média",
+        name: "Nota",
         dataPoints: List.generate(
           average.values.length,
           (index) => ChartDataPoint(

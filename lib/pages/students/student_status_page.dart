@@ -46,8 +46,20 @@ class StudentStatusPage extends BasePage {
             }
             return Column(
               children: [
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning, color: Colors.amberAccent),
+                      Text(
+                        "O aluno tem dificuldade em: ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
                 Text(
-                  "Média das partidas",
+                  "Nota das partidas",
                   style: TextStyle(color: Colors.white),
                 ),
                 Expanded(
