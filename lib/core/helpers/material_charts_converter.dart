@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:material_charts/material_charts.dart';
 
@@ -82,8 +83,8 @@ class MaterialChartsConverter {
         name: "Nota",
         dataPoints: List.generate(
           average.values.length,
-          (index) => ChartDataPoint(
-            label: "Partida $index",
+          (index) => ChartDataPoint(            
+            label: "Partida ${index + 1}",
             value: average.values.toList()[index],
           ),
         ),

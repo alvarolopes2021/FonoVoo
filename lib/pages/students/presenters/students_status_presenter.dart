@@ -15,6 +15,8 @@ class StudentsStatusPresenter extends BasePresenter {
 
   late Command loadGradesCommand;
 
+  String difficultSubject = "";
+
   StudentsStatusPresenter({required super.pageContext}) {
     loadStudentsCategoryUsecase = makeLoadGradesByStudentUsecaseFactory;
   }
@@ -52,6 +54,29 @@ class StudentsStatusPresenter extends BasePresenter {
             cat.getGrade(),
           ),
         );
+      }
+      Map<String, List<double>> group = {};
+
+      for (StudentsCategoryDto element in studentsCategoryDto) {
+        if (group.containsKey(element.getCategoryName())) {
+          group[element.getCategoryName()]!.add(element.getGrade());
+        } else {
+          group.addAll({
+            element.getCategoryName(): [element.getGrade()],
+          });
+        }
+      }
+
+      double grade = double.maxFinite;
+
+      for (var element in group.entries) {
+        double calculatedGrade = element.value.reduce(
+          (value, element) => value + element,
+        );
+        if (calculatedGrade < grade) {
+          grade = calculatedGrade;
+          difficultSubject = element.key;
+        }
       }
     } catch (e) {
       return;

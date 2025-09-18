@@ -46,13 +46,25 @@ class StudentStatusPage extends BasePage {
             }
             return Column(
               children: [
-                Text(
-                  "Nota das partidas",
-                  style: TextStyle(color: Colors.white),
+                Container(
+                  margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
+                  child: Text(
+                    "Nota das partidas",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    "Caso o jogador tenha participado de apenas 1 partida, será estipulada uma previsão para que seja gerado o gráfico",
+                    style: TextStyle(color: Colors.white, fontSize: 10),
+                  ),
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
                     child: MultilineChartComponent(
                       seriesList:
                           MaterialChartsConverter.buildStudentsLineChartDataByMatch(
@@ -69,7 +81,7 @@ class StudentStatusPage extends BasePage {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
                     child: MaterialPieChartComponent(
                       seriesList:
                           MaterialChartsConverter.buildCategoriesPieChartData(
@@ -83,16 +95,15 @@ class StudentStatusPage extends BasePage {
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 0, 0, 50),
                   child: Row(
-                    children: [
-                      Icon(Icons.warning, color: Colors.white),
+                    children: [                      
                       Text(
-                        "As parciais indicam dificuldade em: ",
-                        style: TextStyle(color: Colors.white),
+                        "As parciais indicam dificuldade em ",
+                        style: TextStyle(color: Colors.yellow),
                       ),
                       Text(
-                        "Frases",
+                        (presenter as StudentsStatusPresenter).difficultSubject,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.yellow,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
