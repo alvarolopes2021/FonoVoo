@@ -86,6 +86,10 @@ class StudentsDetailPresenter extends BasePresenter with NavigationMixin {
 
       studentsDto!.updateClassId(classroomEntity!.getId());
 
+      if (selectedGroup != null) {
+        studentsDto!.setGroupId(selectedGroup!.getId());
+      }
+
       StudentsDto? newStudent =
           await addStudentUseCase.execute(studentsDto) as StudentsDto?;
       pop(pageContext, newStudent);
