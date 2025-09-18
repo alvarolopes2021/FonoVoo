@@ -57,7 +57,7 @@ class _CommunityChartsMultilneComponent
             domainAxis: charts.NumericAxisSpec(
               showAxisLine: true,
               tickFormatterSpec: charts.BasicNumericTickFormatterSpec((value) {
-                return "${widget.domainName} ${value!.toStringAsFixed(0)}";
+                return "${widget.domainName} ${value!.toStringAsFixed(0)} ";
               }),
               renderSpec: charts.GridlineRendererSpec(
                 labelStyle: charts.TextStyleSpec(
