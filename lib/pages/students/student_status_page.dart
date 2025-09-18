@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/core/helpers/community_charts_converter.dart';
 import 'package:fonovoo/core/helpers/material_charts_converter.dart';
 import 'package:fonovoo/pages/base_page.dart';
 import 'package:fonovoo/pages/components/center_message_with_icon_component.dart';
+import 'package:fonovoo/pages/components/community_charts_multilne_component.dart';
 import 'package:fonovoo/pages/components/material_pie_chart_component.dart';
-import 'package:fonovoo/pages/components/multiline_chart_component.dart';
+import 'package:fonovoo/pages/components/material_multiline_chart_component.dart';
 import 'package:fonovoo/pages/students/presenters/students_status_presenter.dart';
 
 class StudentStatusPage extends BasePage {
@@ -46,41 +48,17 @@ class StudentStatusPage extends BasePage {
             }
             return Column(
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-                  child: Text(
-                    "Nota das partidas",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                (presenter as StudentsStatusPresenter)
-                            .numberOfMatchesPlayed
-                            .length ==
-                        1
-                    ? Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.all(10),
-                        child: Text(
-                          softWrap: true,
-                          textAlign: TextAlign.center,
-                          "O jogador participou de apenas 1 partida. Para gerar o gráfico, foi estipulada uma previsão da próxima rodada",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      )
-                    : Text(""),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-                    child: MultilineChartComponent(
+                    child: CommunityChartsMultilneComponent(
                       seriesList:
-                          MaterialChartsConverter.buildStudentsLineChartDataByMatch(
+                          CommunityChartsConverter.buildStudentsLineChartDataByMatch(
                             (presenter as StudentsStatusPresenter)
                                 .studentsCategoryDto,
                           ),
-                      chartName: "Partida",
+                      chartName: "Nota das partidas",
+                      domainName: "Partida",
                     ),
                   ),
                 ),

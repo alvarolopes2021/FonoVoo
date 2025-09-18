@@ -35,6 +35,7 @@ dependencies:
   grouped_list: ^6.0.0
   material_charts: ^0.0.30
   fl_chart: ^1.1.0
+  community_charts_flutter: ^1.0.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

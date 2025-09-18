@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_charts/material_charts.dart';
 
-class MultilineChartComponent extends StatefulWidget {
+class MaterialMultilineChartComponent extends StatefulWidget {
   final List<ChartSeries> seriesList;
   final String chartName;
 
-  const MultilineChartComponent({
+  const MaterialMultilineChartComponent({
     super.key,
     required this.seriesList,
     required this.chartName,
@@ -13,18 +13,24 @@ class MultilineChartComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MultilineChartComponent();
+    return _MaterialMultilineChartComponent();
   }
 }
 
-class _MultilineChartComponent extends State<MultilineChartComponent> {
+class _MaterialMultilineChartComponent
+    extends State<MaterialMultilineChartComponent> {
   @override
   Widget build(BuildContext context) {
     return MultiLineChart(
       series: widget.seriesList,
-      enableZoom: true,
-      enablePan: true,
-      onPointTap: (value) {},
+      enableZoom: false,
+      enablePan: false,
+      onPointTap: (value) {
+        String a = "";
+      },
+      onChartTap: (value) {
+        String a = "";
+      },
       style: MultiLineChartStyle(
         crosshair: CrosshairConfig(
           enabled: true,
