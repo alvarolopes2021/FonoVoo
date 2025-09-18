@@ -17,6 +17,8 @@ class StudentsStatusPresenter extends BasePresenter {
 
   String difficultSubject = "";
 
+  List<String> numberOfMatchesPlayed = [];
+
   StudentsStatusPresenter({required super.pageContext}) {
     loadStudentsCategoryUsecase = makeLoadGradesByStudentUsecaseFactory;
   }
@@ -54,6 +56,9 @@ class StudentsStatusPresenter extends BasePresenter {
             cat.getGrade(),
           ),
         );
+        if (!numberOfMatchesPlayed.contains(cat.getMatchId())) {
+          numberOfMatchesPlayed.add(cat.getMatchId());
+        }
       }
       Map<String, List<double>> group = {};
 

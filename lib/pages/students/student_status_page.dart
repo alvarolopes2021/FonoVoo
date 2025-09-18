@@ -50,18 +50,27 @@ class StudentStatusPage extends BasePage {
                   margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
                   child: Text(
                     "Nota das partidas",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                    "Caso o jogador tenha participado de apenas 1 partida, será estipulada uma previsão para que seja gerado o gráfico",
-                    style: TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                ),
+                (presenter as StudentsStatusPresenter)
+                            .numberOfMatchesPlayed
+                            .length ==
+                        1
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.all(10),
+                        child: Text(
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          "O jogador participou de apenas 1 partida. Para gerar o gráfico, foi estipulada uma previsão da próxima rodada",
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      )
+                    : Text(""),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
@@ -77,7 +86,10 @@ class StudentStatusPage extends BasePage {
                 ),
                 Text(
                   "Parcial dos tópicos trabalhados",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Expanded(
                   child: Container(
@@ -95,7 +107,7 @@ class StudentStatusPage extends BasePage {
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 0, 0, 50),
                   child: Row(
-                    children: [                      
+                    children: [
                       Text(
                         "As parciais indicam dificuldade em ",
                         style: TextStyle(color: Colors.yellow),

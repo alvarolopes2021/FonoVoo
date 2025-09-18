@@ -24,6 +24,7 @@ class _MultilineChartComponent extends State<MultilineChartComponent> {
       series: widget.seriesList,
       enableZoom: true,
       enablePan: true,
+      onPointTap: (value) {},
       style: MultiLineChartStyle(
         crosshair: CrosshairConfig(
           enabled: true,
