@@ -126,6 +126,24 @@ class GamePage extends BasePage {
                             updateSelection: (presenter as GamePagePresenter)
                                 .updateSelection,
                             index: index,
+                            displayExplanation: (index) {
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // User must tap a button to dismiss
+                                builder: (BuildContext dialogContext) {
+                                  return AlertDialogComponent(
+                                    pageContext: context,
+                                    title: 'Ajuda',
+                                    message: (presenter as GamePagePresenter)
+                                        .grid[index]
+                                        .getCategoryExpalanation(),
+                                    okText: 'Ok',
+                                    icon: Text(""),
+                                  );
+                                },
+                              );
+                            },
                           );
                         },
                       ),

@@ -1,3 +1,5 @@
+import 'package:fonovoo/domain/domain_services/get_categories_explanation_.dart';
+
 class CategoryEntity {
   String _id = "";
   String _color = "";
@@ -35,5 +37,9 @@ class CategoryEntity {
 
   void updateColor(String id) {
     _color = id;
+  }
+
+  String getCategoryExpalanation() {
+    return GetCategoryExpalanation.categoryToExplanation(_name);
   }
 }
