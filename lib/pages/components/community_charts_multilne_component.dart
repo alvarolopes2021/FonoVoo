@@ -32,6 +32,13 @@ class _CommunityChartsMultilneComponent
         Expanded(
           child: charts.LineChart(
             widget.seriesList,
+            animate: false,
+            selectionModels: [
+              charts.SelectionModelConfig(
+                type: charts.SelectionModelType.info,
+                changedListener: _onSelectionChanged,
+              ),
+            ],
             behaviors: [
               charts.ChartTitle(
                 widget.chartName,
@@ -39,19 +46,6 @@ class _CommunityChartsMultilneComponent
                 behaviorPosition: charts.BehaviorPosition.top,
                 titleOutsideJustification:
                     charts.OutsideJustification.middleDrawArea,
-              ),
-              charts.LinePointHighlighter(
-                showHorizontalFollowLine:
-                    charts.LinePointHighlighterFollowLineType.none,
-                showVerticalFollowLine:
-                    charts.LinePointHighlighterFollowLineType.nearest,
-              ),
-              charts.SelectNearest(eventTrigger: charts.SelectionTrigger.tap),
-            ],
-            selectionModels: [
-              charts.SelectionModelConfig(
-                type: charts.SelectionModelType.info,
-                updatedListener: _onSelectionChanged,
               ),
             ],
             domainAxis: charts.NumericAxisSpec(
@@ -81,6 +75,12 @@ class _CommunityChartsMultilneComponent
                   color: charts.MaterialPalette.white, // X-axis line color
                 ),
               ),
+            ),
+            defaultRenderer: charts.LineRendererConfig(
+              includePoints: true,
+              includeArea: true,
+              includeLine: true,
+              radiusPx: 4,
             ),
           ),
         ),

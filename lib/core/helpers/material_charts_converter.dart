@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/core/helpers/color_converter.dart';
+import 'package:fonovoo/domain/domain_services/category_color_converter.dart';
 import 'package:fonovoo/domain/dtos/students_category_dto.dart';
 import 'package:material_charts/material_charts.dart';
 
@@ -83,7 +85,7 @@ class MaterialChartsConverter {
         name: "Nota",
         dataPoints: List.generate(
           average.values.length,
-          (index) => ChartDataPoint(            
+          (index) => ChartDataPoint(
             label: "Partida ${index + 1}",
             value: average.values.toList()[index],
           ),
@@ -101,7 +103,10 @@ class MaterialChartsConverter {
 
     for (StudentsCategoryDto element in data) {
       if (group.containsKey(element.getCategoryName())) {
-        group[element.getCategoryName()]!.add(element.getGrade());
+        double grade =
+            element.getGrade() +
+            group[element.getCategoryName()]!.reduce((value, vv) => vv + value);
+        group[element.getCategoryName()]!.add(grade);
       } else {
         group.addAll({
           element.getCategoryName(): [element.getGrade()],
@@ -111,9 +116,13 @@ class MaterialChartsConverter {
     List<ChartSeries> chartSeries = [];
 
     for (var element in group.entries) {
+      if (element.value.length == 1) {
+        element.value.add(1);
+      }
       chartSeries.add(
         ChartSeries(
           name: element.key,
+          color: CategoryColorConverter.stringToColor(element.key),
           dataPoints: List.generate(
             element.value.length,
             (index) => ChartDataPoint(

@@ -48,17 +48,60 @@ class StudentStatusPage extends BasePage {
             }
             return Column(
               children: [
+                (presenter as StudentsStatusPresenter)
+                            .numberOfMatchesPlayed
+                            .length ==
+                        1
+                    ? Text(
+                        "O aluno jogou apenas 1 partida, mas um valor arbirtário foi inserido para mostrar o gráfico",
+                        style: TextStyle(color: Colors.white, fontSize: 10),
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                      )
+                    : Text(""),
+                Text(
+                  "Notas por partida",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-                    child: CommunityChartsMultilneComponent(
+                    child: MaterialMultilineChartComponent(
                       seriesList:
-                          CommunityChartsConverter.buildStudentsLineChartDataByMatch(
+                          MaterialChartsConverter.buildStudentsLineChartDataByMatch(
                             (presenter as StudentsStatusPresenter)
                                 .studentsCategoryDto,
                           ),
                       chartName: "Nota das partidas",
-                      domainName: "Partida",
+                    ),
+                  ),
+                ),
+                Text(
+                  "Evolução dos tópicos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
+                    child: MaterialMultilineChartComponent(
+                      seriesList:
+                          MaterialChartsConverter.buildCategoriesLineChartData(
+                            (presenter as StudentsStatusPresenter)
+                                .studentsCategoryDto,
+                          ),
+                      chartName: "Nota das partidas",
                     ),
                   ),
                 ),
@@ -83,8 +126,10 @@ class StudentStatusPage extends BasePage {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20, 0, 0, 50),
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
                   child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "As parciais indicam dificuldade em ",

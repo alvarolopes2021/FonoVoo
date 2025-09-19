@@ -52,7 +52,7 @@ class CommunityChartsConverter {
 
     List<charts.Series<StudentsCategoryDto, double>> chartSeries = [
       charts.Series<StudentsCategoryDto, double>(
-        seriesColor: charts.Color.fromHex(code: "#FF0000"),
+        colorFn: (datum, index) => charts.MaterialPalette.red.shadeDefault,
         insideLabelStyleAccessorFn: (datum, index) =>
             charts.TextStyleSpec(color: charts.Color.black),
         id: 'Nota',
