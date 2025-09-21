@@ -29,7 +29,9 @@ class _AlertDialogComponent extends State<AlertDialogComponent> {
     return AlertDialog(
       title: Row(children: [widget.icon, Text(widget.title)]),
       content: SingleChildScrollView(
-        child: ListBody(children: <Widget>[Text(widget.message)]),
+        child: ListBody(
+          children: <Widget>[Text(widget.message, softWrap: true)],
+        ),
       ),
       actions: <Widget>[
         TextButton(

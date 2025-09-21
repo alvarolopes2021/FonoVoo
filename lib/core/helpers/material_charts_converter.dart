@@ -104,8 +104,8 @@ class MaterialChartsConverter {
     for (StudentsCategoryDto element in data) {
       if (group.containsKey(element.getCategoryName())) {
         double grade =
-            element.getGrade() +
-            group[element.getCategoryName()]!.reduce((value, vv) => vv + value);
+            element.getGrade() + group[element.getCategoryName()]!.last;
+
         group[element.getCategoryName()]!.add(grade);
       } else {
         group.addAll({
@@ -113,22 +113,20 @@ class MaterialChartsConverter {
         });
       }
     }
+
     List<ChartSeries> chartSeries = [];
 
-    for (var element in group.entries) {
-      if (element.value.length == 1) {
-        element.value.add(1);
+    for (var categories in group.entries) {
+      if (categories.value.length == 1) {
+        categories.value.add(1);
       }
       chartSeries.add(
         ChartSeries(
-          name: element.key,
-          color: CategoryColorConverter.stringToColor(element.key),
+          name: categories.key,
+          color: CategoryColorConverter.stringToColor(categories.key),
           dataPoints: List.generate(
-            element.value.length,
-            (index) => ChartDataPoint(
-              value: element.value[index],
-              label: "Rodada ${(index + 1)}",
-            ),
+            categories.value.length,
+            (index) => ChartDataPoint(value: categories.value[index]),
           ),
         ),
       );
@@ -155,7 +153,7 @@ class MaterialChartsConverter {
 
     for (var element in group.entries) {
       double grade = element.value.reduce((value, element) => value + element);
-      chartSeries.add(PieChartData(label: element.key, value: grade));
+      chartSeries.add(PieChartData(label: element.key, value: grade, color: CategoryColorConverter.stringToColor(element.key)));
     }
 
     return chartSeries;

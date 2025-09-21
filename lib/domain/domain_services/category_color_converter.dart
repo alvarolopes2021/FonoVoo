@@ -4,13 +4,13 @@ class CategoryColorConverter {
   static Color stringToColor(String category) {
     Color colorToReturn = Colors.deepOrangeAccent;
     switch (category) {
-      case "frases":
+      case "parlendas":
         colorToReturn = Colors.red;
         break;
       case "rimas":
         colorToReturn = Colors.green;
         break;
-      case "parlendas":
+      case "frases":
         colorToReturn = Colors.blue;
         break;
       case "silabas":

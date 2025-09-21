@@ -49,7 +49,7 @@ class DatabaseVersion1 extends BaseMigrations {
     String id = idService.generateId();
 
     await database.writeData('''
-        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'frases', 'RED');
+        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'parlendas', 'RED');
       ''');
 
     id = idService.generateId();
@@ -61,7 +61,7 @@ class DatabaseVersion1 extends BaseMigrations {
     id = idService.generateId();
 
     await database.writeData('''
-        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'parlendas', 'BLUE');
+        INSERT INTO categories(categoryid, categoryname, categorycolor) VALUES ('$id', 'frases', 'BLUE');
       ''');
 
     id = idService.generateId();
