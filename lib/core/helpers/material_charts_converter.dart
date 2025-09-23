@@ -135,6 +135,58 @@ class MaterialChartsConverter {
     return chartSeries;
   }
 
+  static List<StackedBarData> buildCategoriesStackedBarChartData(
+    List<StudentsCategoryDto> data,
+  ) {
+    Map<String, Map<String, List<double>>> group = {};
+
+    for (StudentsCategoryDto element in data) {
+      if (group.containsKey(element.getStudentName())) {
+        if (group.containsKey(element.getCategoryName())) {
+          double grade =
+              element.getGrade() +
+              group[element.getStudentName()]![element.getCategoryName()]!.last;
+
+          group[element.getCategoryName()]![element.getCategoryName()]!.add(
+            grade,
+          );
+        } else {
+          group[element.getStudentName()]!.addAll({
+            element.getCategoryName(): [element.getGrade()],
+          });
+        }
+      } else {
+        group.addAll({
+          element.getStudentName(): {
+            element.getCategoryName(): [element.getGrade()],
+          },
+        });
+      }
+    }
+
+    List<StackedBarData> chartSeries = [];
+
+    for (var student in group.entries) {
+      chartSeries.add(
+        StackedBarData(
+          label: student.key,
+          segments: List.generate(
+            student.value.length,
+            (index) => StackedBarSegment(
+              label: student.value.entries.toList()[index].key,
+              value: student.value.entries.toList()[index].value.reduce(
+                (vv, ele) => vv + ele,
+              ),
+              color: CategoryColorConverter.stringToColor(student.value.entries.toList()[index].key),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return chartSeries;
+  }
+
   static List<PieChartData> buildCategoriesPieChartData(
     List<StudentsCategoryDto> data,
   ) {
@@ -153,7 +205,13 @@ class MaterialChartsConverter {
 
     for (var element in group.entries) {
       double grade = element.value.reduce((value, element) => value + element);
-      chartSeries.add(PieChartData(label: element.key, value: grade, color: CategoryColorConverter.stringToColor(element.key)));
+      chartSeries.add(
+        PieChartData(
+          label: element.key,
+          value: grade,
+          color: CategoryColorConverter.stringToColor(element.key),
+        ),
+      );
     }
 
     return chartSeries;
