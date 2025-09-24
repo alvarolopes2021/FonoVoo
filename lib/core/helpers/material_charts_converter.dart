@@ -142,13 +142,11 @@ class MaterialChartsConverter {
 
     for (StudentsCategoryDto element in data) {
       if (group.containsKey(element.getStudentName())) {
-        if (group.containsKey(element.getCategoryName())) {
-          double grade =
-              element.getGrade() +
-              group[element.getStudentName()]![element.getCategoryName()]!.last;
-
-          group[element.getCategoryName()]![element.getCategoryName()]!.add(
-            grade,
+        if (group[element.getStudentName()]!.containsKey(
+          element.getCategoryName(),
+        )) {
+          group[element.getStudentName()]![element.getCategoryName()]!.add(
+            element.getGrade(),
           );
         } else {
           group[element.getStudentName()]!.addAll({
@@ -177,7 +175,9 @@ class MaterialChartsConverter {
               value: student.value.entries.toList()[index].value.reduce(
                 (vv, ele) => vv + ele,
               ),
-              color: CategoryColorConverter.stringToColor(student.value.entries.toList()[index].key),
+              color: CategoryColorConverter.stringToColor(
+                student.value.entries.toList()[index].key,
+              ),
             ),
           ),
         ),

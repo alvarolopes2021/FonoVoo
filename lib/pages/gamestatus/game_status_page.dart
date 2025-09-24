@@ -37,6 +37,16 @@ class GameStatusPage extends BasePage {
           builder: (pageContext, snapshot) {
             return Column(
               children: [
+                Text(
+                  "Notas da partida",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.all(15),
@@ -50,9 +60,22 @@ class GameStatusPage extends BasePage {
                     ),
                   ),
                 ),
+                Container(
+                  margin: EdgeInsets.all(15),
+                  child: Text(
+                    "Parciais dos tópicos da partida",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
                     child: MaterialPieChartComponent(
                       seriesList:
                           MaterialChartsConverter.buildCategoriesPieChartData(
