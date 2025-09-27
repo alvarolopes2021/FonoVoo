@@ -171,12 +171,13 @@ class GamePage extends BasePage {
                             builder: (BuildContext dialogContext) {
                               return AlertDialogComponent(
                                 pageContext: context,
+                                icon: Icon(Icons.close, color: Colors.red),
+                                title: 'Que pena!',
+                                message:
+                                    'O aluno errou\nNão ganhou pontos (+0)',
+                                okText: 'Próxima pergunta',
                                 okAction: (presenter as GamePagePresenter)
                                     .clearCategorySelection,
-                                okText: 'Próxima pergunta',
-                                title: 'Que pena!',
-                                message: 'O aluno errou',
-                                icon: Icon(Icons.close, color: Colors.red),
                               );
                             },
                           );
@@ -204,15 +205,15 @@ class GamePage extends BasePage {
                             builder: (BuildContext dialogContext) {
                               return AlertDialogComponent(
                                 pageContext: context,
-                                okAction: (presenter as GamePagePresenter)
-                                    .clearCategorySelection,
-                                okText: 'Próxima pergunta',
-                                title: 'Parabéns!',
-                                message: 'O aluno acertou',
                                 icon: Icon(
                                   Icons.check_circle,
                                   color: Colors.green,
                                 ),
+                                title: 'Parabéns!',
+                                message: 'O aluno acertou \n+1 ponto na nota geral\n+1 ponto neste tópico',
+                                okText: 'Próxima pergunta',
+                                okAction: (presenter as GamePagePresenter)
+                                    .clearCategorySelection,
                               );
                             },
                           );

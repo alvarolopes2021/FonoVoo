@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fonovoo/core/factories/make_app_version_factory.dart';
 
 import 'package:fonovoo/pages/base_page.dart';
+import 'package:fonovoo/pages/components/alert_dialog_component.dart';
 import 'package:fonovoo/pages/components/center_message_with_icon_component.dart';
 import 'package:fonovoo/pages/components/schools_component.dart';
 import 'package:fonovoo/pages/schools/presenters/schools_list_presenter.dart';
@@ -15,7 +17,26 @@ class SchoolsListPage extends BasePage {
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(title!),
-        //leading: IconButton(onPressed: () => {}, icon: Icon(Icons.arrow_back)),
+        actions: [
+          IconButton(
+            onPressed: () => {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false, // User must tap a button to dismiss
+                builder: (BuildContext dialogContext) {
+                  return AlertDialogComponent(
+                    pageContext: context,
+                    title: 'Informações',
+                    message: 'Versão: ${makeAppVersionFactory.getVersion()}.${makeAppVersionFactory.getBuildNumber()} \nDesenvolvido por: Álvaro Lopes\nContato: (35) 9 9996-4469',
+                    okText: 'Ok',
+                    icon: Text(""),
+                  );
+                },
+              ),
+            },
+            icon: Icon(Icons.info),
+          ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
